@@ -3,10 +3,10 @@ package rtm.lexical.test;
 import org.junit.Test;
 
 import rtm.lexical.Automaton;
-import rtm.lexical.ExclusiveRule;
-import rtm.lexical.InclusiveRule;
-import rtm.lexical.State;
+import rtm.lexical.rules.ExclusiveRule;
+import rtm.lexical.rules.InclusiveRule;
 import rtm.lexical.Token;
+import rtm.lexical.TokenClass;
 import rtm.lexical.rules.IsDigitRule;
 import rtm.lexical.rules.IsLetterRule;
 import rtm.lexical.rules.isWhitespaceRule;
@@ -21,13 +21,13 @@ public class TestingAutomaton {
 	}
 	@Test
 	public void testingAutomaton() {
-		State start = new State(Token.TK_UNDEFINED);
-		State idState = new State(Token.TK_ID);
-		State digitState = new State(Token.TK_INTEGER_CTE);
-		State firstSlash = new State(Token.TK_UNDEFINED);
-		State firstStar = new State(Token.TK_UNDEFINED);
-		State secondSlash = new State(Token.TK_UNDEFINED);
-		State secondStar = new State(Token.TK_UNDEFINED);
+		Token start = new Token(TokenClass.TK_UNDEFINED);
+		Token idState = new Token(TokenClass.TK_ID);
+		Token digitState = new Token(TokenClass.TK_INTEGER_CTE);
+		Token firstSlash = new Token(TokenClass.TK_UNDEFINED);
+		Token firstStar = new Token(TokenClass.TK_UNDEFINED);
+		Token secondSlash = new Token(TokenClass.TK_UNDEFINED);
+		Token secondStar = new Token(TokenClass.TK_UNDEFINED);
 		
 		Automaton automaton = new Automaton(start);
 		
@@ -66,13 +66,13 @@ public class TestingAutomaton {
 		runAutomaton(automaton, "testando123");
 		
 		assertTrue(!automaton.hasHalted());
-		assertEquals(automaton.getCurrentToken(),Token.TK_ID);
+		assertEquals(automaton.getCurrentToken(),TokenClass.TK_ID);
 		assertEquals(automaton.getCurrentValue(), "testando123");
 		
 		automaton.transition(';');
 		
 		assertTrue(automaton.hasHalted());
-		assertTrue(automaton.getCurrentState().getToken().equals(Token.TK_ID));
+		assertTrue(automaton.getCurrentState().getClass().equals(TokenClass.TK_ID));
 		assertTrue(automaton.getCurrentValue().equals("testando123"));
 		
 		automaton.reset();
@@ -80,7 +80,7 @@ public class TestingAutomaton {
 		runAutomaton(automaton, "123456");
 		
 		assertTrue(!automaton.hasHalted());
-		assertEquals(automaton.getCurrentToken(),Token.TK_INTEGER_CTE);
+		assertEquals(automaton.getCurrentToken(),TokenClass.TK_INTEGER_CTE);
 		assertEquals(automaton.getCurrentValue(), "123456");
 		
 		automaton.transition(';');

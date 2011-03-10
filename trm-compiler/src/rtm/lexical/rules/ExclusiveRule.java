@@ -1,14 +1,13 @@
-package rtm.lexical;
+package rtm.lexical.rules;
 
-import rtm.lexical.rules.Rule;
-
-public class ExclusiveRule implements Rule{
+public class ExclusiveRule implements Rule {
 	
 	private char[] excludedChars;
 	
 	public ExclusiveRule(char... excludedChars) {
 		this.excludedChars = excludedChars;
 	}
+    
 	public char[] getTransitionChars() {
 		return excludedChars;
 	}
