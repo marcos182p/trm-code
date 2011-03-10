@@ -3,20 +3,20 @@ package rtm.lexical;
 import rtm.lexical.rules.Rule;
 
 public class Transition{
-	private State source;
-	private State target;
+	private Token source;
+	private Token target;
 	private Rule rule;
 	
-	public Transition(State source, State target, Rule rule) {
+	public Transition(Token source, Token target, Rule rule) {
 		this.source = source;
 		this.target = target;
 		this.rule = rule;
 	}
 	
-	public State getSource() {
+	public Token getSource() {
 		return this.source;
 	}
-	public State getTarget() {
+	public Token getTarget() {
 		return this.target;
 	}
 	public boolean accept(char c) {

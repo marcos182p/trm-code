@@ -1,23 +1,25 @@
 package rtm.lexical;
 
-public enum Token {
-	TK_UNDEFINED		(true), 
-	TK_WHILE			(true),
-	TK_FOR				(true),
-	TK_IF				(true),
-	TK_SWITCH			(true),
-	TK_INTEGER_CTE		(false),
-	TK_FLOATING_CTE		(false),
-	TK_ID				(false);
+
+public class Token {
+    
+	private TokenClass tokenClass;
+    
+	private String value;
 	
-	private boolean univoque;
-	
-	private Token(boolean univoque) {
-		this.univoque = univoque;
+	public Token(TokenClass token) {
+		this.tokenClass = token;
 	}
-	
-	public boolean isUnivoque() {
-		return univoque;
+	public TokenClass getTokenClass() {
+		return this.tokenClass;
 	}
-	
+	public void setValue(String value) {
+		this.value = value;
+	}
+	public String getValue() {
+		return this.value;
+	}
+	public String toString() {
+		return "[ " + tokenClass + " : " + value + " ]";
+	}
 }
