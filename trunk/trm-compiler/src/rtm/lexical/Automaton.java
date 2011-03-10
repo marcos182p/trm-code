@@ -1,84 +1,70 @@
 package rtm.lexical;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 import rtm.lexical.rules.Rule;
 
 public class Automaton {
 
-    private Map<Token, List<Transition>> automaton;
+    private Map<State, Set<Transition>> automaton;
     
-    private Token startState;
-    private Token lastState;
+    private State startState;
+    private List<State> finalStates;
     
-    private Token currentState;
-    
-    private boolean halted = false;
+    public Automaton(State startState, State... endStates) {
 
-    public Automaton(Token start) {
-        this.automaton = new HashMap<Token, List<Transition>>();
-        this.startState = start;
-        this.currentState = start;
-        this.lastState = null;
-        this.halted = false;
-        this.currentState.setValue("");
+        this.startState = startState;
+        this.finalStates = Arrays.asList(endStates);
+        
+        this.automaton = new HashMap<State, Set<Transition>>();
     }
 
-    public void addTransition(Token source, Token target, Rule rule) {
+    public Automaton(State start, State end) {
+
+        this(start, new State[]{end});
+    }
+
+    public void addTransition(State source, State target, Rule rule) {
+        
         if (!automaton.containsKey(source)) {
-            automaton.put(source, new ArrayList<Transition>());
+            automaton.put(source, new HashSet<Transition>());
         }
+
         automaton.get(source).add(new Transition(source, target, rule));
     }
 
-    public void reset() {
-        this.currentState = startState;
-        this.lastState = null;
-        this.halted = false;
-        this.currentState.setValue("");
+    public Set<Transition> getTransitions(State state) {
+
+        return automaton.get(state);
     }
 
-    public Token getCurrentState() {
-        return currentState;
+    public State getStartState() {
+        return startState;
     }
 
-    public Token getLastState() {
-        return lastState;
+    public List<State> getFinalStates() {
+        return finalStates;
     }
 
-    public boolean hasHalted() {
-        return this.halted;
-    }
+    /**
+     * Procura uma transição que sai do estado 'source' e leia o caracter 'c'.
+     * @param source estado fonte.
+     * @param c caracter a ser lido.
+     * @return uma transição que saia de source e que consiga ler o c.
+     */
+    //FIXME colocar nome de metodo mais sugestivo.
+    public Transition findTransition(State source, char c) {
 
-    public String getCurrentValue() {
-        return this.currentState.getValue();
-    }
-
-    public TokenClass getCurrentToken() {
-        return this.currentState.getTokenClass();
-    }
-
-    private void checkStart() {
-        if (currentState.equals(startState)) {
-            reset();
-        }
-    }
-
-    public void transition(char c) {
-        halted = true;
-        for (Transition r : automaton.get(currentState)) {
-            if (r.accept(c)) {
-                lastState = currentState;
-                currentState = r.getTarget();
-                halted = false;
-                this.currentState.setValue(lastState.getValue() + c);
-                checkStart();
-                return;
+        for (Transition transition : getTransitions(source)) {
+            if (transition.accept(c)) {
+                return transition;
             }
         }
 
+        return null;
     }
 }
