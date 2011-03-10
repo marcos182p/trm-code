@@ -1,6 +1,6 @@
 package rtm.lexical.rules;
 
 public interface Rule {
-    
-	boolean evaluate(char transitionChar);
+
+    boolean evaluate(char transitionChar);
 }
