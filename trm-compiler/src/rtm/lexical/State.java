@@ -1,18 +1,28 @@
 package rtm.lexical;
 
-/**
- *
- */
 public class State {
 
     private String label;
 
-    public State(String label) {
+    private StateDescription description;
+
+    public State(String label, StateDescription description) {
+
         this.label = label;
+        this.description = description;
     }
+
+    public State(String label) {
+        this(label, new StateDescription());
+    }
+
 
     public String getLabel() {
         return label;
+    }
+
+    public StateDescription getDescription() {
+        return description;
     }
 
     @Override
