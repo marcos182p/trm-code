@@ -66,6 +66,8 @@ public class Recognizer {
             }
         }
 
+        //FIXME o que fazer com a ultima palavra?
+
         if(automaton.getFinalStates().contains(currentState)) {
             recognized = true;
         }
@@ -108,6 +110,10 @@ public class Recognizer {
 
     }
 
+    /**
+     * Exceção que sinaliza quando não existe mais transição em um estado para
+     * leitura de um valor.
+     */
     private class TransitionException extends RuntimeException {
 
         public TransitionException(Throwable cause) {
