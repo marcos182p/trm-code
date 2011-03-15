@@ -1,0 +1,16 @@
+A, B, C, D, E, F, G
+
+A -> A, white
+A -> B, letter
+A -> C, digit
+A -> D, {\}
+B -> B, letter
+B -> B, digit
+A -> C, digit
+D -> E, {\}
+D -> F, {*}
+E -> E, {} - {\n}
+E -> A, {\n}
+
+
+
