@@ -12,5 +12,5 @@ public interface Lexical {
      * 
      * @return lista de tokens.
      */
-    Collection<Token> analyse();
+    Collection<Token> parse();
 }

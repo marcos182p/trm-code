@@ -2,7 +2,6 @@ package rtm.lexical;
 
 public enum TokenClass {
 
-    TK_UNDEFINED(true),
     TK_WHILE(true),
     TK_FOR(true),
     TK_IF(true),
@@ -20,4 +19,5 @@ public enum TokenClass {
     public boolean isUnivoque() {
         return univoque;
     }
+
 }
