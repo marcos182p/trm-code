@@ -1,14 +1,15 @@
 package trm.lexical;
 
+import trm.lexical.rules.WhitespaceRule;
 import trm.lexical.rules.ExclusiveRule;
 import trm.lexical.rules.InclusiveRule;
 import trm.lexical.rules.IsDigitRule;
 import trm.lexical.rules.IsLetterRule;
-import trm.lexical.rules.IsWhitespaceRule;
 
 public class Main {
 
     public static void main(String[] args) {
+        
         State start = new State("1", new StateDescription());
         State idState = new State("2", new StateDescription(WordType.WORD));
         State digitState = new State("3", new StateDescription(WordType.INTEGER_CTE));
@@ -19,7 +20,7 @@ public class Main {
 
         Automaton automaton = new Automaton(start, idState, digitState);
 
-        automaton.addTransition(start, start, new IsWhitespaceRule());
+        automaton.addTransition(start, start, new WhitespaceRule());
         automaton.addTransition(start, idState, new IsLetterRule());
         automaton.addTransition(start, digitState, new IsDigitRule());
         automaton.addTransition(start, firstSlash, new InclusiveRule('/'));
