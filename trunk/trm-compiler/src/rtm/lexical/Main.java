@@ -9,7 +9,7 @@ import rtm.lexical.rules.IsWhitespaceRule;
 public class Main {
 
     public static void main(String[] args) {
-         State start = new State("1", new StateDescription());
+        State start = new State("1", new StateDescription());
         State idState = new State("2", new StateDescription(WordType.WORD));
         State digitState = new State("3", new StateDescription(WordType.INTEGER_CTE));
         State firstSlash = new State("4", new StateDescription());
@@ -42,11 +42,15 @@ public class Main {
         automaton.addTransition(secondStar, start, new InclusiveRule('/'));
 
 
-        Recognizer recognizer = new Recognizer(automaton, " d123456 as12 12 ".toCharArray());
-        
+        Recognizer recognizer = new Recognizer(automaton, " d123456 1212 enquanto 3 se".toCharArray());
+     
         recognizer.run();
 
-
+        for(Token t : recognizer.getTokens()) {
+            System.out.println("tokenValue = " + t.getValue());
+            System.out.println("tokenClass = " + t.getTokenClass());
+            System.out.println("");
+        }
     }
 
 }

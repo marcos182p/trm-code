@@ -57,11 +57,11 @@ public class Automaton {
      * @return uma transição que saia de source e que consiga ler o c.
      */
     //FIXME colocar nome de metodo mais sugestivo.
-    public Transition findTransition(State source, char c) {
+    public State nextState(State source, char c) {
 
         for (Transition transition : getTransitions(source)) {
             if (transition.accept(c)) {
-                return transition;
+                return transition.getTarget();
             }
         }
 

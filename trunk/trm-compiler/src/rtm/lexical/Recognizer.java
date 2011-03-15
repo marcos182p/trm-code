@@ -1,7 +1,9 @@
 package rtm.lexical;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Classe que verifica se uma fita é reconhecida por um automato.
@@ -15,8 +17,12 @@ public class Recognizer {
     private State currentState;
 
     private List<Token> tokens;
+
+    private Map<String, TokenClass> tokenMap;
     
     private boolean recognized;
+
+    private StringBuilder word;
 
     public Recognizer(Automaton automaton, char[] tape) {
 
@@ -28,20 +34,37 @@ public class Recognizer {
 
         this.tokens = new ArrayList<Token>();
 
+        this.tokenMap = new HashMap<String, TokenClass>();
+
+        this.tokenMap.put("enquanto", TokenClass.TK_WHILE);
+
+        this.tokenMap.put("escolha", TokenClass.TK_SWITCH);
+
+        this.tokenMap.put("se", TokenClass.TK_IF);
+
         reset();
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
     }
 
     private void reset() {
         this.currentState = automaton.getStartState();
+        this.word = new StringBuilder();
     }
 
+    private void generateToken(State state, StringBuilder word) {
+         String value = word.toString().trim();
+         Token token = new Token(getTokenClass(currentState,value));
+         token.setValue(value);
+         tokens.add(token);
+    }
     /**
      * Verifica se a fita é reconhecida pelo automato.
      */
     public void run() {
-
-        StringBuilder word = new StringBuilder();
-
+        reset();
         for (char c : tape) {
 
             try {
@@ -50,21 +73,17 @@ public class Recognizer {
                 word.append(c);
                 
             } catch (TransitionException e) {
-                
+
                 if(!automaton.getFinalStates().contains(currentState)) {
                     throw new RuntimeException("Impossivel ler fita", e);
                 }
-
-                Token token = new Token(getTokenClass(currentState));
-                token.setValue(word.toString().trim());
-
-                tokens.add(token);
-
-                word = new StringBuilder();
+                generateToken(currentState, word);
                 reset();
 
             }
         }
+
+        generateToken(currentState, word);
 
         //FIXME o que fazer com a ultima palavra?
 
@@ -74,23 +93,25 @@ public class Recognizer {
     }
 
     //FIXME terminar de implementar esse metodo.
-    private TokenClass getTokenClass(State state) {
+    private TokenClass getTokenClass(State state, String word) {
         
-        TokenClass result = TokenClass.TK_UNDEFINED;
+        TokenClass result = null;
 
         switch(state.getDescription().getWordType()) {
 
             case WORD:
-                //verificar se a palavra é reservada.  
-                //caso não for, sera um identificador.
+                result = tokenMap.get(word);
                 break;
             case INTEGER_CTE:
                 result = TokenClass.TK_INTEGER_CTE;
                 break;
+            case FLOATING_CTE:
+                result = TokenClass.TK_FLOATING_CTE;
+                break;
 
         }
 
-        return result;
+        return result == null ? TokenClass.TK_ID : result;
     }
 
     public boolean isRecognized() {
@@ -99,15 +120,15 @@ public class Recognizer {
 
     private void transition(char c) {
 
-        Transition transition = automaton.findTransition(currentState, c);
+        State target = automaton.nextState(currentState, c);
 
-        if (transition == null) {
+
+        if (target == null) {
             throw new TransitionException("Transição para esse valor não "
                     + "encontrada.");
         }
-
-        currentState = transition.getTarget();
-
+        
+        currentState = target;
     }
 
     /**
