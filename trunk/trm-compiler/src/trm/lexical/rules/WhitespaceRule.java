@@ -1,9 +1,11 @@
 package trm.lexical.rules;
 
+import trm.lexical.rules.Rule;
+
 /**
  *
  */
-public class IsWhitespaceRule implements Rule {
+public class WhitespaceRule implements Rule {
 
     @Override
     public boolean evaluate(char transitionChar) {
