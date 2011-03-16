@@ -18,7 +18,7 @@ public class Main {
         State secondSlash = new State("6", new StateDescription());
         State secondStar = new State("7", new StateDescription());
 
-        Automaton automaton = new Automaton(start, idState, digitState);
+        Automaton automaton = new Automaton(start, start, idState, digitState);
 
         automaton.addTransition(start, start, new WhitespaceRule());
         automaton.addTransition(start, idState, new IsLetterRule());
@@ -43,15 +43,10 @@ public class Main {
         automaton.addTransition(secondStar, start, new InclusiveRule('/'));
 
 
-        Recognizer recognizer = new Recognizer(automaton, " d123456 1212 enquanto 3 se".toCharArray());
+        Recognizer recognizer = new Recognizer(automaton, " d123456 1212 enquanto 3 se 22   3hhg".toCharArray());
      
         recognizer.run();
 
-        for(Token t : recognizer.getTokens()) {
-            System.out.println("tokenValue = " + t.getValue());
-            System.out.println("tokenClass = " + t.getTokenClass());
-            System.out.println("");
-        }
     }
 
 }
