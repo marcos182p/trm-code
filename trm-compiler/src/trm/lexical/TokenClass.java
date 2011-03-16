@@ -2,6 +2,7 @@ package trm.lexical;
 
 public enum TokenClass {
 
+    TK_UNDEFINED(true),
     TK_WHILE(true),
     TK_FOR(true),
     TK_IF(true),

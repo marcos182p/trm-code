@@ -7,7 +7,8 @@ public class Token {
     
     private String value;
 
-    public Token(TokenClass token) {
+    public Token(String value, TokenClass token) {
+        this.value = value;
         this.tokenClass = token;
     }
 

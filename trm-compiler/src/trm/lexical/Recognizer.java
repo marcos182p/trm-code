@@ -4,34 +4,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe que verifica se uma fita é reconhecida por um automato.
  */
 public class Recognizer {
 
+    private static final Logger LOGGER = Logger.getLogger(Recognizer.class.getName());
+
     private Automaton automaton;
 
-    private char[] tape;
-    
     private State currentState;
+    private StringBuilder currentWord;
 
     private List<Token> tokens;
 
+    private char[] tape;
+
     private Map<String, TokenClass> tokenMap;
     
-    private boolean recognized;
-
-    private StringBuilder word;
-
     public Recognizer(Automaton automaton, char[] tape) {
 
         this.automaton = automaton;
 
         this.tape = tape;
         
-        this.recognized = false;
-
         this.tokens = new ArrayList<Token>();
 
         this.tokenMap = new HashMap<String, TokenClass>();
@@ -51,45 +50,47 @@ public class Recognizer {
 
     private void reset() {
         this.currentState = automaton.getStartState();
-        this.word = new StringBuilder();
+        this.currentWord = new StringBuilder();
     }
 
-    private void generateToken(State state, StringBuilder word) {
-         String value = word.toString().trim();
-         Token token = new Token(getTokenClass(currentState,value));
-         token.setValue(value);
-         tokens.add(token);
+    private void generateToken() {
+
+        if (!automaton.getFinalStates().contains(currentState)) {
+            throw new RuntimeException("Impossivel gerar token.");
+        }
+
+        String value = currentWord.toString().trim();
+
+        Token token = new Token(value, getTokenClass(currentState, value));
+        tokens.add(token);
+
+        LOGGER.log(Level.INFO, "token criado " + token, token);
+
     }
     /**
      * Verifica se a fita é reconhecida pelo automato.
      */
     public void run() {
+
         reset();
+        
         for (char c : tape) {
 
             try {
-                
+
                 transition(c);
-                word.append(c);
-                
+                currentWord.append(c);
+
             } catch (TransitionException e) {
 
-                if(!automaton.getFinalStates().contains(currentState)) {
-                    throw new RuntimeException("Impossivel ler fita", e);
-                }
-                generateToken(currentState, word);
+                generateToken();
                 reset();
 
             }
         }
 
-        generateToken(currentState, word);
+        generateToken();
 
-        //FIXME o que fazer com a ultima palavra?
-
-        if(automaton.getFinalStates().contains(currentState)) {
-            recognized = true;
-        }
     }
 
     //FIXME terminar de implementar esse metodo.
@@ -101,6 +102,9 @@ public class Recognizer {
 
             case WORD:
                 result = tokenMap.get(word);
+                if (result == null) {
+                    result = TokenClass.TK_ID;
+                }
                 break;
             case INTEGER_CTE:
                 result = TokenClass.TK_INTEGER_CTE;
@@ -111,11 +115,7 @@ public class Recognizer {
 
         }
 
-        return result == null ? TokenClass.TK_ID : result;
-    }
-
-    public boolean isRecognized() {
-        return recognized;
+        return result == null ? TokenClass.TK_UNDEFINED : result;
     }
 
     private void transition(char c) {
@@ -127,28 +127,27 @@ public class Recognizer {
             throw new TransitionException("Transição para esse valor não "
                     + "encontrada.");
         }
-        
+
         currentState = target;
     }
+}
 
-    /**
-     * Exceção que sinaliza quando não existe mais transição em um estado para
-     * leitura de um valor.
-     */
-    private class TransitionException extends RuntimeException {
+/**
+ * Exceção que sinaliza quando não existe mais transição em um estado para
+ * leitura de um valor.
+ */
+class TransitionException extends RuntimeException {
 
-        public TransitionException(Throwable cause) {
-            super(cause);
-        }
-
-        public TransitionException(String message, Throwable cause) {
-            super(message, cause);
-        }
-
-        public TransitionException(String message) {
-
-            super(message);
-        }
+    public TransitionException(Throwable cause) {
+        super(cause);
     }
 
+    public TransitionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public TransitionException(String message) {
+
+        super(message);
+    }
 }
