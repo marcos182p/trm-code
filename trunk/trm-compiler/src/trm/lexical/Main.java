@@ -18,7 +18,7 @@ public class Main {
         State secondSlash = new State("6", new StateDescription());
         State secondStar = new State("7", new StateDescription());
 
-        Automaton automaton = new Automaton(start, start, idState, digitState);
+        Automaton automaton = new Automaton(start, idState, digitState );
 
         automaton.addTransition(start, start, new WhitespaceRule());
         automaton.addTransition(start, idState, new IsLetterRule());
@@ -42,8 +42,8 @@ public class Main {
         automaton.addTransition(secondStar, firstStar, new ExclusiveRule('*', '/'));
         automaton.addTransition(secondStar, start, new InclusiveRule('/'));
 
-
-        Recognizer recognizer = new Recognizer(automaton, " d123456 1212 enquanto 3 se 22   3hhg".toCharArray());
+        String arquivo = "  d123456 1212d /***aqui também*/ enquanto 3 //se 22\n   3hhg /***Isto é um comentário e deve ser ignorado*/ asdasds 123asd ";
+        Recognizer recognizer = new Recognizer(automaton, arquivo.toCharArray());
      
         recognizer.run();
 
