@@ -13,24 +13,20 @@ import java.util.logging.Logger;
 public class Recognizer {
 
     private static final Logger LOGGER = Logger.getLogger(Recognizer.class.getName());
-
     private Automaton automaton;
-
+    private State lastState;
     private State currentState;
     private StringBuilder currentWord;
-
     private List<Token> tokens;
-
     private char[] tape;
-
     private Map<String, TokenClass> tokenMap;
-    
+
     public Recognizer(Automaton automaton, char[] tape) {
 
         this.automaton = automaton;
 
         this.tape = tape;
-        
+
         this.tokens = new ArrayList<Token>();
 
         this.tokenMap = new HashMap<String, TokenClass>();
@@ -56,10 +52,11 @@ public class Recognizer {
     private void generateToken() {
 
         if (!automaton.getFinalStates().contains(currentState)) {
+            LOGGER.log(Level.WARNING, "erro ao criar " + currentWord);
             throw new RuntimeException("Impossivel gerar token.");
         }
 
-        String value = currentWord.toString().trim();
+        String value = currentWord.toString();
 
         Token token = new Token(value, getTokenClass(currentState, value));
         tokens.add(token);
@@ -67,38 +64,46 @@ public class Recognizer {
         LOGGER.log(Level.INFO, "token criado " + token, token);
 
     }
+
     /**
      * Verifica se a fita é reconhecida pelo automato.
      */
     public void run() {
 
         reset();
-        
-        for (char c : tape) {
 
+        int index = 0;
+
+        while (index < tape.length) {
             try {
+                transition(tape[index]);
 
-                transition(c);
-                currentWord.append(c);
+                currentWord.append(tape[index]);
+
+                if (currentState.equals(automaton.getStartState())) {
+                    reset();
+                }
+
+                index++;
 
             } catch (TransitionException e) {
-
                 generateToken();
                 reset();
-
             }
-        }
 
-        generateToken();
+        }
+        if(!currentState.equals(automaton.getStartState())) {
+            generateToken();
+        }
 
     }
 
     //FIXME terminar de implementar esse metodo.
     private TokenClass getTokenClass(State state, String word) {
-        
+
         TokenClass result = null;
 
-        switch(state.getDescription().getWordType()) {
+        switch (state.getDescription().getWordType()) {
 
             case WORD:
                 result = tokenMap.get(word);
@@ -128,7 +133,10 @@ public class Recognizer {
                     + "encontrada.");
         }
 
+        lastState = currentState;
         currentState = target;
+
+
     }
 }
 
