@@ -24,6 +24,7 @@ public class Token {
         return this.value;
     }
 
+    @Override
     public String toString() {
         return "[ " + tokenClass + " : " + value + " ]";
     }
