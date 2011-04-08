@@ -31,11 +31,27 @@ public class Recognizer {
 
         this.tokenMap = new HashMap<String, TokenClass>();
 
-        this.tokenMap.put("enquanto", TokenClass.TK_WHILE);
+        this.tokenMap.put("string", TokenClass.TK_STRING);
 
-        this.tokenMap.put("escolha", TokenClass.TK_SWITCH);
+        this.tokenMap.put("while", TokenClass.TK_WHILE);
 
-        this.tokenMap.put("se", TokenClass.TK_IF);
+        this.tokenMap.put("for", TokenClass.TK_FOR);
+
+        this.tokenMap.put("if", TokenClass.TK_IF);
+
+        this.tokenMap.put("else", TokenClass.TK_ELSE);
+
+        this.tokenMap.put("switch", TokenClass.TK_SWITCH);
+
+        this.tokenMap.put("break", TokenClass.TK_BREAK);
+
+        this.tokenMap.put("int", TokenClass.TK_INTEGER);
+
+        this.tokenMap.put("real", TokenClass.TK_REAL);
+
+        this.tokenMap.put("boolean", TokenClass.TK_BOOLEAN);
+
+        this.tokenMap.put("char", TokenClass.TK_CHARACTER);
 
         reset();
     }
