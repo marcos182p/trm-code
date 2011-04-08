@@ -10,7 +10,7 @@ B -> B, digit
 A -> C, digit
 D -> E, {\}
 D -> F, {*}
-E -> E, {} - {\n}
+E -> E, - {\n}
 E -> A, {\n}
 
 
