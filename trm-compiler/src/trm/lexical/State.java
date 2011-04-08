@@ -25,6 +25,10 @@ public class State {
         return description;
     }
 
+    public void setDescription(StateDescription description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object obj) {
         

@@ -23,18 +23,31 @@ public class Automaton {
         this.automaton = new HashMap<State, Set<Transition>>();
     }
 
+     public Automaton(State startState, List<State> endStates) {
+
+        this.startState = startState;
+        this.finalStates = endStates;
+
+        this.automaton = new HashMap<State, Set<Transition>>();
+    }
+
     public Automaton(State start, State end) {
 
         this(start, new State[]{end});
     }
 
     public void addTransition(State source, State target, Rule rule) {
+
+        addTransition(new Transition(source, target, rule));
+    }
+
+    public void addTransition(Transition transition) {
         
-        if (!automaton.containsKey(source)) {
-            automaton.put(source, new HashSet<Transition>());
+        if (!automaton.containsKey(transition.getSource())) {
+            automaton.put(transition.getSource(), new HashSet<Transition>());
         }
 
-        automaton.get(source).add(new Transition(source, target, rule));
+        automaton.get(transition.getSource()).add(transition);
     }
 
     public Set<Transition> getTransitions(State state) {
