@@ -23,7 +23,7 @@ public class Token {
     public String getValue() {
         return this.value;
     }
-
+    
     @Override
     public String toString() {
         return "[ " + tokenClass + " : " + value + " ]";

@@ -1,5 +1,8 @@
 package trm.lexical;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import trm.lexical.rules.WhitespaceRule;
 import trm.lexical.rules.ExclusiveRule;
 import trm.lexical.rules.InclusiveRule;
@@ -42,8 +45,19 @@ public class Main {
         automaton.addTransition(secondStar, firstStar, new ExclusiveRule('*', '/'));
         automaton.addTransition(secondStar, start, new InclusiveRule('/'));
 
-        String arquivo = "  d123456 1212d /***aqui também*/ enquanto 3 //se 22\n   3hhg /***Isto é um comentário e deve ser ignorado*/ asdasds 123asd ";
-        Recognizer recognizer = new Recognizer(automaton, arquivo.toCharArray());
+        String texto = "";
+        try {
+            BufferedReader reader = new BufferedReader( new FileReader(new File("teste.trm")) );
+
+            while(reader.ready()) {
+                texto += reader.readLine() + System.getProperty("line.separator");
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        String arquivo = "  d123456 1212d /***aqui também*/ enquanto 3 //se 22\n   3hhg /***Isto é um comentário e deve ser ignorado*/ asdasds 123asd blá ";
+        Recognizer recognizer = new Recognizer(automaton, texto.toCharArray());
      
         recognizer.run();
 
