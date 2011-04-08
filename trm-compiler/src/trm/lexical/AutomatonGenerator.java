@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import trm.lexical.rules.Rule;
 
 /**
  *
@@ -33,21 +34,27 @@ public class AutomatonGenerator {
         State initialState = new State(reader.readLine().trim());
         Set<State> finalStates = generateStates(reader.readLine().trim());
         
-        Set<Transition> transitions = generateTransitions();
-
-
         automaton = new Automaton(initialState, new ArrayList<State>(finalStates));
+        
+        Set<Transition> transitions = generateTransitions();
 
         for (Transition transition : transitions) {
             automaton.addTransition(transition);
         }
     }
 
-    public static void main(String[] args) {
-        String temp = " A -> A, white ".trim();
-        for(String string:temp.split(",")) {
-            System.out.println(string);
-        }
+    public static void main(String[] args) throws IOException {
+//        String temp = " A -> A, white ".trim();
+//        for(String string:temp.split(",")) {
+//            System.out.println(string);
+//        }
+
+//        String temp = " - {\\}";
+//        TransitionGenarator.createRule(temp);
+//        System.out.println(temp.replace("{",  "").replace("}", ""));
+
+        AutomatonGenerator generator = new AutomatonGenerator("src/exemplo_definicao_automato");
+        generator.generate();
 
     }
 
@@ -88,8 +95,6 @@ public class AutomatonGenerator {
 
     private Transition generateTransition(String line) {
 
-        Transition transition = null;
-
         String[] temp = line.split(",");
         String[] labels = temp[0].split("->");
 
@@ -109,9 +114,10 @@ public class AutomatonGenerator {
         }
         //fim da geração da origem e do destino.
 
-        String rule = temp[1];
+        Rule rule = TransitionGenarator.createRule(temp[1]);
 
-        return transition;
+
+        return new Transition(source, target, rule);
     }
 
 }
