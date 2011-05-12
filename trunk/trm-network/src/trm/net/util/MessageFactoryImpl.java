@@ -1,7 +1,6 @@
 package trm.net.util;
 
 import trm.net.model.Message;
-import trm.net.model.MessageFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -22,7 +21,7 @@ public class MessageFactoryImpl implements MessageFactory {
     }
 
     @Override
-    public String generatorMessage(Message message) {
+    public String generateMessage(Message message) {
         return gson.toJson(message);
     }
 

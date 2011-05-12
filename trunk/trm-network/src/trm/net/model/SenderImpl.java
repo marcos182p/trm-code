@@ -1,5 +1,6 @@
 package trm.net.model;
 
+import trm.net.util.MessageFactory;
 import trm.net.util.MessageFactoryImpl;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -21,7 +22,7 @@ public class SenderImpl implements Sender {
 
     @Override
     public void send(Message message) throws IOException {
-        writer.write(messageFactory.generatorMessage(message) + "\n");
+        writer.write(messageFactory.generateMessage(message) + "\n");
         writer.flush();
     }
 
