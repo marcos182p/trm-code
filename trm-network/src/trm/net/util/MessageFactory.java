@@ -1,11 +1,13 @@
-package trm.net.model;
+package trm.net.util;
+
+import trm.net.model.Message;
 
 /**
  *
  */
 public interface MessageFactory {
     
-    String generatorMessage(Message message);
+    String generateMessage(Message message);
     
     /**
      * 
