@@ -1,0 +1,81 @@
+tipos de usuarios e eventos que eles podem causar:
+
+-cliente que não está em uma sala de jogo
+	-solicitar uma lista com todas salas contendo informações da sala, por exemplo, quantidade de pessoas na sala.
+	-solicitação de entrada em alguma sala de jogo
+
+-cliente que está em uma sala de jogo, mas o jogo não foi iniciado(esse estado pode ocorre se um jogo acabou ou se foi a primeira ve que ele foi criado)
+	-pode enviar mensagem aos outros participantes(não existe mensagens particulares)
+	-pode solicitar o inicio do jogo(se certas condições forem satisfeita, por exemplo, numero minimo de jogadores)
+
+-cliente que está em uma sala de jogo e ja esta jogando.
+	-pode enviar mensagem aos outros participantes
+	-pode fazer jogadas 
+
+
+Entidades envolvidas:
+Client {
+    identificador,
+    nome
+}
+Salajogo{
+    Regrasjogo,
+    Clientes
+}
+
+
+estados:
+-cliente fora de sala
+-cliente dentro da sala: sem jogar
+-cliente dentro da sala: jogando
+
+primeiro protocolo(ambiente estavel):
+//'cliente fora da sala'
+(1)cliente  :cria uma conexão com o servidor
+(2)cliente  :envia seu nome
+(3)servidor :confirma conexão
+(4)cliente  :solicita lista de salas abertas | solicita entrada em sala | 'fica sem fazer nada'
+{
+    case (cliente : solicita entrada em sala):
+        (4.1)servidor : nega entrada do cliente | confirma entrada do cliente ao cliente 
+         {
+            case (servirdor : nega entrada do cliente) :
+                (4.1.1) goto (4) //cliente volta para a posição (4) 
+                break;
+            case (confirma entrada do cliente) :
+                (4.1.2) goto (5) //cliente muda para a posição (5)
+                break;
+         }
+
+    case (cliente : solicita lista de salas abertas):
+        (4.2)servidor: enviar lista de salas
+
+     case (cliente : 'fica sem fazer nada'):
+        (4.3) goto (4) //fica sem fazer nada
+}
+//'cliente dentro da sala:sem jogar'
+(5)cliente : solicita inicio do jogo | envia mensagem a outros jogadores
+//'cliente dentro da sala:jogando'
+(6)cliente : envia jogada(na vez do cliente) | envia mensagem aos outros jogadores | solicita estado do jogo
+{
+    case (cliente : envia jogada) :
+        (6.1)servidor : confirma jogada aceita | nega jogada
+         {
+            case (servidor : confirma jogada aceita):
+                servirdor : repassa para os outros jogadores a jogada
+               
+            case (servidor : nega jogada):
+                servidor : avisa ao cliente que não foi possivel fazer a jogada
+                
+         }
+    case (cliente : envia mensagens aos outros jogadores)
+        (6.2)servidor : repassar mensagem aos outros jogadores
+
+    case (cliente : solicitada estado do jogo)
+        (6.3)servidor : envia estado do jogo
+
+}
+(7)servidor: avisa que o jogo acabou; goto (5)
+
+caso um cliente saia:
+servidor : avisa que o jogo não pode continuar; goto (5)
