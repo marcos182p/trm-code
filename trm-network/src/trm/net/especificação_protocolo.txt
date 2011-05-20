@@ -77,5 +77,8 @@ primeiro protocolo(ambiente estavel):
 }
 (7)servidor: avisa que o jogo acabou; goto (5)
 
-caso um cliente saia:
+//caso um cliente saia e o cliente esteja no estado 'dentro da sala:jogando':
 servidor : avisa que o jogo não pode continuar; goto (5)
+
+//caso um cliente saia e o cliente esteja no estado 'dentro da sala:sem jogar':
+servidor : avisa que aos jogadores que um jogador saiu da sala
