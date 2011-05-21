@@ -1,7 +1,9 @@
 package trm.core;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,8 +37,8 @@ public class Dominoes {
         return instance;
     }
     
-    public Set<Stone> getStones() {
-        return Collections.unmodifiableSet(stones);
+    public List<Stone> getStones() {
+        return Collections.unmodifiableList(new ArrayList<Stone>(stones));
     }
     
 }

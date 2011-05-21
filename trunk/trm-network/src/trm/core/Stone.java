@@ -5,20 +5,20 @@ package trm.core;
  */
 public class Stone {
 
-    private SquareNumber squareUp;
-    private SquareNumber squareDown;
+    private SquareNumber squareLeft;
+    private SquareNumber squareRight;
 
-    public Stone(SquareNumber squareUp, SquareNumber squareDown) {
-        this.squareUp = squareUp;
-        this.squareDown = squareDown;
+    public Stone(SquareNumber squareLeft, SquareNumber squareRight) {
+        this.squareLeft = squareLeft;
+        this.squareRight = squareRight;
     }
     
-    public SquareNumber getSquareUp() {
-        return squareUp;
+    public SquareNumber getSquareLeft() {
+        return squareLeft;
     }
     
-    public SquareNumber getSquareDown() {
-        return squareDown;
+    public SquareNumber getSquareRight() {
+        return squareRight;
     }
     
     public static void main(String[] args) {
@@ -39,13 +39,13 @@ public class Stone {
             return false;
         }
         final Stone other = (Stone) obj;
-        if (this.squareUp != other.squareUp
-                && this.squareUp != other.squareDown) {
+        if (this.squareLeft != other.squareLeft
+                && this.squareLeft != other.squareRight) {
 
                 return false;
         }
-        if (this.squareDown != other.squareDown
-                && this.squareDown != other.squareUp) {
+        if (this.squareRight != other.squareRight
+                && this.squareRight != other.squareLeft) {
             return false;
         }
         return true;
@@ -54,8 +54,14 @@ public class Stone {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash += (this.squareUp != null ? this.squareUp.hashCode() : 0);
-        hash += (this.squareDown != null ? this.squareDown.hashCode() : 0);
+        hash += (this.squareLeft != null ? this.squareLeft.hashCode() : 0);
+        hash += (this.squareRight != null ? this.squareRight.hashCode() : 0);
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return "Stone{" + "squareLeft=" + squareLeft + ", squareRight=" + squareRight + '}';
+    }
+    
 }
