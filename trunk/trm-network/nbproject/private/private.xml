@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/model/GroupNet.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/model/SenderImpl.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/model/Message.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/model/Sender.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/model/UserInf.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/model/UserNet.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/server/TaskGroup.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/server/Server.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/util/MessageFactoryImpl.java</file>
+        <file>file:/C:/Users/Marcos/Documents/NetBeansProjects/ufal/trm-code/trunk/trm-network/src/trm/net/util/MessageFactory.java</file>
+    </open-files>
 </project-private>

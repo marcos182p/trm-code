@@ -1,5 +1,6 @@
 package trm.net.model;
 
+import trm.net.model.protocol.MessageClient;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -22,7 +23,7 @@ public class UserNet {
         this.socket = socket;
     }
     
-    public void sendMessage(Message message) throws IOException {
+    public void sendMessage(MessageClient message) throws IOException {
         sender.send(message);
     }
     
