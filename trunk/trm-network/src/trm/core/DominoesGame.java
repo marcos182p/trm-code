@@ -15,46 +15,18 @@ import java.util.Set;
  */
 public class DominoesGame {
     
+    private enum Position {
+
+        LEFT, RIGHT
+    }
     //constantes
     private static final int MAX_PLAYER = 4;
     private static final int MIN_PLAYER = 2;
     
-    private List<Stone> currentStones;
+    private List<Stone> gameStones;
     private Queue<HandPlayer> playersQueue;
     private Map<Player, HandPlayer> playersMap;
     
-    
-    public static void main(String[] args) {
-        Player player1 = new Player(new PlayerInf(1L, "mp1"));
-        Player player2 = new Player(new PlayerInf(2L, "mp2"));
-        Player player3 = new Player(new PlayerInf(3L, "mp3"));
-        Player player4 = new Player(new PlayerInf(4L, "mp4"));
-        
-        List<Player> players = new ArrayList<Player>();
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
-        
-        
-        
-        DominoesGame game = new DominoesGame(players);
-        
-//        for (int i = 0; i < players.size(); i++) {
-//            
-//            HandPlayer hand = game.getHandPlayer(players.get(i));
-//            
-//            
-//            String temp = "";
-//            
-//            for (Stone stone : hand.getStones()) {
-//                temp += stone.getSquareLeft() + ":" + stone.getSquareRight() + "-";
-//            }
-//            System.out.println("player = " + hand.getPlayer().getInf().getNickName());
-//            System.out.println(temp);
-//        }
-        
-    }
     
     public DominoesGame(List<Player> players) {
         
@@ -71,46 +43,58 @@ public class DominoesGame {
             playersMap.put(player, hand);
         }
         
-        this.currentStones = new ArrayList<Stone>();
+        this.gameStones = new ArrayList<Stone>();
     }
     
-    //TODO refatorar
+    //TODO refatorar!
     public void putLeft(Stone stone, Player player) {
         
-        if (currentStones.size() > 0) {
-
-            Stone leftStone = currentStones.get(0);
-            SquareNumber squareLeft = leftStone.getSquareLeft();
-
-            if (!squareLeft.equals(stone.getSquareRight())) {
-                if (!squareLeft.equals(stone.getSquareLeft())) {
-                    throw new RuntimeException("Impossivel colocar peça");
-                }
-                stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
+        if (!isValidPlayed(stone.getSquareRight(), Position.LEFT)) {
+            if (!isValidPlayed(stone.getSquareLeft(), Position.LEFT)) {
+                throw new RuntimeException("Impossivel colocar peça");
             }
-
+            stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
         }
-       
+
+
        put(stone, player, 0);
     }
     
-    //TODO refatorar
+    //TODO refatorar!
     public void putRight(Stone stone, Player player) {
-        if (currentStones.size() > 0) {
-
-            Stone rightStone = currentStones.get(currentStones.size() - 1);
-            SquareNumber squareRight = rightStone.getSquareRight();
-
-            if (!squareRight.equals(stone.getSquareLeft())) {
-                if (!squareRight.equals(stone.getSquareRight())) {
-                    throw new RuntimeException("Impossivel colocar peça");
-                }
-                stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
+        
+        if (!isValidPlayed(stone.getSquareLeft(), Position.RIGHT)) {
+            if (!isValidPlayed(stone.getSquareRight(), Position.RIGHT)) {
+                throw new RuntimeException("Impossivel colocar peça");
             }
-
+            stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
         }
         
-        put(stone, player, currentStones.size() - 1);
+        put(stone, player, gameStones.size() - 1);
+    }
+    
+    private boolean isValidPlayed(SquareNumber square, Position position) {
+        
+        if (gameStones.isEmpty()) {
+            return true;
+        }
+        
+        boolean result = false;
+        
+        Stone currentStone = null;
+        
+        switch (position) {
+            case LEFT:
+                currentStone = gameStones.get(0);
+                result = currentStone.getSquareRight().equals(square);
+                break;
+            case RIGHT:
+                currentStone = gameStones.get(gameStones.size() - 1);
+                result = currentStone.getSquareLeft().equals(square);
+                break;
+        }
+        
+        return result;
     }
     
     public HandPlayer getHandPlayer(Player player) {
@@ -123,7 +107,7 @@ public class DominoesGame {
             throw new RuntimeException("Não é a vez desse jogador");
         }
 
-        if (currentStones.contains(stone)) {
+        if (gameStones.contains(stone)) {
             throw new RuntimeException("Peça ja está no jogo");
         }
         
@@ -131,7 +115,7 @@ public class DominoesGame {
             throw new RuntimeException("Peça não pertencente ao jogador");
         }
 
-        currentStones.add(position, stone);
+        gameStones.add(position, stone);
         getHandPlayer(player).removeStone(stone);
         playersQueue.poll();
         playersQueue.add(getHandPlayer(player));
@@ -150,13 +134,14 @@ public class DominoesGame {
         
         Random random = new Random();
         Set<Stone> stones = new HashSet<Stone>();
-        
         while (stones.size() < HandPlayer.INITIAL_STONES) {
-            
-            Stone stone = dominoes.getStones().get(random.nextInt(dominoes.getStones().size()));
 
-            if (!stonesUseds.contains(stone)) {
-                if (!stones.contains(stone)) {
+            Stone stone = dominoes.getStones().get(random.nextInt(dominoes.getStones().size()));
+            Stone inverseStone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
+            
+            
+            if (!stonesUseds.contains(stone) && !stonesUseds.contains(inverseStone)) {
+                if (!stones.contains(stone) && !stones.contains(inverseStone)) {
                     stones.add(stone);
                     stonesUseds.add(stone);
                 }
