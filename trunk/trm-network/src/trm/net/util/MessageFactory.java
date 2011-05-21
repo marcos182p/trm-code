@@ -1,13 +1,16 @@
 package trm.net.util;
 
 import trm.net.model.protocol.MessageClient;
+import trm.net.model.protocol.MessageServer;
 
 /**
  *
  */
 public interface MessageFactory {
     
-    String generateMessage(MessageClient message);
+    String generateMessageClient(MessageClient message);
+    
+    String generateMessageServer(MessageServer message);
     
     /**
      * 
@@ -15,5 +18,7 @@ public interface MessageFactory {
      * @return
      * @throws RuntimeException caso a mensagem não seja valida.
      */
-    MessageClient parserMessage(String message) throws RuntimeException;
+    MessageClient parserMessageClient(String message) throws RuntimeException;
+    
+    MessageServer parserMessageServer(String message) throws RuntimeException;
 }

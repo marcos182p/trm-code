@@ -42,9 +42,9 @@ public class MessageClient {
         
         MessageClient message = new MessageClient("marcos", "", MessageType.REQUEST_SERVICE);
         
-        String m = messageFactory.generateMessage(message);
+        String m = messageFactory.generateMessageClient(message);
         
-        MessageClient message2 =  messageFactory.parserMessage(m);
+        MessageClient message2 =  messageFactory.parserMessageClient(m);
         System.out.println(message2.getUserName());
         System.out.println(m);
         

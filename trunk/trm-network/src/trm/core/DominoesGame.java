@@ -57,9 +57,11 @@ public class DominoesGame {
     }
     
     public DominoesGame(List<Player> players) {
+        
         if (players.size() > MAX_PLAYER || players.size() < MIN_PLAYER) {
             throw new RuntimeException("Numero de jogadores não permitidos.");
         }
+        
         this.playersQueue = new ArrayDeque<HandPlayer>();
         this.playersMap = new HashMap<Player, HandPlayer>();
         
