@@ -35,17 +35,14 @@ public class Stone {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof  Stone)) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         final Stone other = (Stone) obj;
-        if (this.squareLeft != other.squareLeft
-                && this.squareLeft != other.squareRight) {
-
-                return false;
+        if (this.squareLeft != other.squareLeft) {
+            return false;
         }
-        if (this.squareRight != other.squareRight
-                && this.squareRight != other.squareLeft) {
+        if (this.squareRight != other.squareRight) {
             return false;
         }
         return true;
@@ -53,15 +50,17 @@ public class Stone {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash += (this.squareLeft != null ? this.squareLeft.hashCode() : 0);
-        hash += (this.squareRight != null ? this.squareRight.hashCode() : 0);
+        int hash = 5;
+        hash = 97 * hash + (this.squareLeft != null ? this.squareLeft.hashCode() : 0);
+        hash = 97 * hash + (this.squareRight != null ? this.squareRight.hashCode() : 0);
         return hash;
     }
-
-    @Override
+    
+       @Override
     public String toString() {
         return "Stone{" + "squareLeft=" + squareLeft + ", squareRight=" + squareRight + '}';
     }
+
+   
     
 }

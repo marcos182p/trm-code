@@ -2,21 +2,19 @@ package trm.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
  */
 public class Dominoes {
     
-    private Set<Stone> stones;
+    private List<Stone> stones;
     
     private static Dominoes instance = new Dominoes();
     
     private Dominoes() {
-        stones = new HashSet<Stone>();
+        stones = new ArrayList<Stone>();
         //gerando as peças
         for (int i = 0; i < 7; i++) {
             SquareNumber up = SquareNumber.values()[i];
@@ -26,7 +24,7 @@ public class Dominoes {
                 
                 Stone stone = new Stone(up, down);
                 
-                if (!stones.contains(stone)) {
+                if (!stones.contains(stone) && !stones.contains(new Stone(down, up))) {
                     stones.add(stone);
                 } 
             }
