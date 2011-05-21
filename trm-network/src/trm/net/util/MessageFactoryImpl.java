@@ -1,6 +1,6 @@
 package trm.net.util;
 
-import trm.net.model.Message;
+import trm.net.model.protocol.MessageClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -16,17 +16,17 @@ public class MessageFactoryImpl implements MessageFactory {
 
     public MessageFactoryImpl() {
         gson = new GsonBuilder().create();
-        TYPE = new TypeToken<Message>() {
+        TYPE = new TypeToken<MessageClient>() {
         }.getType();
     }
 
     @Override
-    public String generateMessage(Message message) {
+    public String generateMessage(MessageClient message) {
         return gson.toJson(message);
     }
 
     @Override
-    public Message parserMessage(String message) throws RuntimeException {
-        return (Message) gson.fromJson(message, TYPE);
+    public MessageClient parserMessage(String message) throws RuntimeException {
+        return (MessageClient) gson.fromJson(message, TYPE);
     }
 }

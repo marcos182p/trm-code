@@ -1,5 +1,6 @@
 package trm.net.model;
 
+import trm.net.model.protocol.MessageClient;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class GroupNet {
         users.add(user);
     }
 
-    public void broadcast(Message message) throws IOException {
+    public void broadcast(MessageClient message) throws IOException {
         for (UserNet user : users) {
             user.sendMessage(message);
         }
