@@ -4,6 +4,7 @@ import trm.net.model.protocol.MessageClient;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import trm.core.DominoesGame;
 
 /**
  *
@@ -26,7 +27,7 @@ public class GroupNet {
     public void putUser(UserNet user) {
         users.add(user);
     }
-
+    
     public void broadcast(MessageClient message) throws IOException {
         for (UserNet user : users) {
             user.sendMessage(message);

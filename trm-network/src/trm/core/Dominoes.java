@@ -17,7 +17,7 @@ public class Dominoes {
     
     private Dominoes() {
         stones = new HashSet<Stone>();
-        
+        //gerando as peças
         for (int i = 0; i < 7; i++) {
             SquareNumber up = SquareNumber.values()[i];
             

@@ -13,17 +13,14 @@ import java.io.Writer;
 public class SenderImpl implements Sender {
 
     private Writer writer;
-    private MessageFactory messageFactory;
 
     public SenderImpl(Writer writer) {
-
         this.writer = writer;
-        messageFactory = new MessageFactoryImpl();
     }
 
     @Override
-    public void send(MessageClient message) throws IOException {
-        writer.write(messageFactory.generateMessage(message) + "\n");
+    public void send(String message) throws IOException {
+        writer.write(message);
         writer.flush();
     }
 
