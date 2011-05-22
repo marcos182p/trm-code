@@ -8,6 +8,10 @@ public class Stone {
     private SquareNumber squareLeft;
     private SquareNumber squareRight;
 
+    protected Stone() {
+        //para o gson
+    }
+    
     public Stone(SquareNumber squareLeft, SquareNumber squareRight) {
         this.squareLeft = squareLeft;
         this.squareRight = squareRight;

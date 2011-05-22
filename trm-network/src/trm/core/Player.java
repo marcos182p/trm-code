@@ -8,6 +8,10 @@ public class Player {
 
     private PlayerInf inf;
 
+    public Player() {
+        //para o gson.
+    }
+    
     public Player(PlayerInf inf) {
         this.inf = inf;
     }
