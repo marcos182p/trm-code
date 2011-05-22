@@ -1,5 +1,6 @@
 package trm.net.model;
 
+import trm.net.server.ServerTask;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;

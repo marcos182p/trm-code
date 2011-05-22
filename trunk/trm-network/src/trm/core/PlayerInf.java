@@ -8,6 +8,10 @@ public class PlayerInf {
     
     private Long id;
     private String nickName;
+
+    protected PlayerInf() {
+        //para o gson
+    }
     
     public PlayerInf(Long id, String nickName) {
         this.id = id;
