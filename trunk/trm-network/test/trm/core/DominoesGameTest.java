@@ -1,11 +1,9 @@
-package trm.core;
+    package trm.core;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,9 +18,13 @@ import static org.junit.Assert.*;
 public class DominoesGameTest {
     
     private Player player1;
+    private HandPlayer handPlayer1;
     private Player player2;
+    private HandPlayer handPlayer2;
     private Player player3;
+    private HandPlayer handPlayer3;
     private Player player4;
+    private HandPlayer handPlayer4;
     private Dominoes dominoes;
     private DominoesGame dominoesGame;
     
@@ -39,14 +41,15 @@ public class DominoesGameTest {
     
     @Before
     public void setUp() {
-        init();
+        initPlayers();
+        initHandPlayers();
     }
     
     @After
     public void tearDown() {
     }
     
-    public void init() {
+    public void initPlayers() {
         
         dominoes = Dominoes.getInstance();
         
@@ -64,20 +67,58 @@ public class DominoesGameTest {
         dominoesGame = new DominoesGame(players);
         
     }
+    
+    public void initHandPlayers() {
+        
+        
+        Set<Stone> stones = new HashSet<Stone>();
+        stones.add(new Stone(SquareNumber.ZERO, SquareNumber.ZERO));
+        stones.add(new Stone(SquareNumber.ZERO, SquareNumber.ONE));
+        stones.add(new Stone(SquareNumber.ZERO, SquareNumber.TWO));
+        stones.add(new Stone(SquareNumber.ZERO, SquareNumber.THREE));
+        stones.add(new Stone(SquareNumber.ZERO, SquareNumber.FOUR));
+        stones.add(new Stone(SquareNumber.ZERO, SquareNumber.SIX));
+        stones.add(new Stone(SquareNumber.ONE, SquareNumber.ONE));
+
+        handPlayer1 = new HandPlayer(player1, stones);
+        stones.clear();
+        
+        stones.add(new Stone(SquareNumber.TWO, SquareNumber.TWO));
+        stones.add(new Stone(SquareNumber.TWO, SquareNumber.THREE));
+        stones.add(new Stone(SquareNumber.TWO, SquareNumber.FOUR));
+        stones.add(new Stone(SquareNumber.TWO, SquareNumber.FIVE));
+        stones.add(new Stone(SquareNumber.TWO, SquareNumber.SIX));
+        stones.add(new Stone(SquareNumber.THREE, SquareNumber.TWO));
+        stones.add(new Stone(SquareNumber.THREE, SquareNumber.THREE));
+        
+        handPlayer2 = new HandPlayer(player2, stones);
+        stones.clear();
+        
+        stones.add(new Stone(SquareNumber.THREE, SquareNumber.FOUR));
+        stones.add(new Stone(SquareNumber.THREE, SquareNumber.FIVE));
+        stones.add(new Stone(SquareNumber.THREE, SquareNumber.SIX));
+        stones.add(new Stone(SquareNumber.FOUR, SquareNumber.FOUR));
+        stones.add(new Stone(SquareNumber.TWO, SquareNumber.FIVE));
+        stones.add(new Stone(SquareNumber.THREE, SquareNumber.SIX));
+        stones.add(new Stone(SquareNumber.THREE, SquareNumber.FIVE));
+        
+        
+        
+    }
 
 //    /**
 //     * Test of putLeft method, of class DominoesGame.
 //     */
-    @Test
-    public void testPutLeft() {
-        System.out.println("putLeft");
-        Stone stone = null;
-        Player player = null;
-        DominoesGame instance = null;
-        instance.putLeft(stone, player);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testPutLeft() {
+//        System.out.println("putLeft");
+//        Stone stone = null;
+//        Player player = null;
+//        DominoesGame instance = null;
+//        instance.putLeft(stone, player);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 //
 //    /**
 //     * Test of putRight method, of class DominoesGame.

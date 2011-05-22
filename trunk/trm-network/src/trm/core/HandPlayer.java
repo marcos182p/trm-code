@@ -27,7 +27,7 @@ public class HandPlayer {
     }
     
     
-    public boolean removeStone(Stone stone) {
+    boolean removeStone(Stone stone) {
         return stones.remove(stone);
     }
     
