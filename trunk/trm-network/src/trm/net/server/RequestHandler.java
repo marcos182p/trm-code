@@ -9,9 +9,9 @@ import trm.net.model.protocol.ResponseServer;
  */
 public abstract class RequestHandler {
     
-    protected Player player;
+    protected PlayerServer player;
     
-    public RequestHandler(Player player) {
+    public RequestHandler(PlayerServer player) {
         this.player = player;
     }
     

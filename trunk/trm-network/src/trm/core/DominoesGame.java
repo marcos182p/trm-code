@@ -20,8 +20,8 @@ public class DominoesGame {
         LEFT, RIGHT
     }
     //constantes
-    private static final int MAX_PLAYER = 4;
-    private static final int MIN_PLAYER = 2;
+    public static final int MAX_PLAYER = 4;
+    public static final int MIN_PLAYER = 2;
     
     private List<Stone> gameStones;
     private Queue<HandPlayer> playersQueue;

@@ -1,15 +1,16 @@
-package trm.net.server;
+package trm.net.server.handler;
 
-import trm.core.Player;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.ResponseServer;
+import trm.net.server.PlayerServer;
+import trm.net.server.RequestHandler;
 
 /**
  *
  */
-class UndefinedRequest extends RequestHandler {
+public class UndefinedHandler extends RequestHandler {
 
-    public UndefinedRequest(Player player) {
+    public UndefinedHandler(PlayerServer player) {
         super (player);
     }
 

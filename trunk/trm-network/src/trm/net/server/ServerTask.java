@@ -1,5 +1,6 @@
 package trm.net.server;
 
+import trm.net.server.handler.UndefinedHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,7 +11,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import trm.core.Player;
-import trm.net.model.PlayerManager;
 import trm.net.model.Sender;
 import trm.net.model.SenderImpl;
 import trm.net.model.protocol.RequestClient;
@@ -27,7 +27,7 @@ import trm.net.util.ParserMessageImpl;
  */
 public class ServerTask implements Runnable {
 
-    private Player player;
+    private PlayerServer player;
     private Socket socket;
     private Sender sender;
     private ParserMessage parserMessage;
@@ -48,10 +48,10 @@ public class ServerTask implements Runnable {
         handlers = new EnumMap<RequestType, RequestHandler>(RequestType.class);
 
         handlers.put(RequestType.LOGIN, new LoginRequest());
-        handlers.put(RequestType.UNDEFINED, new UndefinedRequest(player));
+        handlers.put(RequestType.UNDEFINED, new UndefinedHandler(player));
     }
 
-    public Player getPlayer() {
+    public PlayerServer getPlayer() {
         return player;
     }
 
@@ -110,7 +110,7 @@ public class ServerTask implements Runnable {
         public ResponseServer handle(RequestClient message) {
             ResponseServer response = null;
 
-            PlayerManager playerManager = PlayerManager.getPlayerManager();
+            GameManager playerManager = GameManager.getPlayerManager();
             String nickName = message.getUserName();
 
 
@@ -136,5 +136,28 @@ public class ServerTask implements Runnable {
         private boolean isValidNickName(String nickName) {
             return true;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ServerTask other = (ServerTask) obj;
+        if (this.player != other.player && (this.player == null
+                || !this.player.equals(other.player))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + (this.player != null ? this.player.hashCode() : 0);
+        return hash;
     }
 }
