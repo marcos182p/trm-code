@@ -1,22 +1,22 @@
 package trm.net.model.protocol;
 
-import trm.net.util.MessageFactory;
-import trm.net.util.MessageFactoryImpl;
+import trm.net.util.ParserMessage;
+import trm.net.util.ParserMessageImpl;
 
 /**
  *
  */
-public class MessageClient {
+public class RequestClient {
     
     private String userName;
     private String roomGame;
-    private RQServiceType serviceType;
+    private RQService service;
     private MessageType messageType;
 
-    public MessageClient() {
+    public RequestClient() {
     }
     
-    public MessageClient(String userName, String roomGame, MessageType messageType) {
+    public RequestClient(String userName, String roomGame, MessageType messageType) {
         this.userName = userName;
         this.messageType = messageType;
     }
@@ -29,8 +29,8 @@ public class MessageClient {
         return roomGame;
     }
     
-    public RQServiceType getServiceType() {
-        return serviceType;
+    public RQService getRQService() {
+        return service;
     }
     
     public MessageType getMessageType() {
@@ -38,13 +38,13 @@ public class MessageClient {
     }
     
     public static void main(String[] args) {
-        MessageFactory messageFactory = new MessageFactoryImpl();
+        ParserMessage messageFactory = new ParserMessageImpl();
         
-        MessageClient message = new MessageClient("marcos", "", MessageType.REQUEST_SERVICE);
+        RequestClient message = new RequestClient("marcos", "", MessageType.REQUEST_SERVICE);
         
-        String m = messageFactory.generateMessageClient(message);
+        String m = messageFactory.convertMessageRequest(message);
         
-        MessageClient message2 =  messageFactory.parserMessageClient(m);
+        RequestClient message2 =  messageFactory.parserRequestClient(m);
         System.out.println(message2.getUserName());
         System.out.println(m);
         

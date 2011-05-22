@@ -127,7 +127,9 @@ public class DominoesGame {
     
     private Set<Stone> stonesUseds = new HashSet<Stone>();
     
-    //TODO criar mão unica para jogador
+    /**
+     * Cria mão aleatoria para jogador
+     */
     private HandPlayer createHandPlayer(Player player) {
 
         Dominoes dominoes = Dominoes.getInstance();

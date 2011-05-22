@@ -1,35 +1,36 @@
 package trm.net.model;
 
-import trm.net.model.protocol.MessageClient;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import trm.core.DominoesGame;
+import trm.net.model.protocol.ResponseServer;
 
 /**
  *
  */
-public class GroupNet {
+public class RoomGame {
     
     private Long id;
     
-    private Set<UserNet> users;
+    private DominoesGame dominoesGame;
+    private Set<ServerTask> tasks;
     
-    public GroupNet(Long id) {
+    public RoomGame(Long id) {
         this.id = id;
-        users = new HashSet<UserNet>();
+        tasks = new HashSet<ServerTask>();
     }
     
     public Long getId() {
         return id;
     }
     
-    public void putUser(UserNet user) {
-        users.add(user);
+    public void putServerTask(ServerTask user) {
+        tasks.add(user);
     }
     
-    public void broadcast(MessageClient message) throws IOException {
-        for (UserNet user : users) {
+    public void broadcast(ResponseServer message) throws IOException {
+        for (ServerTask user : tasks) {
             user.sendMessage(message);
         }
     }
@@ -42,7 +43,7 @@ public class GroupNet {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GroupNet other = (GroupNet) obj;
+        final RoomGame other = (RoomGame) obj;
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }

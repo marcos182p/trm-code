@@ -1,15 +1,15 @@
 package trm.net.server;
 
-import trm.net.model.GroupNet;
+import trm.net.model.RoomGame;
 
 /**
  *
  */
 public class TaskGroup implements Runnable {
     
-    private GroupNet group;
+    private RoomGame group;
     
-    public TaskGroup(GroupNet group) {
+    public TaskGroup(RoomGame group) {
         this.group = group;
     }
     

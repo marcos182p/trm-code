@@ -3,6 +3,6 @@ package trm.net.model.protocol;
 /**
  *
  */
-public class MessageServer {
+public class ResponseServer {
     //colocar atributos
 }

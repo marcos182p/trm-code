@@ -1,8 +1,8 @@
 package trm.net.model;
 
-import trm.net.model.protocol.MessageClient;
-import trm.net.util.MessageFactory;
-import trm.net.util.MessageFactoryImpl;
+import trm.net.model.protocol.RequestClient;
+import trm.net.util.ParserMessage;
+import trm.net.util.ParserMessageImpl;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
