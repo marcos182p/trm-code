@@ -20,7 +20,7 @@ public class ResponseServer {
     /**
      * jogador que enviou a mensagem
      */
-    private Player player;
+    private Player senderPlayer;
     /**
      * contem um texto descrevendo o erro.
      */
@@ -41,7 +41,7 @@ public class ResponseServer {
             String erroMessage, String ackMessage, ResponseType responseType) {
         this.stones = stones;
         this.chatMessage = chatMessage;
-        this.player = player;
+        this.senderPlayer = player;
         this.erroMessage = erroMessage;
         this.ackMessage = ackMessage;
         this.responseType = responseType;
@@ -60,7 +60,7 @@ public class ResponseServer {
     }
 
     public Player getPlayer() {
-        return player;
+        return senderPlayer;
     }
 
     public ResponseType getResponseType() {

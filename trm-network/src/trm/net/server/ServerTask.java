@@ -10,16 +10,15 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import trm.core.Player;
+import trm.net.model.Receiver;
 import trm.net.model.Sender;
-import trm.net.model.SenderImpl;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
+import trm.net.util.MessageFactory;
 import trm.net.util.MessageFactoryImpl;
-import trm.net.util.MessageFactoy;
-import trm.net.util.ParserMessage;
-import trm.net.util.ParserMessageImpl;
+import trm.net.util.ReceiverFactory;
+import trm.net.util.SenderFactory;
 
 /**
  *
@@ -29,17 +28,19 @@ public class ServerTask implements Runnable {
 
     private PlayerServer player;
     private Socket socket;
-    private Sender sender;
-    private ParserMessage parserMessage;
-    private MessageFactoy messageFactoy;
+    private Sender<ResponseServer> sender;
+    private Receiver<RequestClient> receiver;
+    private MessageFactory messageFactoy;
     private Map<RequestType, RequestHandler> handlers;
 
     public ServerTask(Socket socket) throws IOException {
         this.socket = socket;
-        this.sender = new SenderImpl(new PrintWriter(socket.getOutputStream()));
-
+        this.sender = SenderFactory.createSenderServer(new PrintWriter(socket.getOutputStream()));
+        this.receiver = ReceiverFactory.createReceiverClient(new BufferedReader(
+                new InputStreamReader(socket.getInputStream())));
+        
         this.messageFactoy = new MessageFactoryImpl();
-        this.parserMessage = new ParserMessageImpl();
+        
 
     }
 
@@ -47,7 +48,6 @@ public class ServerTask implements Runnable {
         //FIXME adicionar os tratatores!
         handlers = new EnumMap<RequestType, RequestHandler>(RequestType.class);
 
-        handlers.put(RequestType.LOGIN, new LoginRequest());
         handlers.put(RequestType.UNDEFINED, new UndefinedHandler(player));
     }
 
@@ -59,13 +59,12 @@ public class ServerTask implements Runnable {
     @Override
     public void run() {
         try {
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
+            
 
             RequestClient message = null;
             RequestHandler handler = null;
 
-            message = parserMessage.parserRequestClient(reader.readLine());
+            message = receiver.receive();
 
             //primeira mensagem tem que ser de login!o login sera o nome!
             handler = new LoginRequest();
@@ -73,11 +72,9 @@ public class ServerTask implements Runnable {
 
             initHandlers();
 
-            String line = null;
+            while (socket.isConnected()) {
 
-            while (socket.isConnected() && (line = reader.readLine()) != null) {
-
-                message = parserMessage.parserRequestClient(line);
+                message = receiver.receive();
 
                 handler = handlers.get(message.getRequestType());
 
@@ -85,7 +82,7 @@ public class ServerTask implements Runnable {
                     handler = handlers.get(RequestType.UNDEFINED);
                 }
 
-                handler.handle(message);
+                sender.send(handler.handle(message));
             }
 
 
@@ -97,7 +94,7 @@ public class ServerTask implements Runnable {
     }
 
     public void sendMessage(ResponseServer response) throws IOException {
-        sender.send(parserMessage.convertResponseServer(response) + "\n");
+        sender.send(response);
     }
 
     private class LoginRequest extends RequestHandler {

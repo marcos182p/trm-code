@@ -8,7 +8,7 @@ import trm.net.model.protocol.ResponseServer;
  *
  * @author Marcos
  */
-public interface MessageFactoy {
+public interface MessageFactory {
     
     RequestClient createRequestClient();
     

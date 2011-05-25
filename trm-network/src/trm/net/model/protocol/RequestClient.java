@@ -1,9 +1,9 @@
 package trm.net.model.protocol;
 
-import trm.core.SquareNumber;
+import com.google.gson.reflect.TypeToken;
 import trm.core.Stone;
+import trm.net.util.GsonParser;
 import trm.net.util.ParserMessage;
-import trm.net.util.ParserMessageImpl;
 
 /**
  *
@@ -82,16 +82,17 @@ public class RequestClient {
     }
 
     public static void main(String[] args) {
-        ParserMessage messageFactory = new ParserMessageImpl();
+        ParserMessage<RequestClient> messageFactory = new GsonParser<RequestClient>(new TypeToken<RequestClient>() {
+        });
 
-        RequestClient message = new RequestClient("marcos", 1L, new Stone(SquareNumber.ZERO, SquareNumber.ZERO), Position.LEFT, null, RequestType.LOGIN);
+        RequestClient message = new RequestClient(null, 1L, null, Position.LEFT, null, RequestType.LOGIN);
 
 
-        String m = messageFactory.convertMessageRequest(message);
-
-        RequestClient message2 = messageFactory.parserRequestClient(m);
-        System.out.println(message2.getUserName());
+        String m = messageFactory.buildMessage(message);
         System.out.println(m);
+
+        RequestClient message2 = messageFactory.parseMessage(m);
+        System.out.println(message2.getUserName());
 
 
 
