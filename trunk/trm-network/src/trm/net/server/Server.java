@@ -2,8 +2,11 @@ package trm.net.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,6 +31,16 @@ public class Server implements Runnable {
     
     @Override
     public void run() {
+        
+        while(true) {
+            try {
+                Socket socket = server.accept();
+                executor.submit(new ServerTask(socket));
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
         
     }
     

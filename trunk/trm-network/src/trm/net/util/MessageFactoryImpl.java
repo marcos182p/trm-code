@@ -7,7 +7,10 @@ import trm.net.model.protocol.ResponseType;
 /**
  *
  */
-public class MessageFactoryImpl implements MessageFactoy {
+public class MessageFactoryImpl implements MessageFactory {
+
+    public MessageFactoryImpl() {
+    }
 
     @Override
     public RequestClient createRequestClient() {

@@ -5,9 +5,9 @@ import java.io.IOException;
 /**
  *
  */
-public interface Sender {
+public interface Sender<Message> {
     
-    void send(String message) throws IOException;
+    void send(Message message) throws IOException;
     
     void close() throws IOException;
 }
