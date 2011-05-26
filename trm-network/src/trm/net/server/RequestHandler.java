@@ -1,6 +1,5 @@
 package trm.net.server;
 
-import trm.core.Player;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.ResponseServer;
 

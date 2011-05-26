@@ -1,11 +1,10 @@
 package trm.net.server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trm.net.model.InvalidMessageException;
-import trm.net.server.handler.UndefinedHandler;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.EnumMap;
-import java.util.Map;
 import trm.net.model.Receiver;
 import trm.net.model.Sender;
 import trm.net.model.protocol.RequestClient;
@@ -13,8 +12,8 @@ import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.util.MessageFactory;
 import trm.net.util.MessageFactoryImpl;
-import trm.net.util.ReceiverFactory;
-import trm.net.util.SenderFactory;
+import static trm.net.util.SenderFactory.*;
+import static trm.net.util.ReceiverFactory.*;
 import static java.util.logging.Level.*;
 import static java.util.logging.Logger.*;
 
@@ -25,71 +24,97 @@ import static java.util.logging.Logger.*;
 public class ServerTask implements Runnable {
 
     private PlayerServer player;
+    
     private Socket socket;
+    
     private Sender<ResponseServer> sender;
     private Receiver<RequestClient> receiver;
+    
+    private RequestHandler handler;
+    
     private MessageFactory messageFactoy;
-    private Map<RequestType, RequestHandler> handlers;
+    
 
     public ServerTask(Socket socket) throws IOException {
+        
         this.socket = socket;
-        this.sender = SenderFactory.createSenderServer(socket);
-        this.receiver = ReceiverFactory.createReceiverClient(socket);
+        
+        this.sender = createSenderServer(socket);
+        this.receiver = createReceiverClient(socket);
         
         this.messageFactoy = new MessageFactoryImpl();
-        
-
-    }
-
-    private void initHandlers() {
-        //FIXME adicionar os tratatores!
-        handlers = new EnumMap<RequestType, RequestHandler>(RequestType.class);
-
-        handlers.put(RequestType.UNDEFINED, new UndefinedHandler(player));
     }
 
     public PlayerServer getPlayer() {
         return player;
     }
 
-    //FIXME fazer tratamento de mensagens erradas!
     @Override
     public void run() {
+            
+        RequestClient request = null;
+        ResponseServer response = null;
+        
         try {
             
-
-            RequestClient message = null;
-            RequestHandler handler = null;
-
-            message = receiver.receive();
-
             //primeira mensagem tem que ser de login!o login sera o nome!
-            handler = new LoginRequest();
-            handler.handle(message);
+            //ele ficara nesse 'loop' enquanto não tiver logado com sucesso ou
+            //envie uma mensage que solicite sua saida
+            do {
+                request = receiveRequest();
+                response = login(request);
 
-            initHandlers();
+                sender.send(response);
 
-            while (socket.isConnected()) {
+            } while (!response.isAck() && !response.isCloseConnection());
+            
 
-                message = receiver.receive();
+            handler = new RequestHandlerImpl(player);
+            
+            while (socket.isConnected() && !response.isCloseConnection()) {
 
-                handler = handlers.get(message.getRequestType());
+                request = receiveRequest();
+                response = handler.handle(request);
 
-                if (handler == null) {
-                    handler = handlers.get(RequestType.UNDEFINED);
-                }
-
-                sender.send(handler.handle(message));
+                sender.send(response);
             }
-
-
-        } catch (InvalidMessageException ex) {
-            //FIXME tratar mensage invalida
-            getLogger(ServerTask.class.getName()).log(SEVERE, null, ex);
+            
         } catch (IOException ex) {
             getLogger(ServerTask.class.getName()).log(SEVERE, null, ex);
         } finally {
             //TODO notificar sala de jogo casa ele esteja em alguma.
+            close();
+        }
+    }
+    
+    /**
+     * Trata o recebimento de mensagens, levando em considerações erros nas
+     * mensagens, se ouver um erro ele retorna uma requisição com o tipo
+     * UNDEFINED
+     */
+    public RequestClient receiveRequest() throws IOException {
+
+        RequestClient request = null;
+        try {
+            request = receiver.receive();
+        } catch (InvalidMessageException ex) {
+            getLogger(ServerTask.class.getName()).log(SEVERE, null, ex);
+        }
+
+        if (request == null) {
+            request = new RequestClient(RequestType.UNDEFINED);
+        }
+
+        return request;
+    }
+    
+    private void close() {
+        try {
+            sender.close();
+            receiver.close();
+            socket.close();
+        } catch (IOException ex) {
+            getLogger(ServerTask.class.getName()).log(SEVERE, null, ex);
         }
     }
 
@@ -97,42 +122,33 @@ public class ServerTask implements Runnable {
         sender.send(response);
     }
 
-    private class LoginRequest extends RequestHandler {
+    //metodos uteis-------------------------------------------------------------
+    
+    private ResponseServer login(RequestClient message) {
 
-        public LoginRequest() {
-            super(null);
+        ResponseServer response = null;
+
+        GameManager playerManager = GameManager.getPlayerManager();
+        String nickName = message.getUserName();
+
+
+        if (isValidNickName(nickName)) {
+
+            player = playerManager.newPlayer(nickName);
+
+            //FIXME ajeitar aqui
+            response = messageFactoy.createResponseServer(null);
+
+        } else {
+            //FIXME terminar essa parte
+            response = messageFactoy.createResponseServer(null);
         }
+        return response;
+    }
 
-        @Override
-        public ResponseServer handle(RequestClient message) {
-            ResponseServer response = null;
-
-            GameManager playerManager = GameManager.getPlayerManager();
-            String nickName = message.getUserName();
-
-
-            if (isValidNickName(nickName)) {
-
-                player = playerManager.newPlayer(nickName);
-
-                //FIXME ajeitar aqui
-                response = messageFactoy.createResponseServer(null);
-
-            } else {
-                //FIXME terminar essa parte
-                response = messageFactoy.createResponseServer(null);
-            }
-
-
-
-
-            return response;
-        }
-
-        //FIXME verificar se apelido é valido
-        private boolean isValidNickName(String nickName) {
-            return true;
-        }
+    //FIXME verificar se apelido é valido
+    private boolean isValidNickName(String nickName) {
+        return true;
     }
 
     @Override
