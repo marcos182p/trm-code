@@ -2,6 +2,7 @@ package trm.net.model.protocol;
 
 import com.google.gson.reflect.TypeToken;
 import trm.core.Stone;
+import trm.net.model.InvalidMessageException;
 import trm.net.util.GsonParser;
 import trm.net.util.ParserMessage;
 
@@ -81,7 +82,7 @@ public class RequestClient {
         return userName;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidMessageException {
         ParserMessage<RequestClient> messageFactory = new GsonParser<RequestClient>(new TypeToken<RequestClient>() {
         });
 

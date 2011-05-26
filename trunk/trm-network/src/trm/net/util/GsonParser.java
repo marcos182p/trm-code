@@ -2,8 +2,10 @@ package trm.net.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import trm.net.model.InvalidMessageException;
 
 /**
  *
@@ -23,8 +25,18 @@ public class GsonParser<Message> implements ParserMessage<Message> {
     }
 
     @Override
-    public Message parseMessage(String message) throws RuntimeException {
-        return gsonUtil.parserRequestClient(message);
+    public Message parseMessage(String message) throws InvalidMessageException {
+        
+        Message result = null;
+        
+        try {
+            result = gsonUtil.parserRequestClient(message);
+
+        } catch (JsonParseException e) {
+            throw new InvalidMessageException(e);
+        }
+        
+        return result;
     }
 }
 
@@ -43,7 +55,7 @@ class GsonUtil<Message> {
         return gson.toJson(message);
     }
 
-    public Message parserRequestClient(String message) throws RuntimeException {
+    public Message parserRequestClient(String message) throws JsonParseException {
 
         return (Message) gson.fromJson(message, typeClass);
     }

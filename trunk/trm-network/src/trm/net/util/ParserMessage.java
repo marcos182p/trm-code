@@ -1,5 +1,7 @@
 package trm.net.util;
 
+import trm.net.model.InvalidMessageException;
+
 /**
  *
  */
@@ -13,5 +15,5 @@ public interface ParserMessage<Message> {
      * @return
      * @throws RuntimeException caso a mensagem não seja valida.
      */
-    Message parseMessage(String message) throws RuntimeException;
+    Message parseMessage(String message) throws InvalidMessageException;
 }

@@ -3,6 +3,9 @@ package trm.net.util;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import trm.net.model.InvalidMessageException;
 import trm.net.model.Receiver;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.ResponseServer;
@@ -13,18 +16,31 @@ import trm.net.model.protocol.ResponseServer;
  */
 public class ReceiverFactory {
 
-    public static Receiver<RequestClient> createReceiverClient(BufferedReader reader) {
-        ParserMessage<RequestClient> parserMessage = new GsonParser<RequestClient>(new TypeToken<RequestClient>() {
+    public static Receiver<RequestClient> createReceiverClient(Socket socket)
+            throws IOException {
+
+
+        InputStreamReader input = new InputStreamReader(socket.getInputStream());
+        BufferedReader reader = new BufferedReader(input);
+
+        ParserMessage<RequestClient> parserMessage =
+                new GsonParser<RequestClient>(new TypeToken<RequestClient>() {
         });
-        ReceiverImpl<RequestClient> receiver = new ReceiverImpl<RequestClient>(reader, parserMessage);
-        return receiver;
+
+        return new ReceiverImpl<RequestClient>(reader, parserMessage);
     }
 
-    public static Receiver<ResponseServer> createReceiverServer(BufferedReader reader) {
-        ParserMessage<ResponseServer> parserMessage = new GsonParser<ResponseServer>(new TypeToken<ResponseServer>() {
+    public static Receiver<ResponseServer> createReceiverServer(Socket socket)
+            throws IOException {
+
+        InputStreamReader input = new InputStreamReader(socket.getInputStream());
+        BufferedReader reader = new BufferedReader(input);
+
+        ParserMessage<ResponseServer> parserMessage =
+                new GsonParser<ResponseServer>(new TypeToken<ResponseServer>() {
         });
-        Receiver<ResponseServer> receiver = new ReceiverImpl<ResponseServer>(reader, parserMessage);
-        return receiver;
+
+        return new ReceiverImpl<ResponseServer>(reader, parserMessage);
     }
 }
 
@@ -39,7 +55,7 @@ class ReceiverImpl<Message> implements Receiver<Message> {
     }
 
     @Override
-    public Message receive() throws IOException {
+    public Message receive() throws IOException, InvalidMessageException {
         return parserMessage.parseMessage(reader.readLine());
     }
 

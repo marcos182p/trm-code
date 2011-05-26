@@ -1,15 +1,11 @@
 package trm.net.server;
 
+import trm.net.model.InvalidMessageException;
 import trm.net.server.handler.UndefinedHandler;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trm.net.model.Receiver;
 import trm.net.model.Sender;
 import trm.net.model.protocol.RequestClient;
@@ -19,6 +15,8 @@ import trm.net.util.MessageFactory;
 import trm.net.util.MessageFactoryImpl;
 import trm.net.util.ReceiverFactory;
 import trm.net.util.SenderFactory;
+import static java.util.logging.Level.*;
+import static java.util.logging.Logger.*;
 
 /**
  *
@@ -35,9 +33,8 @@ public class ServerTask implements Runnable {
 
     public ServerTask(Socket socket) throws IOException {
         this.socket = socket;
-        this.sender = SenderFactory.createSenderServer(new PrintWriter(socket.getOutputStream()));
-        this.receiver = ReceiverFactory.createReceiverClient(new BufferedReader(
-                new InputStreamReader(socket.getInputStream())));
+        this.sender = SenderFactory.createSenderServer(socket);
+        this.receiver = ReceiverFactory.createReceiverClient(socket);
         
         this.messageFactoy = new MessageFactoryImpl();
         
@@ -86,8 +83,11 @@ public class ServerTask implements Runnable {
             }
 
 
+        } catch (InvalidMessageException ex) {
+            //FIXME tratar mensage invalida
+            getLogger(ServerTask.class.getName()).log(SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(ServerTask.class.getName()).log(Level.SEVERE, null, ex);
+            getLogger(ServerTask.class.getName()).log(SEVERE, null, ex);
         } finally {
             //TODO notificar sala de jogo casa ele esteja em alguma.
         }
