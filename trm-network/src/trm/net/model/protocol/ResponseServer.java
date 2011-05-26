@@ -33,18 +33,24 @@ public class ResponseServer {
      * tipo de resposta do servidor
      */
     private ResponseType responseType;
+    /**
+     * tipo de requisição que gerou essa resposta
+     */
+    private RequestType requestType;
 
     public ResponseServer() {
     }
 
     public ResponseServer(List<Stone> stones, String chatMessage, Player player,
-            String erroMessage, String ackMessage, ResponseType responseType) {
+            String erroMessage, String ackMessage, ResponseType responseType,
+            RequestType requestType) {
         this.stones = stones;
         this.chatMessage = chatMessage;
         this.senderPlayer = player;
         this.erroMessage = erroMessage;
         this.ackMessage = ackMessage;
         this.responseType = responseType;
+        this.requestType = requestType;
     }
 
     public String getAckMessage() {
@@ -65,6 +71,10 @@ public class ResponseServer {
 
     public ResponseType getResponseType() {
         return responseType;
+    }
+    
+    public RequestType getRequestType() {
+        return requestType;
     }
 
     public List<Stone> getStones() {

@@ -27,6 +27,7 @@ public class DominoesGame {
     private Queue<HandPlayer> playersQueue;
     private Map<Player, HandPlayer> playersMap;
     
+    private Player winner;
     
     public DominoesGame(List<Player> players) {
         
@@ -44,6 +45,11 @@ public class DominoesGame {
         }
         
         this.gameStones = new ArrayList<Stone>();
+        this.winner = null;
+    }
+    
+    public Player getWinner() {
+        return winner;
     }
     
     //TODO refatorar!
@@ -103,6 +109,10 @@ public class DominoesGame {
 
     private void put(Stone stone, Player player, int position) {
         
+        if (winner != null) {
+            throw new RuntimeException("o jogo ja tem um vencendor");
+        }
+        
         if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
         }
@@ -119,6 +129,10 @@ public class DominoesGame {
         getHandPlayer(player).removeStone(stone);
         playersQueue.poll();
         playersQueue.add(getHandPlayer(player));
+        
+        if (getHandPlayer(player).getStones().isEmpty()) {
+            winner = player;
+        }
     }
 
     private boolean isPlaying(Player player) {

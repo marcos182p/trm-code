@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import trm.core.Player;
 import trm.core.PlayerInf;
 
 /**
@@ -78,7 +77,7 @@ public class GameManager {
         }
 
         if (roomsMap.get(player.getPlayer()) != null) {
-            throw new RuntimeException("Jogador já esta em uma sala de jogo");
+            throw new RuntimeException("jogador já esta em uma sala de jogo");
         }
 
         roomGame.putServerTask(player);
