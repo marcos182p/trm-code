@@ -43,9 +43,8 @@ public class RequestClient {
     public RequestClient() {
     }
 
-    public RequestClient(String userName, Long roomGame) {
-        this.userName = userName;
-        this.roomGame = roomGame;
+    public RequestClient(RequestType requestType) {
+        this.requestType = requestType;
     }
 
     public RequestClient(String userName, Long roomGame, Stone stone,
