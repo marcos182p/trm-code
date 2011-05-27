@@ -5,6 +5,7 @@
 
 package trm.view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -24,37 +25,55 @@ public class DominoView implements Drawable{
     private Image right;
     private AffineTransform afLeft;
     private AffineTransform afRight;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private Color proeminentColor;
+    private int colorOpacity;
     
-    public DominoView(Stone s, final int row, final int col, Orientation orientation) {
+    public DominoView(Stone s, final int row, final int col, Orientation orientation, Color c) {
         this.left = DominoImageLoader.loadDominoImage(s.getSquareLeft());
         this.right = DominoImageLoader.loadDominoImage(s.getSquareRight());
         afLeft = new AffineTransform();
         afRight = new AffineTransform();
-
+        
+        colorOpacity = 30;
+        setColor(c);
         int rowLeft = row;
         int colLeft = col;
         int rowRight = row;
         int colRight = col;
         double angleLeft = 0;
         double angleRight = 0;
+
+        this.x = col * SIZE;
+        this.y = row * SIZE;
+        this.width = SIZE;
+        this.height = SIZE;
+        
         switch(orientation) {
             case NORTH:
                 angleLeft = 2*ROT_ANGLE;
                 rowLeft++;
+                this.height += SIZE;
                 break;
             case EAST:
                 angleLeft = -ROT_ANGLE;
                 angleRight = ROT_ANGLE;
                 colRight++;
+                this.width += SIZE;
                 break;
             case SOUTH:
                 angleRight = 2*ROT_ANGLE;
                 rowRight++;
+                this.height += SIZE;
                 break;
             case WEST:
                 angleLeft = ROT_ANGLE;
                 angleRight = -ROT_ANGLE;
                 colLeft++;
+                this.width += SIZE;
                 break;
         }
         
@@ -64,9 +83,20 @@ public class DominoView implements Drawable{
         afRight.rotate(angleRight, SIZE/2, SIZE/2);
     }
 
+    private void setColor(Color playerColor) {
+        this.proeminentColor = new Color(
+                playerColor.getRed(),
+                playerColor.getGreen(),
+                playerColor.getBlue(),
+                colorOpacity
+                );
+    }
+
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         g2d.drawImage(left, afLeft, null);
         g2d.drawImage(right, afRight, null);
+        g2d.setColor(proeminentColor);
+        g2d.fillRect(x, y, width, height);
     }
 }
