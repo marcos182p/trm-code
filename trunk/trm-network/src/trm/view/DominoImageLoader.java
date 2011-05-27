@@ -22,7 +22,7 @@ public class DominoImageLoader {
     }
 
     public static Image loadDominoImage(SquareNumber sqrNumber) {
-        String fullPath = PATH + (sqrNumber.ordinal() + 1) + EXTENSION;
+        String fullPath = PATH + (sqrNumber.ordinal()) + EXTENSION;
 
         Image dominoImage = new ImageIcon(fullPath).getImage();
         return dominoImage;
