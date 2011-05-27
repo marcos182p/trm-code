@@ -15,16 +15,24 @@ import trm.core.Stone;
  */
 public class TestDraw extends JFrame{
 
+    private DrawPanel dp = new DrawPanel();
 
     public TestDraw() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300,300);
-        DrawPanel panel = new DrawPanel();
-        Stone s = new Stone(SquareNumber.TWO, SquareNumber.FOUR);
-        DominoView dv = new DominoView(s, 2,2, Orientation.WEST);
-        panel.addDrawable(dv);
-        add(panel);
+        addPeca(SquareNumber.SIX, SquareNumber.SIX, 5, 5, Orientation.WEST);
+        add(dp);
         pack();
+    }
+
+    private void addPeca(
+            SquareNumber left, SquareNumber right,
+            int row, int col,
+            Orientation o) {
+        Stone s = new Stone(left, right);
+        DominoView dv = new DominoView(s, row, col, o);
+        dp.addDrawable(dv);
+        
     }
 
     public void open() {
