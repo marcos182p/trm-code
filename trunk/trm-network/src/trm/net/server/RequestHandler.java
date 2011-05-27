@@ -8,10 +8,10 @@ import trm.net.model.protocol.ResponseServer;
  */
 public abstract class RequestHandler {
     
-    protected PlayerServer player;
+    protected ServerTask serverTask;
     
-    public RequestHandler(PlayerServer player) {
-        this.player = player;
+    public RequestHandler(ServerTask player) {
+        this.serverTask = player;
     }
     
     /**

@@ -1,7 +1,5 @@
 package trm.net.server;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trm.net.model.InvalidMessageException;
 import java.io.IOException;
 import java.net.Socket;
@@ -69,7 +67,7 @@ public class ServerTask implements Runnable {
             } while (!response.isAck() && !response.isCloseConnection());
             
 
-            handler = new RequestHandlerImpl(player);
+            handler = new RequestHandlerImpl(this);
             
             while (socket.isConnected() && !response.isCloseConnection()) {
 

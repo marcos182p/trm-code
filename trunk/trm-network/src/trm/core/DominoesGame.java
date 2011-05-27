@@ -2,6 +2,7 @@ package trm.core;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,6 +52,11 @@ public class DominoesGame {
     public Player getWinner() {
         return winner;
     }
+
+    public List<Stone> getGameStones() {
+        return Collections.unmodifiableList(gameStones);
+    }
+    
     
     //TODO refatorar!
     public void putLeft(Stone stone, Player player) {
