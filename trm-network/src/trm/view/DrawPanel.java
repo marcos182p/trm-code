@@ -21,7 +21,7 @@ public class DrawPanel extends JPanel{
 
     public DrawPanel() {
            drawables = new ArrayList<Drawable>();
-           this.setPreferredSize(new Dimension(320,320));
+           this.setPreferredSize(new Dimension(352,352));
     }
 
     public void addDrawable(Drawable d) {
