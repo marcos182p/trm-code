@@ -21,7 +21,7 @@ public class TestDraw extends JFrame{
         setSize(300,300);
         DrawPanel panel = new DrawPanel();
         Stone s = new Stone(SquareNumber.TWO, SquareNumber.FOUR);
-        DominoView dv = new DominoView(s, 5, 5, Orientation.NORTH);
+        DominoView dv = new DominoView(s, 2,2, Orientation.WEST);
         panel.addDrawable(dv);
         add(panel);
         pack();
