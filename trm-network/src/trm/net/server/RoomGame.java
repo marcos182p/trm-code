@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import trm.core.DominoesGame;
 import trm.core.Player;
+import trm.core.Stone;
 import trm.net.model.protocol.ResponseServer;
 
 /**
@@ -27,6 +28,10 @@ public class RoomGame {
         tasks = new HashSet<ServerTask>();
         started = false;
     }
+    
+    public RoomInf getRoomInf() {
+        return new RoomInf(id, roomName, started);
+    }
 
     public Long getId() {
         return id;
@@ -36,8 +41,27 @@ public class RoomGame {
         return roomName;
     }
     
-    public DominoesGame getDominoesGame() {
-        return dominoesGame;
+    public List<Stone> getDominoesGame() {
+        return dominoesGame.getGameStones();
+    }
+    
+    public void putLeft(Stone stone, ServerTask player) {
+        
+        if (!isValidPlay(player)) {
+            throw new RuntimeException("não é a vez desse jogador");
+        }
+        dominoesGame.putLeft(stone, player.getPlayer());
+    }
+    
+    public void putRight(Stone stone, ServerTask player) {
+        if (!isValidPlay(player)) {
+            throw new RuntimeException("não é a vez desse jogador");
+        }
+        dominoesGame.putRight(stone, player.getPlayer());
+    }
+    
+    private boolean isValidPlay(ServerTask task) {
+        return tasks.contains(task) && isStarted();
     }
     
     public void startGame() {
@@ -74,6 +98,7 @@ public class RoomGame {
             throw new RuntimeException("task não pertecente a essa sala");
         }
         stopGame();
+        //TODO notifica os outros jogadores
         tasks.remove(task);
     }
 
@@ -87,6 +112,9 @@ public class RoomGame {
         }
 
         tasks.add(task);
+        //enviar uma mensagem aos outros jogadores avisando que um novo jogador
+        //entrou na sala
+//        broadcast(new ResponseServer);
     }
     
     Set<ServerTask> getServerTasks() {

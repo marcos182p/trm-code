@@ -62,8 +62,23 @@ public class GameManager {
         return roomGame;
     }
 
-    public Set<RoomGame> getRooms() {
+    public Set<RoomGame> findAllRooms() {
         return Collections.unmodifiableSet(rooms);
+    }
+    
+    public RoomGame findRoomById(Long id) {
+
+        for (RoomGame room : rooms) {
+            if (room.getId().equals(id)) {
+                return room;
+            }
+        }
+
+        return null;
+    }
+    
+    public RoomGame findRoomGameByPlayer(ServerTask player) {
+        return roomsMap.get(player.getPlayer());
     }
 
     public void putPlayerRoom(ServerTask player, RoomGame roomGame) {
@@ -91,6 +106,8 @@ public class GameManager {
         if (room == null) {
             return;
         }
+        
+        room.removeServerTask(player);
 
 
     }
