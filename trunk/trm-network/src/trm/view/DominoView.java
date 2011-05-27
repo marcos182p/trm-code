@@ -20,21 +20,16 @@ public class DominoView implements Drawable{
 
     private static final int SIZE = 32;//peca com 32 pixels
     private static final double ROT_ANGLE = Math.PI/2;
-    private Stone stone;
     private Image left;
     private Image right;
     private AffineTransform afLeft;
     private AffineTransform afRight;
     
     public DominoView(Stone s, final int row, final int col, Orientation orientation) {
-        this.stone = s;
         this.left = DominoImageLoader.loadDominoImage(s.getSquareLeft());
         this.right = DominoImageLoader.loadDominoImage(s.getSquareRight());
         afLeft = new AffineTransform();
         afRight = new AffineTransform();
-
-        System.out.println(afLeft.isIdentity());
-        System.out.println(afRight.isIdentity());
 
         int rowLeft = row;
         int colLeft = col;
@@ -57,7 +52,6 @@ public class DominoView implements Drawable{
                 rowRight++;
                 break;
             case WEST:
-
                 angleLeft = ROT_ANGLE;
                 angleRight = -ROT_ANGLE;
                 colLeft++;
@@ -66,18 +60,12 @@ public class DominoView implements Drawable{
         
         afRight.translate(colRight * SIZE, rowRight * SIZE);
         afLeft.translate(colLeft * SIZE , rowLeft * SIZE );
-
-        double tx = afLeft.getTranslateX();
-        double ty = afLeft.getTranslateY();
-       
         afLeft.rotate(angleLeft,SIZE/2, SIZE/2);
         afRight.rotate(angleRight, SIZE/2, SIZE/2);
     }
 
-    //TODO consertar draw do domino
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
-
         g2d.drawImage(left, afLeft, null);
         g2d.drawImage(right, afRight, null);
     }
