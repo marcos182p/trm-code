@@ -40,39 +40,38 @@ public class DominoView implements Drawable{
         int colLeft = col;
         int rowRight = row;
         int colRight = col;
-
+        double angleLeft = 0;
+        double angleRight = 0;
         switch(orientation) {
             case NORTH:
+                angleLeft = 2*ROT_ANGLE;
                 rowLeft++;
                 break;
             case EAST:
-                afLeft.rotate(-ROT_ANGLE);
-                afRight.rotate(ROT_ANGLE);
+                angleLeft = -ROT_ANGLE;
+                angleRight = ROT_ANGLE;
                 colRight++;
                 break;
             case SOUTH:
-                afLeft.rotate(2*ROT_ANGLE);
+                angleRight = 2*ROT_ANGLE;
                 rowRight++;
                 break;
             case WEST:
-                afLeft.rotate(ROT_ANGLE);
-                afRight.rotate(-ROT_ANGLE);
+
+                angleLeft = ROT_ANGLE;
+                angleRight = -ROT_ANGLE;
                 colLeft++;
                 break;
         }
-
-        double tx = afLeft.getTranslateX();
-        double ty = afLeft.getTranslateY();
-        afLeft.translate(tx, ty);
-        System.out.println(tx + ", " + ty);
-        afLeft.rotate(0.1);
-        afLeft.translate(-tx, -ty);
         
         afRight.translate(colRight * SIZE, rowRight * SIZE);
         afLeft.translate(colLeft * SIZE , rowLeft * SIZE );
 
-
-        
+        double tx = afLeft.getTranslateX();
+        double ty = afLeft.getTranslateY();
+       
+        afLeft.rotate(angleLeft,SIZE/2, SIZE/2);
+        afRight.rotate(angleRight, SIZE/2, SIZE/2);
     }
 
     //TODO consertar draw do domino
