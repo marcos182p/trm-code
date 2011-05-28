@@ -1,5 +1,7 @@
 package trm.net.server;
 
+import trm.net.server.game.PlayerServer;
+import trm.net.server.game.GameManager;
 import trm.net.model.InvalidMessageException;
 import java.io.IOException;
 import java.net.Socket;

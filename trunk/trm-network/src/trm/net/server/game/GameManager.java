@@ -1,11 +1,15 @@
-package trm.net.server;
+package trm.net.server.game;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import trm.core.PlayerInf;
+import trm.core.Stone;
+import trm.net.model.protocol.RequestClient.Position;
+import trm.net.server.ServerTask;
 
 /**
  *
@@ -40,22 +44,6 @@ public class GameManager {
         return player;
     }
 
-    public boolean removePlayer(PlayerServer player) {
-
-        RoomGame room = roomsMap.get(player);
-        if (room != null) {
-            
-            for (ServerTask task : room.getServerTasks()) {
-                if (task.getPlayer().equals(player)) {
-                    roomsMap.get(player).removeServerTask(task);
-                    break;
-                }
-            }
-        }
-        
-        return players.remove(player);
-    }
-
     public RoomGame newRoomGame(String roomName) {
         RoomGame roomGame = new RoomGame(lastRoomGameId++, roomName);
         rooms.add(roomGame);
@@ -84,15 +72,16 @@ public class GameManager {
     public void putPlayerRoom(ServerTask player, RoomGame roomGame) {
 
         if (!rooms.contains(roomGame)) {
-            throw new RuntimeException("sala de jogo não cadastrada");
+            throw new RuntimeException("sala de jogo requerida não cadastrada");
         }
 
         if (!players.contains(player.getPlayer())) {
-            throw new RuntimeException("jogador não cadastrado");
+            throw new RuntimeException("jogador não cadastrado. reiniciar a"
+                    + "conexão");
         }
 
         if (roomsMap.get(player.getPlayer()) != null) {
-            throw new RuntimeException("jogador já esta em uma sala de jogo");
+            throw new RuntimeException("jogador já cadastrado em uma sala de jogo");
         }
 
         roomGame.putServerTask(player);
@@ -104,11 +93,55 @@ public class GameManager {
         RoomGame room = roomsMap.get(player.getPlayer());
 
         if (room == null) {
-            return;
+            throw new RuntimeException("o usuario não podê sair da sala,"
+                    + "pois não está cadastrado em nenhuma.");
         }
         
         room.removeServerTask(player);
+        roomsMap.remove(player.getPlayer());
+    }
+    
+     public void removePlayer(ServerTask player) {
 
+        RoomGame room = roomsMap.get(player.getPlayer());
+        
+        if (room != null) {
+             removePlayerRoom(player);
+        }
+        
+        players.remove(player.getPlayer());
 
     }
+    
+    public void moveStone(Position position, Stone stone, ServerTask player){
+        RoomGame room = findRoomGameByPlayer(player);
+        
+        if (room == null) {
+            throw new RuntimeException("usario não pode mover a peça, "
+                    + "pois não está em nenhuma sala.");
+        }
+        
+        switch (position) {
+            case LEFT:
+                room.putLeft(stone, player);
+                break;
+            case RIGHT:
+                room.putRight(stone, player);
+                break;
+        }
+        
+    }
+    
+    public void postMessage(String message, ServerTask serverTask) throws IOException {
+        RoomGame room = findRoomGameByPlayer(serverTask);
+        
+        if (room == null) {
+            throw new RuntimeException("usuario não pode postar mensagem,"
+                    + "pois não está cadastrado em uma sala.");
+        }
+        
+        room.broadcast(null, serverTask);
+        //TODO terminar
+    }
+    
 }
