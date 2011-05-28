@@ -1,4 +1,4 @@
-package trm.net.server;
+package trm.net.server.game;
 
 import java.util.List;
 import trm.core.Stone;
@@ -31,5 +31,5 @@ public interface GameAction {
     /**
      * posta uma mensagem no jogo
      */
-    void postMessage(String message);
+    void postMessage(String message) throws RuntimeException;
 }

@@ -1,5 +1,14 @@
 package trm.net.server;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import trm.net.server.game.PlayerServer;
+import trm.net.server.game.StatePlayer;
+import trm.net.server.game.RoomInf;
+import trm.net.server.game.RoomGame;
+import trm.net.server.game.GameAction;
+import trm.net.server.game.GameManager;
 import java.util.ArrayList;
 import java.util.List;
 import trm.core.Stone;
@@ -64,12 +73,12 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
         RoomGame room = gameManager.findRoomById(roomId);
         
         gameManager.putPlayerRoom(serverTask, room);
-        
     }
 
     @Override
     public void exitRoom() throws RuntimeException {
         GameManager.getPlayerManager().removePlayerRoom(serverTask);
+        
     }
 
     @Override
@@ -97,21 +106,18 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
     public void moveStone(Position position, Stone stone) throws RuntimeException {
         
         GameManager gameManager = GameManager.getPlayerManager();
-        RoomGame room = gameManager.findRoomGameByPlayer(serverTask);
         
-        switch (position) {
-            case LEFT:
-                room.putLeft(stone, serverTask);
-                break;
-            case RIGHT:
-                room.putRight(stone, serverTask);
-                break;
-        }
+        gameManager.moveStone(position, stone, serverTask);
     }
 
     @Override
     public void postMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            GameManager.getPlayerManager().postMessage(message, serverTask);
+        } catch (IOException ex) {
+            throw new RuntimeException("problema na conexão, tente novamente"
+                    + "mais tarde");
+        }
     }
     
 }

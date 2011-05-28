@@ -1,4 +1,4 @@
-package trm.net.server;
+package trm.net.server.game;
 
 /**
  *

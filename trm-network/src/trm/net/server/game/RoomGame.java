@@ -1,7 +1,8 @@
-package trm.net.server;
+package trm.net.server.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,7 @@ import trm.core.DominoesGame;
 import trm.core.Player;
 import trm.core.Stone;
 import trm.net.model.protocol.ResponseServer;
+import trm.net.server.ServerTask;
 
 /**
  *
@@ -45,7 +47,7 @@ public class RoomGame {
         return dominoesGame.getGameStones();
     }
     
-    public void putLeft(Stone stone, ServerTask player) {
+    void putLeft(Stone stone, ServerTask player) {
         
         if (!isValidPlay(player)) {
             throw new RuntimeException("não é a vez desse jogador");
@@ -53,7 +55,7 @@ public class RoomGame {
         dominoesGame.putLeft(stone, player.getPlayer());
     }
     
-    public void putRight(Stone stone, ServerTask player) {
+    void putRight(Stone stone, ServerTask player) {
         if (!isValidPlay(player)) {
             throw new RuntimeException("não é a vez desse jogador");
         }
@@ -64,7 +66,7 @@ public class RoomGame {
         return tasks.contains(task) && isStarted();
     }
     
-    public void startGame() {
+    void startGame() {
         
         if (started) return;
         
@@ -78,7 +80,7 @@ public class RoomGame {
         started = true;
     }
     
-    public void stopGame() {
+    void stopGame() {
         
         if (!started) return;
         
@@ -112,17 +114,18 @@ public class RoomGame {
         }
 
         tasks.add(task);
-        //enviar uma mensagem aos outros jogadores avisando que um novo jogador
-        //entrou na sala
-//        broadcast(new ResponseServer);
     }
     
     Set<ServerTask> getServerTasks() {
         return Collections.unmodifiableSet(tasks);
     }
 
-    public void broadcast(ResponseServer message) throws IOException {
+    void broadcast(ResponseServer message, ServerTask... excluded) throws IOException {
+        List<ServerTask> excludedList = Arrays.asList(excluded);
+    
         for (ServerTask user : tasks) {
+            if (excludedList.contains(user)) continue;
+            
             user.sendMessage(message);
         }
     }

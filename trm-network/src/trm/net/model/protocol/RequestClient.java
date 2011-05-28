@@ -84,15 +84,16 @@ public class RequestClient {
     public static void main(String[] args) throws InvalidMessageException {
         ParserMessage<RequestClient> messageFactory = new GsonParser<RequestClient>(new TypeToken<RequestClient>() {
         });
-
-        RequestClient message = new RequestClient(null, 1L, null, Position.LEFT, null, RequestType.LOGIN);
+//
+        RequestClient message = new RequestClient("marcos", 1L, null, Position.LEFT, null, RequestType.LOGIN);
 
 
         String m = messageFactory.buildMessage(message);
         System.out.println(m);
 
-        RequestClient message2 = messageFactory.parseMessage(m);
-        System.out.println(message2.getUserName());
+        RequestClient message2 = messageFactory.parseMessage("{\"user_name\":\"marcos\",\"room_game\":1,\"postion_stone\":\"LEFT\",\"request_type\":\"LOGIN\"}");
+        
+        System.out.println(message2.getRequestType());
 
 
 
