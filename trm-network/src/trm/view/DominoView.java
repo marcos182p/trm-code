@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
-import trm.core.SquareNumber;
 import trm.core.Stone;
 
 /**
@@ -19,7 +18,7 @@ import trm.core.Stone;
  */
 public class DominoView implements Drawable{
 
-    private static final int SIZE = 32;//peca com 32 pixels
+    public static final int SIZE = 32;//peca com 32 pixels
     private static final double ROT_ANGLE = Math.PI/2;
     private Image left;
     private Image right;
@@ -38,7 +37,7 @@ public class DominoView implements Drawable{
         afLeft = new AffineTransform();
         afRight = new AffineTransform();
         
-        colorOpacity = 30;
+        colorOpacity = 50;
         setColor(c);
         int rowLeft = row;
         int colLeft = col;
