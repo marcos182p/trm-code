@@ -10,6 +10,7 @@ import trm.net.model.Sender;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
+import trm.net.model.protocol.ResponseType;
 import trm.net.util.MessageFactory;
 import trm.net.util.MessageFactoryImpl;
 import static trm.net.util.SenderFactory.*;
@@ -137,7 +138,8 @@ public class ServerTask implements Runnable {
             player = playerManager.newPlayer(nickName);
 
             //FIXME ajeitar aqui
-            response = messageFactoy.createResponseServer(null);
+            response =  new ResponseServer(ResponseType.ACK, RequestType.LOGIN, "sucesso!", null, null, null, null, player);
+//            response = messageFactoy.createResponseServer(null);
 
         } else {
             //FIXME terminar essa parte

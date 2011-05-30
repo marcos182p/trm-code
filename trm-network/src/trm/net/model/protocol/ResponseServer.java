@@ -3,6 +3,7 @@ package trm.net.model.protocol;
 import java.util.List;
 import trm.core.Player;
 import trm.core.Stone;
+import trm.net.server.game.RoomInf;
 
 /**
  *
@@ -21,9 +22,17 @@ public class ResponseServer {
      */
     private RequestType requestType;
     /**
+     * contem um texto descrevendo a confirmação da requisição, se ouver.
+     */
+    private String ackMessage;
+    /**
      * contem um texto descrevendo o erro, se ouver.
      */
     private String erroMessage;
+    /**
+     * informações da sala de jogo
+     */
+    private List<RoomInf> rooms;
     /**
      * configuração do tabuleiro do jogo(ordenado)
      */
@@ -40,15 +49,15 @@ public class ResponseServer {
     public ResponseServer() {
     }
 
-    public ResponseServer(List<Stone> stones, String chatMessage, Player player,
-            String erroMessage, ResponseType responseType,
-            RequestType requestType) {
-        this.stones = stones;
-        this.chatMessage = chatMessage;
-        this.senderPlayer = player;
-        this.erroMessage = erroMessage;
+    public ResponseServer(ResponseType responseType, RequestType requestType, String ackMessage, String erroMessage, List<RoomInf> rooms, List<Stone> stones, String chatMessage, Player senderPlayer) {
         this.responseType = responseType;
         this.requestType = requestType;
+        this.ackMessage = ackMessage;
+        this.erroMessage = erroMessage;
+        this.rooms = rooms;
+        this.stones = stones;
+        this.chatMessage = chatMessage;
+        this.senderPlayer = senderPlayer;
     }
 
     public String getChatMessage() {
@@ -66,7 +75,7 @@ public class ResponseServer {
     public ResponseType getResponseType() {
         return responseType;
     }
-    
+
     public RequestType getRequestType() {
         return requestType;
     }
@@ -78,10 +87,12 @@ public class ResponseServer {
     public boolean isAck() {
         return responseType.equals(ResponseType.ACK);
     }
-    
+
     public boolean isCloseConnection() {
         return isAck() && requestType.equals(RequestType.CLOSE_CONNECTION);
     }
-    
-    
+
+    public static ResponseServer createResponseServer(String message, Player senderPlayer) {
+        return new ResponseServer(ResponseType.ACK, RequestType.POST_MESSAGE, null, null, null, null, message, senderPlayer);
+    }
 }
