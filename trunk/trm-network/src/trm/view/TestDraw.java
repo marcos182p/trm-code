@@ -29,9 +29,11 @@ public class TestDraw extends JFrame{
     public TestDraw() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        board = new BoardPanel("board1", 14, 14, Color.GREEN, Color.RED);
+        Color playerColor = Color.ORANGE;
+        Color othersColor = Color.DARK_GRAY;
+        board = new BoardPanel("board2", 14, 14, playerColor, othersColor);
         chatPanel = new ChatPanel();
-        playerPanel = new PlayerPanel(Color.GREEN);
+        playerPanel = new PlayerPanel(playerColor);
         playerPanel.setPieces(new Stone(SquareNumber.SIX, SquareNumber.SIX));
         playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
         playerPanel.addPiece(new Stone(SquareNumber.FOUR, SquareNumber.FOUR));
@@ -39,8 +41,6 @@ public class TestDraw extends JFrame{
         playerPanel.addPiece(new Stone(SquareNumber.ZERO, SquareNumber.TWO));
         playerPanel.addPiece(new Stone(SquareNumber.ONE, SquareNumber.ONE));
         playerPanel.addPiece(new Stone(SquareNumber.FIVE, SquareNumber.THREE));
-
-        
         config();
         pack();
         setResizable(false);
@@ -59,7 +59,7 @@ public class TestDraw extends JFrame{
         add(chatPanel,c);
         
 
-        testStones();
+        //testStones();
     }
 
     private void testStones() {
@@ -90,5 +90,6 @@ public class TestDraw extends JFrame{
     public static void main(String[] args) throws Exception{
         TestDraw td = new TestDraw();
         td.open();
+        td.testStones();
     }
 }
