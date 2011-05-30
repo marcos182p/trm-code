@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import trm.view.listeners.ChatListener;
 
 /**
  *
@@ -29,6 +30,7 @@ public class ChatPanel extends JPanel {
     public ChatPanel() {
         this.label = new JLabel("Chat: ");
         this.chat = new JTextField(45);
+            chat.addActionListener(new ChatListener(this, chat));
         this.chatArea = new JTextArea();
         JScrollPane pane = new JScrollPane(chatArea);
 
@@ -55,5 +57,9 @@ public class ChatPanel extends JPanel {
 
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }
+
+    public void setText(String text) {
+        chatArea.append(text);
     }
 }

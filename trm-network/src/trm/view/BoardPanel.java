@@ -29,6 +29,7 @@ public class BoardPanel extends JPanel{
     private List<Drawable> drawables;
     private Color playerColor;
     private Color othersColor;
+    public static final int BOARD_BORDER = 16;
 
     public BoardPanel(String backgroundBoard, int rows, int cols, Color playerColor, Color othersColor) {
         this.rows = rows;
@@ -36,7 +37,7 @@ public class BoardPanel extends JPanel{
         this.drawables = new ArrayList<Drawable>();
         this.playerColor = playerColor;
         this.othersColor = othersColor;
-        setPreferredSize(new Dimension(rows * DominoView.SIZE, cols * DominoView.SIZE));
+        setPreferredSize(new Dimension(rows * DominoView.SIZE + 2*BOARD_BORDER, cols * DominoView.SIZE + 2*BOARD_BORDER));
         background = BackgroundImageLoader.loadBackgroundImage(backgroundBoard);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     }
@@ -54,8 +55,9 @@ public class BoardPanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
+        Graphics g2 = g.create(BOARD_BORDER, BOARD_BORDER, this.getWidth() - BOARD_BORDER, this.getHeight() - BOARD_BORDER);
         for(Drawable d : drawables) {
-            d.draw(g);
+            d.draw(g2);
         }
     }
 }

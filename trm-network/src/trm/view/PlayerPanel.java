@@ -6,13 +6,14 @@
 package trm.view;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import trm.core.Stone;
 import trm.view.listeners.DominoButtonListener;
@@ -25,19 +26,21 @@ public class PlayerPanel extends JPanel{
     private Map<Stone, JButton> dominos;
     private Color playerColor;
     private Stone selectedStone;
-    private static final int selectedAlpha = 50;
+    private static final int selectedAlpha = 70;
     private JButton sendLeft;
     private JButton sendRight;
 
     public PlayerPanel(Color playerColor) {
-        sendLeft = new JButton("<<");
-        sendRight = new JButton(">>");
-        dominos = new HashMap<Stone, JButton>();
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        this.sendLeft = new JButton("<<");
+        this.sendRight = new JButton(">>");
+        this.dominos = new HashMap<Stone, JButton>();
         this.playerColor = playerColor;
-        selectedStone = null;
-        this.add(sendLeft);
-        this.add(sendRight);
+        this.selectedStone = null;
+
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        add(sendLeft);
+        add(sendRight);
     }
     
     public void addPiece(Stone s) {
