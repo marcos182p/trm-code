@@ -21,9 +21,14 @@ public class DominoImageLoader {
     private DominoImageLoader () {
     }
 
-    public static Image loadDominoImage(SquareNumber sqrNumber) {
+    public static Image loadDominoSquareImage(SquareNumber sqrNumber) {
         String fullPath = DEFAULT_NAME + (sqrNumber.ordinal()) + EXTENSION;
 
+        Image dominoImage = new ImageIcon(fullPath).getImage();
+        return dominoImage;
+    }
+    public static Image loadDominoBack() {
+        String fullPath = DEFAULT_NAME + "_back" + EXTENSION;
         Image dominoImage = new ImageIcon(fullPath).getImage();
         return dominoImage;
     }
