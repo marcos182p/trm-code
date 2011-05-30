@@ -15,48 +15,61 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import trm.core.Stone;
+import trm.view.listeners.DominoButtonListener;
 
 /**
  *
  * @author rafanet
  */
 public class PlayerPanel extends JPanel{
-    private static final int NUM_PIECES = 7;
     private Map<Stone, JButton> dominos;
-    private JLabel selectedPiece;
     private Color playerColor;
+    private Stone selectedStone;
+    private static final int selectedAlpha = 50;
+    private JButton sendLeft;
+    private JButton sendRight;
 
     public PlayerPanel(Color playerColor) {
-        JLabel label = new JLabel();
+        sendLeft = new JButton("<<");
+        sendRight = new JButton(">>");
         dominos = new HashMap<Stone, JButton>();
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.playerColor = playerColor;
+        selectedStone = null;
+        this.add(sendLeft);
+        this.add(sendRight);
     }
     
     public void addPiece(Stone s) {
         JButton b = new JButton();
         b.setIcon(getImageIcon(s, 0));
-        b.setSelectedIcon(getImageIcon(s, 50));
+        b.setRolloverIcon(getImageIcon(s, selectedAlpha));
         dominos.put(s, b);
         b.getText();
+        b.addActionListener(new DominoButtonListener(this, s));
         add(b);
     }
 
     private ImageIcon getImageIcon(Stone s, int alpha){
-        DominoView dv = new DominoView(s, 0, 0, Orientation.SOUTH, Color.RED);
+        DominoView dv = new DominoView(s, 0, 0, Orientation.SOUTH, playerColor);
         dv.setColorOpacity(alpha);
         Image dominoImage = dv.getFullImage();
         return new ImageIcon(dominoImage);
     }
 
-    public void setPiece(JButton button) {
-        for(Stone s : dominos.keySet()) {
-            if(dominos.get(s).equals(button)) {
-                dominos.get(s).setIcon(dominos.get(s).getSelectedIcon());
-            }else {
-                dominos.get(s).setIcon(getImageIcon(s, 0));
-            }
-        }
+    public void selectPiece(Stone stone) {
+       if(dominos.keySet().contains(stone)) {
+        selectedStone = stone;
+       }
+       
+       for(Stone s : dominos.keySet()) {
+            dominos.get(s).setIcon(getImageIcon(s, 0));
+       }
+       dominos.get(stone).setIcon(getImageIcon(stone, selectedAlpha));
+    }
+
+    public Stone getSelectedStone() {
+        return this.selectedStone;
     }
 
     public void removePiece(Stone s) {

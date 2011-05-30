@@ -31,14 +31,16 @@ public class TestDraw extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         board = new BoardPanel("board1", 14, 14, Color.GREEN, Color.RED);
         chatPanel = new ChatPanel();
-        playerPanel = new PlayerPanel(Color.BLUE);
+        playerPanel = new PlayerPanel(Color.GREEN);
         playerPanel.setPieces(new Stone(SquareNumber.SIX, SquareNumber.SIX));
         playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
-        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
-        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
-        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
-        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
-        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.FOUR, SquareNumber.FOUR));
+        playerPanel.addPiece(new Stone(SquareNumber.THREE, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.ZERO, SquareNumber.TWO));
+        playerPanel.addPiece(new Stone(SquareNumber.ONE, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.FIVE, SquareNumber.THREE));
+
+        
         config();
         pack();
         setResizable(false);
