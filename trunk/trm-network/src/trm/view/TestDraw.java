@@ -6,7 +6,11 @@
 package trm.view;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import trm.core.SquareNumber;
 import trm.core.Stone;
 
@@ -16,31 +20,50 @@ import trm.core.Stone;
  */
 public class TestDraw extends JFrame{
 
-    private DrawPanel dp = new DrawPanel();
-    private Color[] playerColors = {Color.BLUE, Color.YELLOW};
-    private int index = 0;
+    private BoardPanel bp;
+    private ChatPanel chatPanel;
 
-    public TestDraw() {
+    public TestDraw() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300,300);
-        addPeca(SquareNumber.SIX, SquareNumber.SIX, 5, 5, Orientation.EAST);
-        addPeca(SquareNumber.FOUR, SquareNumber.SIX, 4, 4, Orientation.SOUTH);
-        addPeca(SquareNumber.THREE, SquareNumber.FOUR, 3, 3, Orientation.EAST);
-        addPeca(SquareNumber.SIX, SquareNumber.THREE, 5, 7, Orientation.EAST);
-        addPeca(SquareNumber.THREE, SquareNumber.THREE, 3, 8, Orientation.NORTH);
-        addPeca(SquareNumber.THREE, SquareNumber.TWO, 2, 7, Orientation.WEST);
-        add(dp);
+        bp = new BoardPanel("board1", 14, 14, Color.GREEN, Color.RED);
+        chatPanel = new ChatPanel();
+        config();
         pack();
     }
 
-    private void addPeca(
+    private void config() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.ipadx = 15;
+        c.ipady = 15;
+        c.gridx = 0;
+        c.gridy = 0;
+        add(bp, c);
+        c.gridy = 1;
+        add(chatPanel,c);
+
+        testStones();
+    }
+
+    private void testStones() {
+        addStone(SquareNumber.SIX, SquareNumber.SIX, 6, 6, Orientation.EAST, true);
+        addStone(SquareNumber.THREE, SquareNumber.SIX, 7, 5, Orientation.EAST, false);
+        addStone(SquareNumber.FOUR, SquareNumber.THREE, 6, 4, Orientation.EAST, false);
+        addStone(SquareNumber.SIX, SquareNumber.ONE, 7, 7, Orientation.EAST, false);
+        addStone(SquareNumber.FOUR, SquareNumber.FOUR, 7,3, Orientation.EAST, true);
+        addStone(SquareNumber.FOUR, SquareNumber.FIVE, 6, 2, Orientation.EAST, false);
+        addStone(SquareNumber.FOUR, SquareNumber.FIVE, 7, 1, Orientation.EAST, false);
+        addStone(SquareNumber.FOUR, SquareNumber.FIVE, 6,0, Orientation.EAST, false);
+        addStone(SquareNumber.FOUR, SquareNumber.FIVE, 7,0, Orientation.SOUTH, false);
+    }
+
+    private void addStone(
             SquareNumber left, SquareNumber right,
             int row, int col,
-            Orientation o) {
-        Stone s = new Stone(left, right);
-        index= (index+1)%2;
-        DominoView dv = new DominoView(s, row, col, o, playerColors[index]);
-        dp.addDrawable(dv);
+            Orientation o, boolean player) {
+            Stone s = new Stone(left, right);
+            bp.addStone(s, row, col, o, player);
         
     }
 
@@ -48,7 +71,7 @@ public class TestDraw extends JFrame{
         setVisible(true);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         TestDraw td = new TestDraw();
         td.open();
     }
