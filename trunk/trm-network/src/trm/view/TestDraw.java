@@ -22,14 +22,23 @@ import trm.core.Stone;
  */
 public class TestDraw extends JFrame{
 
-    private BoardPanel bp;
+    private BoardPanel board;
     private ChatPanel chatPanel;
+    private PlayerPanel playerPanel;
 
     public TestDraw() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        bp = new BoardPanel("board4", 14, 14, Color.GREEN, Color.RED);
+        board = new BoardPanel("board1", 14, 14, Color.GREEN, Color.RED);
         chatPanel = new ChatPanel();
+        playerPanel = new PlayerPanel(Color.BLUE);
+        playerPanel.setPieces(new Stone(SquareNumber.SIX, SquareNumber.SIX));
+        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
+        playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
         config();
         pack();
         setResizable(false);
@@ -41,9 +50,12 @@ public class TestDraw extends JFrame{
         c.insets = new Insets(5, 5, 5, 5);
         c.gridx = 0;
         c.gridy = 0;
-        add(bp, c);
+        add(board, c);
         c.gridy = 1;
+        add(playerPanel, c);
+        c.gridy = 2;
         add(chatPanel,c);
+        
 
         testStones();
     }
@@ -65,7 +77,7 @@ public class TestDraw extends JFrame{
             int row, int col,
             Orientation o, boolean player) {
             Stone s = new Stone(left, right);
-            bp.addStone(s, row, col, o, player);
+            board.addStone(s, row, col, o, player);
         
     }
 

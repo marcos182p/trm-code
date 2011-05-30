@@ -36,7 +36,6 @@ public class ChatPanel extends JPanel {
         chatArea.setRows(3);
 
         chatArea.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        chatArea.setText("Fielasdjaps\nasdasdn\n\nasdasdasd\n\nasdasdasd\n\n");
 
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
