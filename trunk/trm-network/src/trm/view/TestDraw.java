@@ -6,8 +6,10 @@
 package trm.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -26,17 +28,17 @@ public class TestDraw extends JFrame{
     public TestDraw() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        bp = new BoardPanel("board1", 14, 14, Color.GREEN, Color.RED);
+        bp = new BoardPanel("board4", 14, 14, Color.GREEN, Color.RED);
         chatPanel = new ChatPanel();
         config();
         pack();
+        setResizable(false);
     }
 
     private void config() {
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.ipadx = 15;
-        c.ipady = 15;
+        c.insets = new Insets(5, 5, 5, 5);
         c.gridx = 0;
         c.gridy = 0;
         add(bp, c);
@@ -55,7 +57,7 @@ public class TestDraw extends JFrame{
         addStone(SquareNumber.FOUR, SquareNumber.FIVE, 6, 2, Orientation.EAST, false);
         addStone(SquareNumber.FOUR, SquareNumber.FIVE, 7, 1, Orientation.EAST, false);
         addStone(SquareNumber.FOUR, SquareNumber.FIVE, 6,0, Orientation.EAST, false);
-        addStone(SquareNumber.FOUR, SquareNumber.FIVE, 7,0, Orientation.SOUTH, false);
+        addStone(SquareNumber.FOUR, SquareNumber.FIVE, 7,0, Orientation.SOUTH, true);
     }
 
     private void addStone(
