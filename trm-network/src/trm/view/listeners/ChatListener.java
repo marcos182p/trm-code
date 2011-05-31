@@ -24,6 +24,7 @@ public class ChatListener implements ActionListener{
         this.panel = panel;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         panel.setText(field.getText() + System.getProperty("line.separator"));
         field.setText("");

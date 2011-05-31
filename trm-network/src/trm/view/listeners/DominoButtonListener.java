@@ -24,6 +24,7 @@ public class DominoButtonListener implements ActionListener{
         this.panel = panel;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         panel.selectPiece(stone);
     }

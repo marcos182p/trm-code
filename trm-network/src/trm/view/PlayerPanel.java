@@ -6,8 +6,7 @@
 package trm.view;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import trm.core.Stone;
 import trm.view.listeners.DominoButtonListener;
+import trm.view.listeners.SendStoneListener;
 
 /**
  *
@@ -29,16 +29,21 @@ public class PlayerPanel extends JPanel{
     private static final int selectedAlpha = 70;
     private JButton sendLeft;
     private JButton sendRight;
+    private String background;
 
-    public PlayerPanel(Color playerColor) {
-
-        this.sendLeft = new JButton("<<");
-        this.sendRight = new JButton(">>");
+    public PlayerPanel(String background, Color playerColor) {
+        super();
         this.dominos = new HashMap<Stone, JButton>();
         this.playerColor = playerColor;
         this.selectedStone = null;
+        this.background = background;
 
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.sendLeft = new JButton("<<");
+            sendLeft.addActionListener(new SendStoneListener(this, GameSide.LEFT));
+        this.sendRight = new JButton(">>");
+            sendRight.addActionListener(new SendStoneListener(this, GameSide.RIGHT));
+        
+        setBorder(BorderFactory.createEtchedBorder(playerColor, Color.BLUE));
         add(sendLeft);
         add(sendRight);
     }
@@ -51,6 +56,12 @@ public class PlayerPanel extends JPanel{
         b.getText();
         b.addActionListener(new DominoButtonListener(this, s));
         add(b);
+        
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(BackgroundImageLoader.loadBackgroundImage(background),0,0, getWidth(), getHeight(), null);
     }
 
     private ImageIcon getImageIcon(Stone s, int alpha){
@@ -79,6 +90,7 @@ public class PlayerPanel extends JPanel{
         JButton b = dominos.get(s);
         remove(b);
         dominos.remove(s);
+        this.repaint();
     }
     
     public void setPieces(Stone... stones) {
