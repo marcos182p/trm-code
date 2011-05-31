@@ -5,6 +5,7 @@
 package trm.view;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -26,8 +27,10 @@ public class ChatPanel extends JPanel {
     private JLabel label;
     private JTextField chat;
     private JTextArea chatArea;
+    private String background;
 
-    public ChatPanel() {
+    public ChatPanel(String background) {
+        this.background = background;
         this.label = new JLabel("Chat: ");
         this.chat = new JTextField(45);
             chat.addActionListener(new ChatListener(this, chat));
@@ -61,5 +64,10 @@ public class ChatPanel extends JPanel {
 
     public void setText(String text) {
         chatArea.append(text);
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(BackgroundImageLoader.loadBackgroundImage(background), 0, 0, getWidth(), getHeight(), null);
     }
 }
