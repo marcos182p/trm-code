@@ -21,9 +21,13 @@ public interface GameAction {
      */
     List<RoomInf> listRooms();
     /**
-     * lista as peças do jogo
+     * lista as peças da mão do jogador
      */
-    List<Stone> listStones() throws RuntimeException;
+    List<Stone> listHandPlayer() throws RuntimeException;
+    /**
+     * lista as peças do tabuleiro do jogo
+     */
+    List<Stone> listBoardStones() throws RuntimeException;
     /**
      * Move uma peça no jogo
      */

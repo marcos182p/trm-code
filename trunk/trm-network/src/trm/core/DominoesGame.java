@@ -53,7 +53,7 @@ public class DominoesGame {
         return winner;
     }
 
-    public List<Stone> getGameStones() {
+    public List<Stone> getBoardStones() {
         return Collections.unmodifiableList(gameStones);
     }
     
