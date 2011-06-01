@@ -36,7 +36,7 @@ public class SendStoneListener implements ActionListener{
         if(stone != null) {
             if(acceptTransition(stone, side)) {
                 panel.removePiece(stone);
-                board.putStone(stone, GameSide.RIGHT, StoneSide.UP, true);
+                board.putStone(stone, side, StoneSide.UP, true);
             }
         }
     }

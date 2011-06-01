@@ -30,9 +30,11 @@ public class BoardPanel extends JPanel{
     private Color othersColor;
     public static final int BOARD_BORDER = 16;
     private DominosGrid grid;
+    private int rows, cols;
 
     public BoardPanel(String backgroundBoard, int rows, int cols, Color playerColor, Color othersColor) {
-        
+        this.rows = rows;
+        this.cols = cols;
         this.dominos = new ArrayList<DominoView>();
         this.playerColor = playerColor;
         this.othersColor = othersColor;
@@ -42,28 +44,32 @@ public class BoardPanel extends JPanel{
         grid = new DominosGrid(rows, cols);
     }
 
-    private void addStone(Stone s, int row, int col, Orientation orientation, boolean player) {
+    private void addStone(Stone s, int row, int col, Orientation orientation, StoneSide stoneSide, boolean player) {
         Color c = playerColor;
         if(!player) {
             c = othersColor;
         }
         DominoView dv = new DominoView(s, row, col, orientation, c);
+        if(stoneSide == StoneSide.DOWN) {
+            dv.invert();
+        }
         dominos.add(dv);
         repaint();
     }
 
-    private Orientation turnOrientation(Orientation orientation, StoneSide side) {
-        if(side == StoneSide.UP) {
-            return orientation;
-        }else {
-            return Orientation.clockwise(Orientation.clockwise(orientation));
-        }
-    }
     public void putStone(Stone s, GameSide gameSide, StoneSide stoneSide, boolean player) {
-        grid.putRight();
+        switch(gameSide) {
+            case RIGHT:
+                grid.putRight();
+                break;
+            case LEFT:
+                grid.putLeft();
+                break;
+        }
         Point position = grid.currentPoint(gameSide);
         Orientation orientation= grid.currentOrientation(gameSide);
-        addStone(s, position.y, position.x, orientation, player);
+        
+        addStone(s, position.y, position.x, orientation, stoneSide, player);
     }
 
     @Override

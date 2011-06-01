@@ -35,7 +35,8 @@ public class DominosGrid {
         this.rightOrientation = Orientation.EAST;
         this.rightJump = 1;
         this.leftJump = 1;
-        this.nextRightPosition = rightPosition;
+        this.nextLeftPosition = leftPosition.getLocation();
+        this.nextRightPosition = rightPosition.getLocation();
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -46,20 +47,40 @@ public class DominosGrid {
     private void jumpRight() {
         rightJump = -1*rightJump;
     }
+    private void jumpLeft() {
+        leftJump = -1*leftJump;
+    }
     public void putRight() {
-        this.rightPosition = this.nextRightPosition.getLocation();
-        rightOrientation = paintNext(nextRightPosition.y, nextRightPosition.x, rightOrientation);
+
+            this.rightPosition = this.nextRightPosition.getLocation();
+        
+        rightOrientation = paintNextRight(rightPosition.y, rightPosition.x, rightOrientation);
         
         jumpRight();
     }
+    public void putLeft() {
+   
+            this.leftPosition = this.nextLeftPosition.getLocation();
+        
+        leftOrientation = paintNextLeft(leftPosition.y, leftPosition.x, leftOrientation);
 
-    public Orientation paintNext(int row, int col, Orientation currentOrientation) {
-        Orientation orientation = currentOrientation;
+        jumpLeft();
+    }
+
+    public Orientation paintNextRight(int row, int col, Orientation orientation) {
        
-        if (markPosition(row, col, orientation)) {
+        if (markPositionRight(row, col, orientation)) {
             return orientation;
         } else {
-            return paintNext(row, col, Orientation.clockwise(currentOrientation));
+            return paintNextRight(row, col, Orientation.clockwise(orientation));
+        }
+    }
+    public Orientation paintNextLeft(int row, int col, Orientation orientation) {
+
+        if (markPositionLeft(row, col, orientation)) {
+            return orientation;
+        } else {
+            return paintNextLeft(row, col, Orientation.counterClockwise(orientation));
         }
     }
 
@@ -81,7 +102,7 @@ public class DominosGrid {
         return grid[row][col];
     }
 
-    public boolean markPosition(int row, int col, Orientation orientation) {
+    public boolean markPositionRight(int row, int col, Orientation orientation) {
         grid[row][col]++;
         Point secondPosition = new Point(col, row);
         Point neighbor = new Point(col, row);
@@ -128,11 +149,67 @@ public class DominosGrid {
             }
              grid[secondPosition.y][secondPosition.x] --;
              jumpRight();
-             markPosition(row, col, orientation);
+             markPositionRight(row, col, orientation);
              
         }
         return false;
     }
+
+    public boolean markPositionLeft(int row, int col, Orientation orientation) {
+        System.out.println(row + ", " + col);
+        grid[row][col]++;
+        Point secondPosition = new Point(col, row);
+        Point neighbor = new Point(col, row);
+        
+        switch (orientation) {
+            case NORTH:
+                if (row + 1 >= rows) {
+                    return false;
+                }
+                secondPosition.y++;
+                neighbor.y = secondPosition.y;
+                neighbor.x += leftJump;
+                break;
+            case EAST:
+                if (col - 1 < 0) {
+                    return false;
+                }
+                secondPosition.x --;
+                neighbor.x = secondPosition.x;
+                neighbor.y += leftJump;
+                break;
+            case SOUTH:
+                if (row - 1 < 0) {
+                    return false;
+                }
+                secondPosition.y --;
+                neighbor.y = secondPosition.y;
+                neighbor.x += leftJump;
+                break;
+            case WEST:
+                if (col + 1 >= cols) {
+                    return false;
+                }
+                secondPosition.x++;
+                neighbor.x = secondPosition.x;
+                neighbor.y += leftJump;
+                break;
+        }
+
+        if(safe(secondPosition)) {
+            grid[secondPosition.y][secondPosition.x] ++;
+            if(verify(neighbor)) {
+                this.nextLeftPosition = neighbor.getLocation();
+                return true;
+            }
+             grid[secondPosition.y][secondPosition.x] --;
+             jumpLeft();
+             markPositionLeft(row, col, orientation);
+
+        }
+        return false;
+    }
+
     private boolean safe(Point p) {
         int row = p.y;
         int col = p.x;
