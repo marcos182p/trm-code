@@ -32,7 +32,7 @@ public class DominoView implements Drawable{
     private Color proeminentColor;
     private int colorOpacity;
     
-    public DominoView(Stone s, final int row, final int col, Orientation orientation, Color c) {
+    public DominoView(Stone s, final int row, final int col, Orientation orientation, Color c, boolean anchorRight) {
         this.left = DominoImageLoader.loadDominoSquareImage(s.getSquareLeft());
         this.right = DominoImageLoader.loadDominoSquareImage(s.getSquareRight());
         
@@ -55,25 +55,41 @@ public class DominoView implements Drawable{
         switch(orientation) {
             case NORTH:
                 angleLeft = 2*ROT_ANGLE;
-                rowRight--;
+                if(anchorRight) {
+                    rowRight--;
+                }else {
+                    rowLeft++;
+                }
                 
                 this.height += SIZE;
                 break;
             case EAST:
                 angleLeft = -ROT_ANGLE;
                 angleRight = ROT_ANGLE;
-                colRight++;
+                if(anchorRight) {
+                    colRight++;
+                }else {
+                    colLeft--;
+                }
                 this.width += SIZE;
                 break;
             case SOUTH:
                 angleRight = 2*ROT_ANGLE;
-                rowRight++;
+                if(anchorRight) {
+                    rowRight++;
+                }else {
+                    rowLeft--;
+                }
                 this.height += SIZE;
                 break;
             case WEST:
                 angleLeft = ROT_ANGLE;
                 angleRight = -ROT_ANGLE;
-                colRight--;
+                if(anchorRight) {
+                    colRight--;
+                }else {
+                    colLeft++;
+                }
                 
                 this.width += SIZE;
                 break;

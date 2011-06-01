@@ -44,12 +44,12 @@ public class BoardPanel extends JPanel{
         grid = new DominosGrid(rows, cols);
     }
 
-    private void addStone(Stone s, int row, int col, Orientation orientation, StoneSide stoneSide, boolean player) {
+    private void addStone(Stone s, int row, int col, Orientation orientation, StoneSide stoneSide, boolean player, boolean anchorRight) {
         Color c = playerColor;
         if(!player) {
             c = othersColor;
         }
-        DominoView dv = new DominoView(s, row, col, orientation, c);
+        DominoView dv = new DominoView(s, row, col, orientation, c, anchorRight);
         if(stoneSide == StoneSide.DOWN) {
             dv.invert();
         }
@@ -69,7 +69,7 @@ public class BoardPanel extends JPanel{
         Point position = grid.currentPoint(gameSide);
         Orientation orientation= grid.currentOrientation(gameSide);
         
-        addStone(s, position.y, position.x, orientation, stoneSide, player);
+        addStone(s, position.y, position.x, orientation, stoneSide, player, gameSide == GameSide.RIGHT);
     }
 
     @Override
@@ -81,13 +81,13 @@ public class BoardPanel extends JPanel{
             d.draw(g2);
         }
         //Teste para verificar onde se encontram as posicoes dos dominos
-        /*for(int i = 0; i < rows; i++) {
+        for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
                 if(grid.getValueAt(i, j) > 0) {
                     g2.setColor(new Color(255,255,255,150));
                     g2.fillRect(j*DominoView.SIZE, i*DominoView.SIZE, DominoView.SIZE, DominoView.SIZE);
                 }
             }
-        }*/
+        }
     }
 }

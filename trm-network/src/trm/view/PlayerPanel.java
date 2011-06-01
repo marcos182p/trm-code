@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 import trm.core.Stone;
 import trm.view.listeners.DominoButtonListener;
 import trm.view.listeners.SendStoneListener;
@@ -45,7 +46,7 @@ public class PlayerPanel extends JPanel{
         this.sendRight = new JButton(">>");
             sendRight.addActionListener(new SendStoneListener(this, board, GameSide.RIGHT));
         
-        setBorder(BorderFactory.createEtchedBorder(playerColor, Color.BLUE));
+        setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         add(sendLeft);
         add(sendRight);
     }
@@ -67,7 +68,7 @@ public class PlayerPanel extends JPanel{
     }
 
     private ImageIcon getImageIcon(Stone s, int alpha){
-        DominoView dv = new DominoView(s, 0, 0, Orientation.SOUTH, playerColor);
+        DominoView dv = new DominoView(s, 0, 0, Orientation.SOUTH, playerColor, true);
         dv.setColorOpacity(alpha);
         Image dominoImage = dv.getFullImage();
         return new ImageIcon(dominoImage);
