@@ -68,6 +68,6 @@ public class ChatPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(BackgroundImageLoader.loadBackgroundImage(background), 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(ImageLoader.loadBackgroundImage(background), 0, 0, getWidth(), getHeight(), null);
     }
 }

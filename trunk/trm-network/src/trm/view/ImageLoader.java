@@ -12,15 +12,14 @@ import javax.swing.ImageIcon;
  *
  * @author rafanet
  */
-public class BackgroundImageLoader {
+public class ImageLoader {
     private static final String DEFAULT_PATH = "rsc//";
-    private static final String EXTENSION = ".png";
 
-    private BackgroundImageLoader () {
+    private ImageLoader () {
     }
 
     public static Image loadBackgroundImage(String name) {
-        String fullPath = DEFAULT_PATH + (name) + EXTENSION;
+        String fullPath = DEFAULT_PATH + name;
 
         Image dominoImage = new ImageIcon(fullPath).getImage();
         return dominoImage;
