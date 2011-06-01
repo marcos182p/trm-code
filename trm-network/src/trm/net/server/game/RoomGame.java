@@ -42,22 +42,36 @@ public class RoomGame {
     public String getRoomGame() {
         return roomName;
     }
+
+    public List<Stone> getHandPlayer(Player player) {
+
+        if (!isStarted()) {
+            throw new RuntimeException("Jogo não iniciado");
+        }
+        
+        return dominoesGame.getHandPlayer(player).getStones();
+    }
     
-    public List<Stone> getDominoesGame() {
-        return dominoesGame.getGameStones();
+    public List<Stone> getBoardStones() {
+        
+        if (!isStarted()) {
+            throw new RuntimeException("Jogo não iniciado");
+        }
+        
+        return dominoesGame.getBoardStones();
     }
     
     void putLeft(Stone stone, ServerTask player) {
         
         if (!isValidPlay(player)) {
-            throw new RuntimeException("não é a vez desse jogador");
+            throw new RuntimeException("jogador não pertencente a essa sala");
         }
         dominoesGame.putLeft(stone, player.getPlayer());
     }
     
     void putRight(Stone stone, ServerTask player) {
         if (!isValidPlay(player)) {
-            throw new RuntimeException("não é a vez desse jogador");
+            throw new RuntimeException("jogador não pertencente a essa sala");
         }
         dominoesGame.putRight(stone, player.getPlayer());
     }

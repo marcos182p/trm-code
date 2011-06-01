@@ -1,10 +1,7 @@
 package trm.net.server;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trm.net.server.game.PlayerServer;
-import trm.net.server.game.StatePlayer;
 import trm.net.server.game.RoomInf;
 import trm.net.server.game.RoomGame;
 import trm.net.server.game.GameAction;
@@ -23,8 +20,12 @@ import trm.net.model.protocol.ResponseType;
  */
 public class RequestHandlerImpl extends RequestHandler implements GameAction {
 
+    private GameManager gameManager;
+
     public RequestHandlerImpl(ServerTask player) {
         super(player);
+
+        gameManager = GameManager.getPlayerManager();
     }
 
     @Override
@@ -32,19 +33,19 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
 
         PlayerServer player = serverTask.getPlayer();
 
-        String userName = player.getInf().getNickName();
         RequestType requestType = request.getRequestType();
+        requestType = requestType != null? requestType: RequestType.UNDEFINED;
         String ackMessage = null;
         String erroMessage = null;
         ResponseType responseType = ResponseType.ACK;
-        List<Stone> stones = null;
+        List<Stone> handPlayer = null;
+        List<Stone> boardStones = null;
         List<RoomInf> rooms = null;
         String chatMessage = request.getChatMessage();
 
-
         try {
 
-            switch (request.getRequestType()) {
+            switch (requestType) {
                 case ENTRY_ROOM:
                     entryRoom(request.getRoomGame());
                     ackMessage = "Entrou na sala " + request.getRoomGame() + "!";
@@ -57,8 +58,11 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
                     rooms = listRooms();
                     ackMessage = "Listagem de salas concluida com sucesso!";
                     break;
-                case LIST_STONES:
-                    stones = listStones();
+                case LIST_HAND:
+                    handPlayer = listHandPlayer();
+                    break;
+                case LIST_BOARD_STONES:
+                    boardStones = listBoardStones();
                     ackMessage = "Listagem de pedras concluida com sucesso!";
                     break;
                 case MOVE_STONE:
@@ -80,27 +84,23 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
             e.printStackTrace();
         }
 
-        return new ResponseServer(responseType, requestType, ackMessage, erroMessage, rooms, stones, chatMessage, player);
+        return new ResponseServer(responseType, requestType, ackMessage, 
+                erroMessage, rooms, boardStones, boardStones, chatMessage,
+                player);
     }
 
     @Override
     public void entryRoom(Long roomId) throws RuntimeException {
-        GameManager gameManager = GameManager.getPlayerManager();
-
-
         gameManager.putPlayerRoom(serverTask, roomId);
     }
 
     @Override
     public void exitRoom() throws RuntimeException {
-        GameManager.getPlayerManager().removePlayerRoom(serverTask);
-
+        gameManager.removePlayerRoom(serverTask);
     }
 
     @Override
     public List<RoomInf> listRooms() {
-        GameManager gameManager = GameManager.getPlayerManager();
-
         List<RoomInf> roomInfs = new ArrayList<RoomInf>();
 
         for (RoomGame room : gameManager.findAllRooms()) {
@@ -111,21 +111,19 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
     }
 
     @Override
-    public List<Stone> listStones() throws RuntimeException {
-        GameManager gameManager = GameManager.getPlayerManager();
-        RoomGame room = gameManager.findRoomGameByPlayer(serverTask);
+    public List<Stone> listHandPlayer() {
+      return gameManager.getHandPlayer(serverTask);
+    }
 
-        if (room == null) {
-            throw new RuntimeException("Usuario não está em uma sala.");
-        }
 
-        return room.getDominoesGame();
+    @Override
+    public List<Stone> listBoardStones() throws RuntimeException {
+
+        return gameManager.getBoardStones(serverTask);
     }
 
     @Override
     public void moveStone(Position position, Stone stone) throws RuntimeException {
-
-        GameManager gameManager = GameManager.getPlayerManager();
 
         gameManager.moveStone(position, stone, serverTask);
     }

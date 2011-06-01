@@ -70,7 +70,7 @@ public class TestDraw extends JFrame{
 
     private void testStones() {
        Stone s = new Stone(SquareNumber.FIVE, SquareNumber.THREE);
-       int n = 28;
+       int n = 29;
        boolean player = true;
        for(int i = 1; i <= n; i++) {
             board.putStone(s, GameSide.LEFT, StoneSide.UP, player);

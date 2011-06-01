@@ -1,6 +1,7 @@
 package trm.net.model.protocol;
 
 import com.google.gson.reflect.TypeToken;
+import trm.core.SquareNumber;
 import trm.core.Stone;
 import trm.net.model.InvalidMessageException;
 import trm.net.util.GsonParser;
@@ -85,13 +86,13 @@ public class RequestClient {
         ParserMessage<RequestClient> messageFactory = new GsonParser<RequestClient>(new TypeToken<RequestClient>() {
         });
 //
-        RequestClient message = new RequestClient("marcos", 1L, null, Position.LEFT, null, RequestType.LOGIN);
+        RequestClient message = new RequestClient("marcos", 1L, new Stone(SquareNumber.FIVE, SquareNumber.FIVE), Position.LEFT, null, RequestType.LIST_ROOMS);
 
 
         String m = messageFactory.buildMessage(message);
         System.out.println(m);
 
-        RequestClient message2 = messageFactory.parseMessage("{\"user_name\":\"marcos\",\"room_game\":1,\"postion_stone\":\"LEFT\",\"request_type\":\"LOGIN\"}");
+        RequestClient message2 = messageFactory.parseMessage("{\"user-name\":\"marcos\",\"room-game\":1,\"postion_stone\":\"LEFT\",\"request-type\":\"LOGIN\"}");
         
         System.out.println(message2.getRequestType());
 

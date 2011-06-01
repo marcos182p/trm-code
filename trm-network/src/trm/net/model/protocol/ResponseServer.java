@@ -16,74 +16,64 @@ public class ResponseServer {
      * enviada pelo cliente podendo ser acompanhado por uma mensagem de texto
      * sobre o erro.
      */
-    private ResponseType responseType;
+    public ResponseType responseType;
     /**
      * tipo de requisição que gerou essa resposta
      */
-    private RequestType requestType;
+    public RequestType requestType;
     /**
      * contem um texto descrevendo a confirmação da requisição, se ouver.
      */
-    private String ackMessage;
+    public String ackMessage;
     /**
      * contem um texto descrevendo o erro, se ouver.
      */
-    private String erroMessage;
+    public String erroMessage;
     /**
      * informações da sala de jogo
      */
-    private List<RoomInf> rooms;
+    public List<RoomInf> rooms;
+    /**
+     * peças que estão na mão do jogador.
+     */
+    public List<Stone> handStones;
     /**
      * configuração do tabuleiro do jogo(ordenado)
      */
-    private List<Stone> stones;
+    public List<Stone> boardStones;
     /**
      * mensagem enviada por algum usuario
      */
-    private String chatMessage;
+    public String chatMessage;
     /**
      * jogador que enviou a mensagem
      */
-    private Player senderPlayer;
+    public Player senderPlayer;
+    /**
+     * jogador que ganhou a partida
+     */
+    public Player winnerPlyer;
 
     public ResponseServer() {
     }
 
-    public ResponseServer(ResponseType responseType, RequestType requestType, String ackMessage, String erroMessage, List<RoomInf> rooms, List<Stone> stones, String chatMessage, Player senderPlayer) {
+    public ResponseServer(ResponseType responseType, RequestType requestType, 
+            String ackMessage, String erroMessage, List<RoomInf> rooms,
+            List<Stone> handStones, List<Stone> boardStones, String chatMessage,
+            Player senderPlayer) {
+        
         this.responseType = responseType;
         this.requestType = requestType;
         this.ackMessage = ackMessage;
         this.erroMessage = erroMessage;
         this.rooms = rooms;
-        this.stones = stones;
+        this.handStones = handStones;
+        this.boardStones = boardStones;
         this.chatMessage = chatMessage;
         this.senderPlayer = senderPlayer;
     }
 
-    public String getChatMessage() {
-        return chatMessage;
-    }
-
-    public String getErroMessage() {
-        return erroMessage;
-    }
-
-    public Player getPlayer() {
-        return senderPlayer;
-    }
-
-    public ResponseType getResponseType() {
-        return responseType;
-    }
-
-    public RequestType getRequestType() {
-        return requestType;
-    }
-
-    public List<Stone> getStones() {
-        return stones;
-    }
-
+    
     public boolean isAck() {
         return responseType.equals(ResponseType.ACK);
     }
@@ -92,7 +82,16 @@ public class ResponseServer {
         return isAck() && requestType.equals(RequestType.CLOSE_CONNECTION);
     }
 
-    public static ResponseServer createResponseServer(String message, Player senderPlayer) {
-        return new ResponseServer(ResponseType.ACK, RequestType.POST_MESSAGE, null, null, null, null, message, senderPlayer);
+    public static ResponseServer createResponseServer(String message,
+            Player senderPlayer) {
+        return new ResponseServer(ResponseType.ACK, RequestType.POST_MESSAGE,
+                null, null, null, null, null, message, senderPlayer);
+    }
+
+    public static ResponseServer createErroResponse(final String er,
+            RequestType type) {
+        
+        return new ResponseServer(ResponseType.ERRO, type, null, er, null,
+                null, null, null, null);
     }
 }

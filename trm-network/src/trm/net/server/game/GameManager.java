@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import trm.core.PlayerInf;
@@ -66,7 +67,7 @@ public class GameManager {
         return null;
     }
 
-    public RoomGame findRoomGameByPlayer(ServerTask player) {
+    RoomGame findRoomGameByPlayer(ServerTask player) {
         return roomsMap.get(player.getPlayer());
     }
 
@@ -140,5 +141,23 @@ public class GameManager {
 
         room.broadcast(ResponseServer.createResponseServer(message, serverTask.getPlayer()), serverTask);
 
+    }
+
+    public List<Stone> getHandPlayer(ServerTask serverTask) {
+        return getRoomGame(serverTask).getBoardStones();
+    }
+
+    public List<Stone> getBoardStones(ServerTask serverTask) {
+        return getRoomGame(serverTask).getBoardStones();
+    }
+
+    private RoomGame getRoomGame(ServerTask player) {
+        RoomGame room = findRoomGameByPlayer(player);
+
+        if (room == null) {
+            throw new RuntimeException("Usuario não está em uma sala.");
+        }
+
+        return room;
     }
 }
