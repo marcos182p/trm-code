@@ -31,6 +31,7 @@ public class DominosGrid {
         this.grid = new int[rows][cols];
         this.leftPosition = new Point(rows/2, cols/2);
         this.rightPosition = leftPosition.getLocation();
+        this.nextLeftPosition = leftPosition;
         this.rows = rows;
         this.cols = cols;
         this.leftOrientation = Orientation.EAST;

@@ -34,7 +34,7 @@ public class TestDraw extends JFrame{
         setSize(800,800);
         Color playerColor = Color.ORANGE ;
         Color othersColor = Color.BLACK;
-        board = new BoardPanel("board1.png", 16, 15, playerColor, othersColor);
+        board = new BoardPanel("board1.png", 14, 14, playerColor, othersColor);
         chatPanel = new ChatPanel("board1.png");
         playerPanel = new PlayerPanel("board1.png", board, playerColor);
         playerPanel.setPieces(new Stone(SquareNumber.SIX, SquareNumber.SIX));
@@ -70,7 +70,7 @@ public class TestDraw extends JFrame{
 
     private void testStones() {
        Stone s = new Stone(SquareNumber.FIVE, SquareNumber.THREE);
-       int n = 40;
+       int n = 30;
        boolean player = true;
         for(int i = 1; i <= n/2; i++) {
             board.putStone(s, GameSide.RIGHT, StoneSide.UP, player);
@@ -98,6 +98,6 @@ public class TestDraw extends JFrame{
     public static void main(String[] args) throws Exception{
         TestDraw td = new TestDraw();
         td.open();
-        td.testStones();
+         td.testStones();
     }
 }
