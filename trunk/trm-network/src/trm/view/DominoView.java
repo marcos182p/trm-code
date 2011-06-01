@@ -88,6 +88,11 @@ public class DominoView implements Drawable{
         afRight.rotate(angleRight, SIZE/2, SIZE/2);
 
     }
+    public void invert() {
+        AffineTransform temp = this.afRight;
+        this.afRight = this.afLeft;
+        this.afLeft = temp;
+    }
 
     public void setColorOpacity(int alpha) {
         this.colorOpacity = alpha;

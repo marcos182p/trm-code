@@ -33,7 +33,7 @@ public class TestDraw extends JFrame{
 
         setSize(800,800);
         Color playerColor = Color.ORANGE;
-        Color othersColor = Color.DARK_GRAY;
+        Color othersColor = Color.black;
         board = new BoardPanel("board1.png", 15, 15, playerColor, othersColor);
         chatPanel = new ChatPanel("board1.png");
         playerPanel = new PlayerPanel("board1.png", board, playerColor);
@@ -69,7 +69,7 @@ public class TestDraw extends JFrame{
 
     private void testStones() {
        Stone s = new Stone(SquareNumber.FIVE, SquareNumber.THREE);
-       int n = 10;
+       int n = 55;
        boolean player = true;
        for(int i = 1; i <= n; i++) {
             board.putStone(s, GameSide.RIGHT, StoneSide.UP, player);
