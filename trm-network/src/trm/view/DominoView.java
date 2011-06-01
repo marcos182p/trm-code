@@ -35,8 +35,7 @@ public class DominoView implements Drawable{
     public DominoView(Stone s, final int row, final int col, Orientation orientation, Color c) {
         this.left = DominoImageLoader.loadDominoSquareImage(s.getSquareLeft());
         this.right = DominoImageLoader.loadDominoSquareImage(s.getSquareRight());
-        this.x = col * SIZE;
-        this.y = row * SIZE;
+        
         this.width = SIZE;
         this.height = SIZE;
 
@@ -49,13 +48,15 @@ public class DominoView implements Drawable{
         int colLeft = col;
         int rowRight = row;
         int colRight = col;
+        
         double angleLeft = 0;
         double angleRight = 0;
         
         switch(orientation) {
             case NORTH:
                 angleLeft = 2*ROT_ANGLE;
-                rowLeft++;
+                rowRight--;
+                
                 this.height += SIZE;
                 break;
             case EAST:
@@ -72,15 +73,20 @@ public class DominoView implements Drawable{
             case WEST:
                 angleLeft = ROT_ANGLE;
                 angleRight = -ROT_ANGLE;
-                colLeft++;
+                colRight--;
+                
                 this.width += SIZE;
                 break;
         }
+
+        this.x = Math.min(colRight, colLeft)*SIZE;
+        this.y = Math.min(rowRight, rowLeft)*SIZE;
         
         afRight.translate(colRight * SIZE, rowRight * SIZE);
         afLeft.translate(colLeft * SIZE , rowLeft * SIZE );
         afLeft.rotate(angleLeft,SIZE/2, SIZE/2);
         afRight.rotate(angleRight, SIZE/2, SIZE/2);
+
     }
 
     public void setColorOpacity(int alpha) {

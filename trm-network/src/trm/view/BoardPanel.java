@@ -24,35 +24,32 @@ import trm.core.Stone;
  */
 public class BoardPanel extends JPanel{
 
-    private int rows;
-    private int cols;
     private Image background;
-    private List<DominoView> dominoes;
+    private List<DominoView> dominos;
     private Color playerColor;
     private Color othersColor;
     public static final int BOARD_BORDER = 16;
     private DominosGrid grid;
 
     public BoardPanel(String backgroundBoard, int rows, int cols, Color playerColor, Color othersColor) {
-        this.rows = rows;
-        this.cols = cols;
-        this.dominoes = new ArrayList<DominoView>();
+        
+        this.dominos = new ArrayList<DominoView>();
         this.playerColor = playerColor;
         this.othersColor = othersColor;
         setPreferredSize(new Dimension(rows * DominoView.SIZE + 2*BOARD_BORDER, cols * DominoView.SIZE + 2*BOARD_BORDER));
-        background = BackgroundImageLoader.loadBackgroundImage(backgroundBoard);
+        background = ImageLoader.loadBackgroundImage(backgroundBoard);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         grid = new DominosGrid(rows, cols);
     }
 
     private void addStone(Stone s, int row, int col, Orientation orientation, boolean player) {
         Color c = playerColor;
-        System.out.println("Put piece at: " + row + ", " + col);
         if(!player) {
             c = othersColor;
         }
         DominoView dv = new DominoView(s, row, col, orientation, c);
-        dominoes.add(dv);
+        dominos.add(dv);
+        repaint();
     }
 
     private Orientation turnOrientation(Orientation orientation, StoneSide side) {
@@ -63,7 +60,6 @@ public class BoardPanel extends JPanel{
         }
     }
     public void putStone(Stone s, GameSide gameSide, StoneSide stoneSide, boolean player) {
-        System.out.println("Put stone");
         grid.putRight();
         Point position = grid.currentPoint(gameSide);
         Orientation orientation= grid.currentOrientation(gameSide);
@@ -75,16 +71,17 @@ public class BoardPanel extends JPanel{
         super.paintComponent(g);
         g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
         Graphics g2 = g.create(BOARD_BORDER, BOARD_BORDER, this.getWidth() - BOARD_BORDER, this.getHeight() - BOARD_BORDER);
-        for(Drawable d : dominoes) {
+        for(Drawable d : dominos) {
             d.draw(g2);
         }
-        for(int i = 0; i < rows; i++) {
+        //Teste para verificar onde se encontram as posicoes dos dominos
+        /*for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
                 if(grid.getValueAt(i, j) > 0) {
                     g2.setColor(new Color(255,255,255,150));
                     g2.fillRect(j*DominoView.SIZE, i*DominoView.SIZE, DominoView.SIZE, DominoView.SIZE);
                 }
             }
-        }
+        }*/
     }
 }

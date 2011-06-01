@@ -30,18 +30,20 @@ public class PlayerPanel extends JPanel{
     private JButton sendLeft;
     private JButton sendRight;
     private String background;
+    private BoardPanel board;
 
-    public PlayerPanel(String background, Color playerColor) {
+    public PlayerPanel(String background, BoardPanel board, Color playerColor) {
         super();
+        this.board = board;
         this.dominos = new HashMap<Stone, JButton>();
         this.playerColor = playerColor;
         this.selectedStone = null;
         this.background = background;
 
         this.sendLeft = new JButton("<<");
-            sendLeft.addActionListener(new SendStoneListener(this, GameSide.LEFT));
+            sendLeft.addActionListener(new SendStoneListener(this, board, GameSide.LEFT));
         this.sendRight = new JButton(">>");
-            sendRight.addActionListener(new SendStoneListener(this, GameSide.RIGHT));
+            sendRight.addActionListener(new SendStoneListener(this, board, GameSide.RIGHT));
         
         setBorder(BorderFactory.createEtchedBorder(playerColor, Color.BLUE));
         add(sendLeft);
@@ -61,7 +63,7 @@ public class PlayerPanel extends JPanel{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(BackgroundImageLoader.loadBackgroundImage(background),0,0, getWidth(), getHeight(), null);
+        g.drawImage(ImageLoader.loadBackgroundImage(background),0,0, getWidth(), getHeight(), null);
     }
 
     private ImageIcon getImageIcon(Stone s, int alpha){
@@ -73,7 +75,7 @@ public class PlayerPanel extends JPanel{
 
     public void selectPiece(Stone stone) {
        if(dominos.keySet().contains(stone)) {
-        selectedStone = stone;
+            selectedStone = stone;
        }
        
        for(Stone s : dominos.keySet()) {
@@ -90,6 +92,7 @@ public class PlayerPanel extends JPanel{
         JButton b = dominos.get(s);
         remove(b);
         dominos.remove(s);
+        selectedStone = null;
         this.repaint();
     }
     

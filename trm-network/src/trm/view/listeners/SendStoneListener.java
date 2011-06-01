@@ -8,8 +8,10 @@ package trm.view.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import trm.core.Stone;
+import trm.view.BoardPanel;
 import trm.view.PlayerPanel;
 import trm.view.GameSide;
+import trm.view.StoneSide;
 
 /**
  * 
@@ -18,11 +20,13 @@ import trm.view.GameSide;
 public class SendStoneListener implements ActionListener{
 
     private PlayerPanel panel;
+    private BoardPanel board;
     private GameSide side;
 
-    public SendStoneListener(PlayerPanel panel, GameSide side) {
+    public SendStoneListener(PlayerPanel panel, BoardPanel board,GameSide side) {
         this.panel = panel;
         this.side = side;
+        this.board = board;
     }
     
     @Override
@@ -32,6 +36,7 @@ public class SendStoneListener implements ActionListener{
         if(stone != null) {
             if(acceptTransition(stone, side)) {
                 panel.removePiece(stone);
+                board.putStone(stone, GameSide.RIGHT, StoneSide.UP, true);
             }
         }
     }
@@ -43,6 +48,7 @@ public class SendStoneListener implements ActionListener{
             case LEFT:
                 break;
             case RIGHT:
+                
                 break;
         }
         return true;

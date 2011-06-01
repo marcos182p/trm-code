@@ -34,9 +34,9 @@ public class TestDraw extends JFrame{
         setSize(800,800);
         Color playerColor = Color.ORANGE;
         Color othersColor = Color.DARK_GRAY;
-        board = new BoardPanel("board1", 15, 15, playerColor, othersColor);
-        chatPanel = new ChatPanel("board1");
-        playerPanel = new PlayerPanel("board1", playerColor);
+        board = new BoardPanel("board1.png", 15, 15, playerColor, othersColor);
+        chatPanel = new ChatPanel("board1.png");
+        playerPanel = new PlayerPanel("board1.png", board, playerColor);
         playerPanel.setPieces(new Stone(SquareNumber.SIX, SquareNumber.SIX));
         playerPanel.addPiece(new Stone(SquareNumber.SIX, SquareNumber.ONE));
         playerPanel.addPiece(new Stone(SquareNumber.FOUR, SquareNumber.FOUR));
@@ -50,7 +50,7 @@ public class TestDraw extends JFrame{
     }
 
     private void config() {
-        JPanel p = new AllPanel("bg3");
+        JPanel p = new AllPanel("wood.jpg");
 
         p.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -69,11 +69,11 @@ public class TestDraw extends JFrame{
 
     private void testStones() {
        Stone s = new Stone(SquareNumber.FIVE, SquareNumber.THREE);
-       int n = 14;
+       int n = 10;
        boolean player = true;
-       for(int i = 0; i < n; i++) {
+       for(int i = 1; i <= n; i++) {
             board.putStone(s, GameSide.RIGHT, StoneSide.UP, player);
-            player = !player;
+            player = i%4 == 0;
        }
     }
 
