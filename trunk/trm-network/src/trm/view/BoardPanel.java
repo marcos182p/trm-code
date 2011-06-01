@@ -81,13 +81,13 @@ public class BoardPanel extends JPanel{
             d.draw(g2);
         }
         //Teste para verificar onde se encontram as posicoes dos dominos
-        /*for(int i = 0; i < rows; i++) {
+        for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
                 if(grid.getValueAt(i, j) > 0) {
                     g2.setColor(new Color(255,255,255,150));
                     g2.fillRect(j*DominoView.SIZE, i*DominoView.SIZE, DominoView.SIZE, DominoView.SIZE);
                 }
             }
-        }*/
+        }
     }
 }
