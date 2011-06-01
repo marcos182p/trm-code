@@ -14,7 +14,6 @@ import trm.core.SquareNumber;
 public class DominosGrid {
 
     private int grid[][];
-    private SquareNumber temp[][];
     private Point leftPosition;
     private Point rightPosition;
     private Orientation leftOrientation;
@@ -82,13 +81,9 @@ public class DominosGrid {
 
     public Orientation paintNextRight(int row, int col, Orientation orientation) {
        
-        boolean result = markPositionRight(row, col, orientation);
-        System.out.println(result);
-        if (result) {
-            System.out.println("Has orientation " + orientation);
+        if (markPositionRight(row, col, orientation)) {
             return orientation;
         } else {
-            System.out.println("!here");
             return paintNextRight(row, col, Orientation.clockwise(orientation));
         }
     }
@@ -97,7 +92,7 @@ public class DominosGrid {
         if (markPositionLeft(row, col, orientation)) {
             return orientation;
         } else {
-            return paintNextLeft(row, col, Orientation.counterClockwise(orientation));
+            return paintNextLeft(row, col, Orientation.clockwise(orientation));
         }
     }
 
