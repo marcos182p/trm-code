@@ -5,6 +5,7 @@
 package trm.view;
 
 import java.awt.Point;
+import trm.core.SquareNumber;
 
 /**
  *
@@ -13,6 +14,7 @@ import java.awt.Point;
 public class DominosGrid {
 
     private int grid[][];
+    private SquareNumber temp[][];
     private Point leftPosition;
     private Point rightPosition;
     private Orientation leftOrientation;
@@ -21,13 +23,14 @@ public class DominosGrid {
     private int leftJump;
     private Point nextRightPosition;
     private Point nextLeftPosition;
+    private boolean first;
 
     private int rows;
     private int cols;
 
     public DominosGrid(int rows, int cols) {
         this.grid = new int[rows][cols];
-        this.leftPosition = new Point(cols / 2, rows / 2);
+        this.leftPosition = new Point(rows/2, cols/2);
         this.rightPosition = leftPosition.getLocation();
         this.rows = rows;
         this.cols = cols;
@@ -37,6 +40,7 @@ public class DominosGrid {
         this.leftJump = 1;
         this.nextLeftPosition = leftPosition.getLocation();
         this.nextRightPosition = rightPosition.getLocation();
+        first = true;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -51,17 +55,26 @@ public class DominosGrid {
         leftJump = -1*leftJump;
     }
     public void putRight() {
-
-            this.rightPosition = this.nextRightPosition.getLocation();
+        if(first) {
+            this.nextLeftPosition.y++;
+            jumpLeft();
+            first = false;
+        }
+        this.rightPosition = this.nextRightPosition.getLocation();
         
         rightOrientation = paintNextRight(rightPosition.y, rightPosition.x, rightOrientation);
         
         jumpRight();
     }
     public void putLeft() {
-   
-            this.leftPosition = this.nextLeftPosition.getLocation();
+         if(first) {
+            this.nextRightPosition.y++;
+            jumpRight();
+            first = false;
+        }
+        this.leftPosition = this.nextLeftPosition.getLocation();
         
+
         leftOrientation = paintNextLeft(leftPosition.y, leftPosition.x, leftOrientation);
 
         jumpLeft();
@@ -69,9 +82,13 @@ public class DominosGrid {
 
     public Orientation paintNextRight(int row, int col, Orientation orientation) {
        
-        if (markPositionRight(row, col, orientation)) {
+        boolean result = markPositionRight(row, col, orientation);
+        System.out.println(result);
+        if (result) {
+            System.out.println("Has orientation " + orientation);
             return orientation;
         } else {
+            System.out.println("!here");
             return paintNextRight(row, col, Orientation.clockwise(orientation));
         }
     }
@@ -88,6 +105,7 @@ public class DominosGrid {
         if(side == GameSide.RIGHT) {
             return rightPosition;
         }else {
+            
             return leftPosition;
         }
     }
@@ -149,14 +167,13 @@ public class DominosGrid {
             }
              grid[secondPosition.y][secondPosition.x] --;
              jumpRight();
-             markPositionRight(row, col, orientation);
+             return markPositionRight(row, col, orientation);
              
         }
         return false;
     }
 
     public boolean markPositionLeft(int row, int col, Orientation orientation) {
-        System.out.println(row + ", " + col);
         grid[row][col]++;
         Point secondPosition = new Point(col, row);
         Point neighbor = new Point(col, row);
@@ -204,7 +221,7 @@ public class DominosGrid {
             }
              grid[secondPosition.y][secondPosition.x] --;
              jumpLeft();
-             markPositionLeft(row, col, orientation);
+             return markPositionLeft(row, col, orientation);
 
         }
         return false;

@@ -32,8 +32,8 @@ public class TestDraw extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setSize(800,800);
-        Color playerColor = Color.ORANGE;
-        Color othersColor = Color.black;
+        Color playerColor = Color.ORANGE ;
+        Color othersColor = Color.BLACK;
         board = new BoardPanel("board1.png", 15, 15, playerColor, othersColor);
         chatPanel = new ChatPanel("board1.png");
         playerPanel = new PlayerPanel("board1.png", board, playerColor);
@@ -44,6 +44,7 @@ public class TestDraw extends JFrame{
         playerPanel.addPiece(new Stone(SquareNumber.ZERO, SquareNumber.TWO));
         playerPanel.addPiece(new Stone(SquareNumber.ONE, SquareNumber.ONE));
         playerPanel.addPiece(new Stone(SquareNumber.FIVE, SquareNumber.THREE));
+        
         config();
         //pack();
         setResizable(false);
@@ -69,10 +70,10 @@ public class TestDraw extends JFrame{
 
     private void testStones() {
        Stone s = new Stone(SquareNumber.FIVE, SquareNumber.THREE);
-       int n = 55;
+       int n = 28;
        boolean player = true;
        for(int i = 1; i <= n; i++) {
-            board.putStone(s, GameSide.RIGHT, StoneSide.UP, player);
+            board.putStone(s, GameSide.LEFT, StoneSide.UP, player);
             player = i%4 == 0;
        }
     }
