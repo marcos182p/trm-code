@@ -30,7 +30,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
 
     @Override
     public ResponseServer handle(RequestClient request) {
-
+        
         PlayerInf player = serverTask.getPlayer().getInf();
 
         RequestType requestType = request.requestType;
@@ -119,13 +119,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
 
     @Override
     public List<RoomInf> listRooms() {
-        List<RoomInf> roomInfs = new ArrayList<RoomInf>();
-
-        for (RoomGame room : gameManager.findAllRooms()) {
-            roomInfs.add(room.getRoomInf());
-        }
-
-        return roomInfs;
+        return new ArrayList<RoomInf>(gameManager.findAllRooms());
     }
 
     @Override

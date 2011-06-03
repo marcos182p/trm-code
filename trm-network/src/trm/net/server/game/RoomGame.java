@@ -32,7 +32,7 @@ public class RoomGame {
     }
     
     public RoomInf getRoomInf() {
-        return new RoomInf(id, roomName, started);
+        return new RoomInf(id, roomName, tasks.size(), started);
     }
 
     public Long getId() {
