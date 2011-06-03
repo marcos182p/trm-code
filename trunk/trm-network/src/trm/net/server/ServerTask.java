@@ -138,7 +138,7 @@ public class ServerTask implements Runnable {
             player = playerManager.newPlayer(nickName);
 
             //FIXME ajeitar aqui
-            response =  new ResponseServer(ResponseType.ACK, RequestType.LOGIN, "sucesso!", null, null, null, null, null, player);
+            response =  new ResponseServer(ResponseType.ACK, RequestType.LOGIN, "sucesso!", null, null, null, null, null, player.getInf(), null, null);
 //            response = messageFactoy.createResponseServer(null);
 
         } else {

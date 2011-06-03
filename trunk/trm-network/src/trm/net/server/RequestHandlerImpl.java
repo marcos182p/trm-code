@@ -8,6 +8,7 @@ import trm.net.server.game.GameAction;
 import trm.net.server.game.GameManager;
 import java.util.ArrayList;
 import java.util.List;
+import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestClient.Position;
@@ -31,7 +32,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
     @Override
     public ResponseServer handle(RequestClient request) {
 
-        PlayerServer player = serverTask.getPlayer();
+        PlayerInf player = serverTask.getPlayer().getInf();
 
         RequestType requestType = request.getRequestType();
         requestType = requestType != null? requestType: RequestType.UNDEFINED;
@@ -40,6 +41,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
         ResponseType responseType = ResponseType.ACK;
         List<Stone> handPlayer = null;
         List<Stone> boardStones = null;
+        List<PlayerInf> players = null;
         List<RoomInf> rooms = null;
         String chatMessage = request.getChatMessage();
 
@@ -73,8 +75,20 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
                     postMessage(chatMessage);
                     ackMessage = "Mensagem postada com sucesso!";
                     break;
+                case START_GAME:
+                    startGame();
+                    break;
+                case END_GAME:
+                    endGame();
+                    break;
+                case LIST_PLAYERS:
+                    players = listPlayer();
+                    break;
                 case UNDEFINED:
                     throw new RuntimeException("tipo de mensagem não reconhecida!");
+                default:
+                    throw new RuntimeException("tipo de mensagem: " + requestType + " ainda não reconhecida!");
+                    
             }
 
         } catch (Exception e) {
@@ -86,7 +100,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
 
         return new ResponseServer(responseType, requestType, ackMessage, 
                 erroMessage, rooms, boardStones, boardStones, chatMessage,
-                player);
+                player, null,  players);
     }
 
     @Override
@@ -133,7 +147,28 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
         try {
             GameManager.getPlayerManager().postMessage(message, serverTask);
         } catch (IOException ex) {
-            throw new RuntimeException("problema na conexão, tente novamente" + "mais tarde");
+            throw new RuntimeException("problema na conexão, tente novamente" +
+                    "mais tarde");
         }
+    }
+
+    @Override
+    public RoomInf createRoomGame(String roomName) {
+        return gameManager.newRoomGame(roomName);
+    }
+
+    @Override
+    public List<PlayerInf> listPlayer() {
+        return gameManager.findPlayers(serverTask);
+    }
+
+    @Override
+    public void startGame() {
+        gameManager.startGame(serverTask);
+    }
+
+    @Override
+    public void endGame() {
+        gameManager.endGame(serverTask);
     }
 }

@@ -1,14 +1,14 @@
 package trm.net.server.game;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Queue;
 import trm.core.DominoesGame;
 import trm.core.Player;
+import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.server.ServerTask;
@@ -21,13 +21,13 @@ public class RoomGame {
     private Long id;
     private String roomName;
     private DominoesGame dominoesGame;
-    private Set<ServerTask> tasks;
+    private Queue<ServerTask> tasks;
     private boolean started;
     
     public RoomGame(Long id, String roomName) {
         this.id = id;
         this.roomName = roomName;
-        tasks = new HashSet<ServerTask>();
+        tasks = new ArrayDeque<ServerTask>();
         started = false;
     }
     
@@ -79,11 +79,22 @@ public class RoomGame {
     private boolean isValidPlay(ServerTask task) {
         return tasks.contains(task) && isStarted();
     }
+
+    private ServerTask getOwner() {
+        return tasks.peek();
+    }
     
-    void startGame() {
-        
-        if (started) return;
-        
+    void startGame(ServerTask owner) {
+
+        if (started) {
+            throw new RuntimeException("jogo na sala : " + id + ":" + roomName +
+                    " já em execução");
+        }
+
+        if (!getOwner().equals(owner)) {
+            throw new RuntimeException("usario sem permição de iniciar o jogo");
+        }
+
         List<Player> players = new ArrayList<Player>();
         for (ServerTask task : tasks) {
             players.add(task.getPlayer());
@@ -130,8 +141,14 @@ public class RoomGame {
         tasks.add(task);
     }
     
-    Set<ServerTask> getServerTasks() {
-        return Collections.unmodifiableSet(tasks);
+    List<PlayerInf> getPlayers() {
+        
+        List<PlayerInf> players = new ArrayList<PlayerInf>();
+
+        for (ServerTask task: tasks) {
+            players.add(task.getPlayer().getInf());
+        }
+        return players;
     }
 
     void broadcast(ResponseServer message, ServerTask... excluded) throws IOException {

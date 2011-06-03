@@ -2,6 +2,7 @@ package trm.net.model.protocol;
 
 import java.util.List;
 import trm.core.Player;
+import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.net.server.game.RoomInf;
 
@@ -48,11 +49,15 @@ public class ResponseServer {
     /**
      * jogador que enviou a mensagem
      */
-    public Player senderPlayer;
+    public PlayerInf senderPlayer;
     /**
      * jogador que ganhou a partida
      */
-    public Player winnerPlyer;
+    public PlayerInf winnerPlyer;
+    /**
+     * Jogadores que estão no jogo.
+     */
+    private List<PlayerInf> playersInGame;
 
     public ResponseServer() {
     }
@@ -60,7 +65,8 @@ public class ResponseServer {
     public ResponseServer(ResponseType responseType, RequestType requestType, 
             String ackMessage, String erroMessage, List<RoomInf> rooms,
             List<Stone> handStones, List<Stone> boardStones, String chatMessage,
-            Player senderPlayer) {
+            PlayerInf senderPlayer, PlayerInf winnerPlyer,
+            List<PlayerInf> playersInGame) {
         
         this.responseType = responseType;
         this.requestType = requestType;
@@ -71,7 +77,11 @@ public class ResponseServer {
         this.boardStones = boardStones;
         this.chatMessage = chatMessage;
         this.senderPlayer = senderPlayer;
+        this.winnerPlyer = winnerPlyer;
+        this.playersInGame = playersInGame;
     }
+
+    
 
     
     public boolean isAck() {
@@ -85,13 +95,14 @@ public class ResponseServer {
     public static ResponseServer createResponseServer(String message,
             Player senderPlayer) {
         return new ResponseServer(ResponseType.ACK, RequestType.POST_MESSAGE,
-                null, null, null, null, null, message, senderPlayer);
+                null, null, null, null, null, message, senderPlayer.getInf(),
+                null, null);
     }
 
     public static ResponseServer createErroResponse(final String er,
             RequestType type) {
         
         return new ResponseServer(ResponseType.ERRO, type, null, er, null,
-                null, null, null, null);
+                null, null, null, null, null, null);
     }
 }
