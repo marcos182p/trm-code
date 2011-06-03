@@ -43,13 +43,16 @@ public class ClientTask implements Runnable {
         listenersMap = new EnumMap<RequestType, List<Listener>>(RequestType.class);
     }
 
+    public Sender<RequestClient> getSender() {
+        return this.sender;
+    }
+
     @Override
     public void run() {
 
-        while (socket.isConnected()) {
+        while (!socket.isInputShutdown()) {
             try {
                 ResponseServer response = receiver.receive();
-                
                 notifyAll(response);
 
             } catch (InvalidMessageException ex) {
@@ -89,5 +92,16 @@ public class ClientTask implements Runnable {
         for (Listener listener : listeners) {
             listener.update(response);
         }
+    }
+
+    public void close() throws Exception{
+        System.out.println("entered");
+
+        socket.shutdownInput();
+        socket.shutdownOutput();
+        sender.close();
+        receiver.close();
+        socket.close();
+
     }
 }

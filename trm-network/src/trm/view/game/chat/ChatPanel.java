@@ -2,39 +2,51 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package trm.view;
+package trm.view.game.chat;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
-import trm.view.listeners.ChatListener;
+import trm.net.client.Listener;
+import trm.net.model.Sender;
+import trm.net.model.protocol.RequestClient;
+import trm.net.model.protocol.ResponseServer;
+import trm.view.game.chat.listener.ChatListener;
+import trm.view.game.utils.BGPanel;
 
 /**
  *
  * @author rafanet
  */
-public class ChatPanel extends JPanel {
+public class ChatPanel extends BGPanel implements  Listener{
 
     private JLabel label;
     private JTextField chat;
     private JTextArea chatArea;
-    private String background;
 
-    public ChatPanel(String background) {
-        this.background = background;
+    public ChatPanel(String background, Sender<RequestClient> sender) {
+        super(background);
+        
         this.label = new JLabel("Chat: ");
         this.chat = new JTextField(45);
-            chat.addActionListener(new ChatListener(this, chat));
+            chat.addActionListener(new ChatListener(sender, chat));
         this.chatArea = new JTextArea();
+        this.chatArea.setEditable(false);
+
+        
+
+        setup();
+    }
+
+    private void setup() {
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
         JScrollPane pane = new JScrollPane(chatArea);
 
         chatArea.setAutoscrolls(true);
@@ -57,17 +69,16 @@ public class ChatPanel extends JPanel {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         add(pane, c);
-
-
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    public void setText(String text) {
+    public void appendMessage(String text) {
         chatArea.append(text);
+        chatArea.setCaretPosition( chatArea.getText().length() );
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(ImageLoader.loadBackgroundImage(background), 0, 0, getWidth(), getHeight(), null);
+    @Override
+    public void update(ResponseServer response) {
+        appendMessage(response.senderPlayer.getNickName() + " >> " + response.chatMessage + System.getProperty("line.separator"));
     }
+
 }

@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-package trm.view;
+package trm.view.game.utils;
 
 /**
  *
  * @author Rafael
  */
-public enum GameSide {
-    LEFT, RIGHT;
+public enum StoneSide {
+    UP, DOWN;
 }

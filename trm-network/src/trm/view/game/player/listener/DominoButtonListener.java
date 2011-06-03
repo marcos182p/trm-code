@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-package trm.view.listeners;
+package trm.view.game.player.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import trm.core.Stone;
-import trm.view.PlayerPanel;
+import trm.view.game.player.PlayerPanel;
 
 /**
  *

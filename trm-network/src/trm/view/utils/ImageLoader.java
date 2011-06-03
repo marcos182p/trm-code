@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package trm.view;
+package trm.view.utils;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;

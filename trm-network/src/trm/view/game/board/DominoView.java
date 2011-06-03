@@ -3,8 +3,11 @@
  * and open the template in the editor.
  */
 
-package trm.view;
+package trm.view.game.board;
 
+import trm.view.game.main.*;
+import trm.view.game.utils.Orientation;
+import trm.view.utils.Drawable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
