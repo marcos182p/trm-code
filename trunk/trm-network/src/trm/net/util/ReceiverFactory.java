@@ -56,7 +56,13 @@ class ReceiverImpl<Message> implements Receiver<Message> {
 
     @Override
     public Message receive() throws IOException, InvalidMessageException {
-        return parserMessage.parseMessage(reader.readLine());
+        String line = reader.readLine();
+
+        if (line == null) {
+            throw new IOException("conexão fechada!");
+        }
+    
+        return parserMessage.parseMessage(line);
     }
 
     @Override

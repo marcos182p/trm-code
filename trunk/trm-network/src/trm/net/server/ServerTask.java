@@ -52,7 +52,6 @@ public class ServerTask implements Runnable {
 
     @Override
     public void run() {
-            
         RequestClient request = null;
         ResponseServer response = null;
         
@@ -72,8 +71,7 @@ public class ServerTask implements Runnable {
 
             handler = new RequestHandlerImpl(this);
             
-            while (socket.isConnected() && !response.isCloseConnection()) {
-
+            while (!socket.isClosed() && !response.isCloseConnection()) {
                 request = receiveRequest();
                 response = handler.handle(request);
 
@@ -85,6 +83,7 @@ public class ServerTask implements Runnable {
         } finally {
             //TODO notificar sala de jogo casa ele esteja em alguma.
             close();
+            GameManager.getPlayerManager().removePlayer(this);
         }
     }
     
