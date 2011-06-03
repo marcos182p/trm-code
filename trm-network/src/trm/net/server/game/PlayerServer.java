@@ -1,6 +1,5 @@
 package trm.net.server.game;
 
-import trm.net.server.game.StatePlayer;
 import trm.core.Player;
 import trm.core.PlayerInf;
 

@@ -1,6 +1,7 @@
 package trm.net.server.game;
 
 import java.util.List;
+import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.net.model.protocol.RequestClient.Position;
 
@@ -36,4 +37,12 @@ public interface GameAction {
      * posta uma mensagem no jogo
      */
     void postMessage(String message) throws RuntimeException;
+
+    void startGame();
+
+    void endGame();
+
+    RoomInf createRoomGame(String roomName);
+
+    List<PlayerInf> listPlayer();
 }

@@ -141,6 +141,15 @@ public class DominoesGame {
         }
     }
 
+    public List<Player> getPlayers() {
+        List<Player> players = new ArrayList<Player>();
+
+        for (HandPlayer hand: playersQueue) {
+            players.add(hand.getPlayer());
+        }
+        return players;
+    }
+
     private boolean isPlaying(Player player) {
         return playersQueue.peek().getPlayer().equals(player);
     }

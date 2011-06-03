@@ -37,6 +37,11 @@ public class RequestClient {
      */
     private String chatMessage;
     /**
+     * cabeçalho que é usado quando o jogador quer criar uma sala, ele não
+     * precisa entrar nessa sala
+     */
+    private String roomName;
+    /**
      * tipo de requisição
      */
     private RequestType requestType;

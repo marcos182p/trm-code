@@ -46,10 +46,24 @@ public class GameManager {
         return player;
     }
 
-    public RoomGame newRoomGame(String roomName) {
+    public RoomInf newRoomGame(String roomName) {
         RoomGame roomGame = new RoomGame(lastRoomGameId++, roomName);
         rooms.add(roomGame);
-        return roomGame;
+        return roomGame.getRoomInf();
+    }
+
+    public List<PlayerInf> findPlayers(ServerTask task) {
+        return getRoomGame(task).getPlayers();
+    }
+
+    public void startGame(ServerTask task) {
+
+        getRoomGame(task).startGame(task);
+    }
+
+    public void endGame(ServerTask task) {
+        //TODO nem todos os usarios podem da o stopGame
+        getRoomGame(task).stopGame();
     }
 
     public Set<RoomGame> findAllRooms() {
