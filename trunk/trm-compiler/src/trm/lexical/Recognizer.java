@@ -45,13 +45,20 @@ public class Recognizer {
 
         this.tokenMap.put("break", TokenClass.TK_BREAK);
 
-        this.tokenMap.put("int", TokenClass.TK_INTEGER);
+        this.tokenMap.put("integer", TokenClass.TK_INTEGER);
 
         this.tokenMap.put("real", TokenClass.TK_REAL);
 
         this.tokenMap.put("boolean", TokenClass.TK_BOOLEAN);
 
-        this.tokenMap.put("char", TokenClass.TK_CHARACTER);
+        this.tokenMap.put("character", TokenClass.TK_CHARACTER);
+
+        this.tokenMap.put("void", TokenClass.TK_VOID);
+
+        this.tokenMap.put("true", TokenClass.TK_BOOLEAN_CTE);
+
+        this.tokenMap.put("false", TokenClass.TK_BOOLEAN_CTE);
+
 
         reset();
     }
@@ -108,7 +115,7 @@ public class Recognizer {
             }
 
         }
-        if(!currentState.equals(automaton.getStartState())) {
+        if (!currentState.equals(automaton.getStartState())) {
             generateToken();
         }
 
@@ -130,8 +137,8 @@ public class Recognizer {
             case INTEGER_CTE:
                 result = TokenClass.TK_INTEGER_CTE;
                 break;
-            case FLOATING_CTE:
-                result = TokenClass.TK_FLOATING_CTE;
+            case REAL_CTE:
+                result = TokenClass.TK_REAL;
                 break;
 
         }
@@ -145,8 +152,7 @@ public class Recognizer {
 
 
         if (target == null) {
-            throw new TransitionException("Transição para esse valor não "
-                    + "encontrada.");
+            throw new TransitionException("Transição para esse valor não " + "encontrada.");
         }
 
         lastState = currentState;
