@@ -1,7 +1,6 @@
 package trm.net.server;
 
 import java.io.IOException;
-import trm.net.server.game.PlayerServer;
 import trm.net.server.game.RoomInf;
 import trm.net.server.game.RoomGame;
 import trm.net.server.game.GameAction;
@@ -34,7 +33,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
 
         PlayerInf player = serverTask.getPlayer().getInf();
 
-        RequestType requestType = request.getRequestType();
+        RequestType requestType = request.requestType;
         requestType = requestType != null? requestType: RequestType.UNDEFINED;
         String ackMessage = null;
         String erroMessage = null;
@@ -43,14 +42,16 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
         List<Stone> boardStones = null;
         List<PlayerInf> players = null;
         List<RoomInf> rooms = null;
-        String chatMessage = request.getChatMessage();
+        String chatMessage = request.chatMessage;
+
+        RoomInf newRoom = null;
 
         try {
 
             switch (requestType) {
                 case ENTRY_ROOM:
-                    entryRoom(request.getRoomGame());
-                    ackMessage = "Entrou na sala " + request.getRoomGame() + "!";
+                    entryRoom(request.roomId);
+                    ackMessage = "Entrou na sala " + request.roomId + "!";
                     break;
                 case EXIT_ROOM:
                     exitRoom();
@@ -68,7 +69,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
                     ackMessage = "Listagem de pedras concluida com sucesso!";
                     break;
                 case MOVE_STONE:
-                    moveStone(request.getPostionStone(), request.getStone());
+                    moveStone(request.postionStone, request.stone);
                     ackMessage = "Pedra movida com sucesso!";
                     break;
                 case POST_MESSAGE:
@@ -83,6 +84,9 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
                     break;
                 case LIST_PLAYERS:
                     players = listPlayer();
+                    break;
+                case CREATE_ROOM:
+                    newRoom = createRoomGame(request.roomName);
                     break;
                 case UNDEFINED:
                     throw new RuntimeException("tipo de mensagem não reconhecida!");
@@ -99,7 +103,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
         }
 
         return new ResponseServer(responseType, requestType, ackMessage, 
-                erroMessage, rooms, boardStones, boardStones, chatMessage,
+                erroMessage, rooms, handPlayer, boardStones, chatMessage,
                 player, null,  players);
     }
 

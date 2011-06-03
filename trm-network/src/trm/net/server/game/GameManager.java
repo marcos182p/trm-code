@@ -88,7 +88,7 @@ public class GameManager {
     public void putPlayerRoom(ServerTask player, long roomId) {
         RoomGame room = findRoomById(roomId);
 
-        if (!rooms.contains(roomId)) {
+        if (room == null) {
             throw new RuntimeException("sala de jogo " + roomId + " não cadastrada");
         }
 

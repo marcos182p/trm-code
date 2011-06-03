@@ -58,6 +58,10 @@ public class ResponseServer {
      * Jogadores que estão no jogo.
      */
     private List<PlayerInf> playersInGame;
+    /**
+     * sala criada
+     */
+    private RoomInf room;
 
     public ResponseServer() {
     }
@@ -80,8 +84,6 @@ public class ResponseServer {
         this.winnerPlyer = winnerPlyer;
         this.playersInGame = playersInGame;
     }
-
-    
 
     
     public boolean isAck() {

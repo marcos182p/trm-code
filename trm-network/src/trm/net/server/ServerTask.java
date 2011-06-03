@@ -130,7 +130,7 @@ public class ServerTask implements Runnable {
         ResponseServer response = null;
 
         GameManager playerManager = GameManager.getPlayerManager();
-        String nickName = message.getUserName();
+        String nickName = message.userName;
 
 
         if (isValidNickName(nickName)) {
