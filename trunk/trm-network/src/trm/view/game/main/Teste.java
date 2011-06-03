@@ -5,9 +5,7 @@
 
 package trm.view.game.main;
 
-import java.net.Socket;
 import trm.core.SquareNumber;
-import trm.net.client.ClientTask;
 import trm.view.game.utils.ResourceWindow;
 
 /**

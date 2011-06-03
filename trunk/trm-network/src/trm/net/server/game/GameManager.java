@@ -1,12 +1,13 @@
 package trm.net.server.game;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.net.model.protocol.RequestClient.Position;
@@ -66,8 +67,25 @@ public class GameManager {
         getRoomGame(task).stopGame();
     }
 
-    public Set<RoomGame> findAllRooms() {
-        return Collections.unmodifiableSet(rooms);
+    public Set<RoomInf> findAllRooms() {
+        
+        Set<RoomInf> roomInfs = new TreeSet<RoomInf>(new Comparator<RoomInf>() {
+
+            @Override
+            public int compare(RoomInf o1, RoomInf o2) {
+                return o1.id.compareTo(o2.id);
+            }
+        });
+
+        for (RoomGame room : rooms) {
+            roomInfs.add(room.getRoomInf());
+        }
+        
+        return roomInfs;
+    }
+    
+    public Set<PlayerServer> findAllPlayers() {
+        return players;
     }
 
     public RoomGame findRoomById(Long id) {

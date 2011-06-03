@@ -38,7 +38,7 @@ public class GameScreen extends JFrame{
     public GameScreen() throws Exception{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         
-        ClientTask task = new ClientTask("Rafael", new Socket("192.168.7.173", 8080));
+        ClientTask task = new ClientTask("Rafael", new Socket("localhost", 8080));
 
         addWindowListener(new GameScreenListener(task));
 
