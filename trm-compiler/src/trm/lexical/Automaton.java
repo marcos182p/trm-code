@@ -6,24 +6,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.JOptionPane;
 import trm.lexical.rules.Rule;
 
 public class Automaton {
 
     private Map<State, Set<Transition>> automaton;
-    
     private State startState;
     private List<State> finalStates;
-    
+
     public Automaton(State startState, State... endStates) {
 
         this.startState = startState;
         this.finalStates = Arrays.asList(endStates);
-        
+
         this.automaton = new HashMap<State, Set<Transition>>();
     }
 
-     public Automaton(State startState, List<State> endStates) {
+    public Automaton(State startState, List<State> endStates) {
 
         this.startState = startState;
         this.finalStates = endStates;
@@ -42,7 +42,7 @@ public class Automaton {
     }
 
     public void addTransition(Transition transition) {
-        
+
         if (!automaton.containsKey(transition.getSource())) {
             automaton.put(transition.getSource(), new HashSet<Transition>());
         }
@@ -71,13 +71,17 @@ public class Automaton {
      */
     //FIXME colocar nome de metodo mais sugestivo.
     public State nextState(State source, char c) {
+        System.out.println(source.getLabel());
+        Set<Transition> trasition = getTransitions(source);
 
-        for (Transition transition : getTransitions(source)) {
-            if (transition.accept(c)) {
-                return transition.getTarget();
+        if (trasition != null) {
+
+            for (Transition transition : getTransitions(source)) {
+                if (transition.accept(c)) {
+                    return transition.getTarget();
+                }
             }
         }
-
         return null;
     }
 }

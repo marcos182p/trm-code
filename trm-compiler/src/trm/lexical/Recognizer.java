@@ -138,9 +138,14 @@ public class Recognizer {
                 result = TokenClass.TK_INTEGER_CTE;
                 break;
             case REAL_CTE:
-                result = TokenClass.TK_REAL;
+                result = TokenClass.TK_REAL_CTE;
                 break;
-
+            case CHARACTER_CTE:
+                result = TokenClass.TK_CHARACTER_CTE;
+                break;
+            case STRING_CTE:
+                result = TokenClass.TK_STRING_CTE;
+                break;
         }
 
         return result == null ? TokenClass.TK_UNDEFINED : result;
