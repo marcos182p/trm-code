@@ -43,31 +43,3 @@ public class ReceiverFactory {
         return new ReceiverImpl<ResponseServer>(reader, parserMessage);
     }
 }
-
-class ReceiverImpl<Message> implements Receiver<Message> {
-
-    private BufferedReader reader;
-    private ParserMessage<Message> parserMessage;
-
-    public ReceiverImpl(BufferedReader reader, ParserMessage<Message> parser) {
-        this.reader = reader;
-        parserMessage = parser;
-    }
-    //resolver problema de fechamento de conexão:
-    //http://stackoverflow.com/questions/151590/java-how-do-detect-a-remote-side-socket-close
-    @Override
-    public Message receive() throws IOException, InvalidMessageException {
-        String line = reader.readLine();
-
-        if (line == null) {
-            throw new IOException("conexão fechada!");
-        }
-    
-        return parserMessage.parseMessage(line);
-    }
-
-    @Override
-    public void close() throws IOException {
-        reader.close();
-    }
-}
