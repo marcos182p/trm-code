@@ -146,6 +146,18 @@ public class Recognizer {
             case STRING_CTE:
                 result = TokenClass.TK_STRING_CTE;
                 break;
+            case OPEN_PARENTHESES:
+                result = TokenClass.TK_OPEN_PARENTHESES;
+                break;
+            case CLOSE_PARENTHESES:
+                result = TokenClass.TK_CLOSE_PARENTHESES;
+                break;
+            case OPEN_CURLY_BRACKET:
+                result = TokenClass.TK_OPEN_CURLY_BRACKET;
+                break;
+            case CLOSE_CURLY_BRACKET:
+                result = TokenClass.TK_CLOSE_CURLY_BRACKET;
+                break;
         }
 
         return result == null ? TokenClass.TK_UNDEFINED : result;

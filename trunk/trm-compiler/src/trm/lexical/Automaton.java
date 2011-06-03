@@ -71,7 +71,6 @@ public class Automaton {
      */
     //FIXME colocar nome de metodo mais sugestivo.
     public State nextState(State source, char c) {
-        System.out.println(source.getLabel());
         Set<Transition> trasition = getTransitions(source);
 
         if (trasition != null) {
