@@ -6,7 +6,7 @@ public enum TokenClass {
     TK_ID(false),
     TK_STRING_CTE(false),
     TK_INTEGER_CTE(false),
-    TK_FLOATING_CTE(false),
+    TK_REAL_CTE(false),
     TK_CHARACTER_CTE(false),
     TK_BOOLEAN_CTE(false),
     TK_STRING(true),
@@ -20,6 +20,7 @@ public enum TokenClass {
     TK_REAL(true),
     TK_CHARACTER(true),
     TK_BOOLEAN(true),
+    TK_VOID(true),
     TK_ADD(true),
     TK_SUB(true),
     TK_MULT(true),
@@ -44,8 +45,6 @@ public enum TokenClass {
     TK_CLOSE_PARENTHESES(true),
     TK_OPEN_CURLY_BRACKET(true),
     TK_CLOSE_CURLY_BRACKET(true);
-    
-
     private boolean univoque;
 
     private TokenClass(boolean univoque) {

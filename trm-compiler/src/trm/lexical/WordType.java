@@ -5,6 +5,6 @@ package trm.lexical;
  */
 public enum WordType {
 
-    WORD, UNDEFINED, INTEGER_CTE, FLOATING_CTE, SPACE
+    WORD, UNDEFINED, INTEGER_CTE, REAL_CTE, SPACE
 
 }
