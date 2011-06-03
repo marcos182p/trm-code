@@ -53,7 +53,8 @@ class ReceiverImpl<Message> implements Receiver<Message> {
         this.reader = reader;
         parserMessage = parser;
     }
-
+    //resolver problema de fechamento de conexão:
+    //http://stackoverflow.com/questions/151590/java-how-do-detect-a-remote-side-socket-close
     @Override
     public Message receive() throws IOException, InvalidMessageException {
         String line = reader.readLine();
