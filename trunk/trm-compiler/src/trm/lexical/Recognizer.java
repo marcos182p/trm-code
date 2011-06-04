@@ -24,41 +24,28 @@ public class Recognizer {
     public Recognizer(Automaton automaton, char[] tape) {
 
         this.automaton = automaton;
-
         this.tape = tape;
 
         this.tokens = new ArrayList<Token>();
-
         this.tokenMap = new HashMap<String, TokenClass>();
-
         this.tokenMap.put("string", TokenClass.TK_STRING);
-
         this.tokenMap.put("while", TokenClass.TK_WHILE);
-
         this.tokenMap.put("for", TokenClass.TK_FOR);
-
         this.tokenMap.put("if", TokenClass.TK_IF);
-
         this.tokenMap.put("else", TokenClass.TK_ELSE);
-
         this.tokenMap.put("switch", TokenClass.TK_SWITCH);
-
         this.tokenMap.put("break", TokenClass.TK_BREAK);
-
         this.tokenMap.put("integer", TokenClass.TK_INTEGER);
-
         this.tokenMap.put("real", TokenClass.TK_REAL);
-
         this.tokenMap.put("boolean", TokenClass.TK_BOOLEAN);
-
         this.tokenMap.put("character", TokenClass.TK_CHARACTER);
-
         this.tokenMap.put("void", TokenClass.TK_VOID);
-
         this.tokenMap.put("true", TokenClass.TK_BOOLEAN_CTE);
-
         this.tokenMap.put("false", TokenClass.TK_BOOLEAN_CTE);
-
+        this.tokenMap.put("not", TokenClass.TK_NOT);
+        this.tokenMap.put("mod", TokenClass.TK_MOD);
+        this.tokenMap.put("and", TokenClass.TK_AND);
+        this.tokenMap.put("or", TokenClass.TK_OR);
 
         reset();
     }
@@ -158,9 +145,69 @@ public class Recognizer {
             case CLOSE_CURLY_BRACKET:
                 result = TokenClass.TK_CLOSE_CURLY_BRACKET;
                 break;
+            case ADD:
+                result = TokenClass.TK_ADD;
+                break;
+            case SUB:
+                result = TokenClass.TK_SUB;
+                break;
+            case MULT:
+                result = TokenClass.TK_MULT;
+                break;
+            case DIV:
+                result = TokenClass.TK_DIV;
+                break;
+            case EQUAL:
+                result = TokenClass.TK_EQUAL;
+                break;
+
+            case GREATER_THAN:
+                result = TokenClass.TK_GREATER_THAN;
+                break;
+
+            case LESS_THAN:
+                result = TokenClass.TK_LESS_THAN;
+                break;
+
+            case OPEN_SQUARE_BRACKET:
+                result = TokenClass.TK_OPEN_SQUARE_BRACKET;
+                break;
+
+            case CLOSE_SQUARE_BRACKET:
+                result = TokenClass.TK_CLOSE_SQUARE_BRACKET;
+                break;
+
+            case SEMICOLON:
+                result = TokenClass.TK_SEMICOLON;
+                break;
+
+            case COLON:
+                result = TokenClass.TK_COLON;
+                break;
+
+            case GREATER_OR_EQUAL:
+                result = TokenClass.TK_GREATER_OR_EQUAL;
+                break;
+
+            case LESS_OR_EQUAL:
+                result = TokenClass.TK_LESS_OR_EQUAL;
+                break;
+
+            case NOT_EQUAL:
+                result = TokenClass.TK_NOT_EQUAL;
+                break;
+            case ATRIBUTION:
+                result = TokenClass.TK_ATTRIBUTION;
+                break;
+            default:
+                result = TokenClass.TK_UNDEFINED;
+                break;
+
+
+
         }
 
-        return result == null ? TokenClass.TK_UNDEFINED : result;
+        return result;
     }
 
     private void transition(char c) {
