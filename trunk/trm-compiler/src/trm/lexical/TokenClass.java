@@ -31,6 +31,7 @@ public enum TokenClass {
     TK_AND(true),
     TK_OR(true),
     TK_NOT(true),
+    TK_IN(true),
     TK_EQUAL(true),
     TK_NOT_EQUAL(true),
     TK_GREATER_THAN(true),

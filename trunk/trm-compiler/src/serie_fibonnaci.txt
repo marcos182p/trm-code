@@ -1,0 +1,10 @@
+fibonnaci ( n : integer ) {
+f : integer[n+1];
+i : integer;
+f[0] <- 0;
+f[1] <- 1;
+for( i in 2 : n+1 ) {
+out(f[i-1]);
+f[i] <- f[i-1] + f[i-2];
+}
+}
