@@ -9,9 +9,10 @@ import trm.lexical.rules.WhitespaceRule;
 
 public class CreateAutomaton {
 
+    //Metodo responsável pela instanciação/criação do automato
     public static Automaton create() {
 
-        //Creation of automaton's states
+        //Criação dos estados do automato
         State startState = new State("1", new StateDescription());
         State idState = new State("2", new StateDescription(WordType.WORD));
         State fisrtRealState = new State("8", new StateDescription());
@@ -47,7 +48,7 @@ public class CreateAutomaton {
         State notEqualState = new State("38", new StateDescription(WordType.NOT_EQUAL));
         State atributionState = new State("39", new StateDescription(WordType.ATRIBUTION));
 
-        // Automaton's creation
+        // Instanciação/Criação do automato
         Automaton automaton = new Automaton(startState, idState, integerState, realState, charState, stringState,
                 openCurlyBracketState, closeCurlyBracketState, openParenthesesState, closeParenthesesState, addState,
                 subState, multState, divState, equalState, greaterThanState, lessThanState, openSquareBracketState,
@@ -56,7 +57,7 @@ public class CreateAutomaton {
 
 
 
-        //Creation of automaton's transitions
+        //Criação das transições do automato
         automaton.addTransition(startState, startState, new WhitespaceRule());
         automaton.addTransition(startState, firstCharState, new InclusiveRule('\''));
         automaton.addTransition(startState, firstStringState, new InclusiveRule('"'));
