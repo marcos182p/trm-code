@@ -22,18 +22,18 @@ public class Main {
         //File test
 
 
-        String file = "";
+        String fileText = "";
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File("C:/Users/Douglas/Documents/NetBeansProjects/trm-code/trm-compiler/src/serie_fibonnaci.txt")));
+            BufferedReader reader = new BufferedReader(new FileReader(new File("src/serie_fibonnaci.txt")));
 
             while (reader.ready()) {
-                file += reader.readLine() + System.getProperty("line.separator");
+                fileText += reader.readLine() + System.getProperty("line.separator");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Recognizer recognizer = new Recognizer(automaton, file.toCharArray());
+        Recognizer recognizer = new Recognizer(automaton, fileText.toCharArray());
         recognizer.run();
 
     }
