@@ -94,8 +94,8 @@ public class Recognizer {
                 currentWord.append(tape[index]);
 
                 if (tape[index] == System.getProperty("line.separator").toCharArray()[0]) {
-                    this.columnGenerate++;
-                    this.lineGenerate = 1;
+                    this.lineGenerate++;
+                    this.columnGenerate = 1;
                 }
 
                 if (currentState.equals(automaton.getStartState())) {
@@ -106,7 +106,7 @@ public class Recognizer {
 
             } catch (TransitionException e) {
                 generateToken();
-                this.lineGenerate++;
+                this.columnGenerate++;
                 reset();
             }
 
