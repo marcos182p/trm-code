@@ -19,6 +19,12 @@ public class Teste {
         ResourceWindow.setPanelImage("wood");
         GameScreen screen = new GameScreen();
         screen.addPlayerPiece(SquareNumber.ZERO, SquareNumber.ZERO);
+        screen.addPlayerPiece(SquareNumber.SIX, SquareNumber.ZERO);
+        screen.addPlayerPiece(SquareNumber.FIVE, SquareNumber.THREE);
+        screen.addPlayerPiece(SquareNumber.ONE, SquareNumber.ONE);
+        screen.addPlayerPiece(SquareNumber.TWO, SquareNumber.FOUR);
+        screen.addPlayerPiece(SquareNumber.THREE, SquareNumber.ZERO);
+        screen.addPlayerPiece(SquareNumber.SIX, SquareNumber.SIX);
         screen.open();
         
     }
