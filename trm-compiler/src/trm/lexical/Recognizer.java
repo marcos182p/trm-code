@@ -20,6 +20,8 @@ public class Recognizer {
     private List<Token> tokens;
     private char[] tape;
     private Map<String, TokenClass> tokenMap;
+    private int lineGenerate = 1;
+    private int columnGenerate = 1;
 
     public Recognizer(Automaton automaton, char[] tape) {
 
@@ -69,7 +71,7 @@ public class Recognizer {
 
         String value = currentWord.toString();
 
-        Token token = new Token(value, getTokenClass(currentState, value));
+        Token token = new Token(value, getTokenClass(currentState, value), this.lineGenerate, this.columnGenerate);
         tokens.add(token);
 
         LOGGER.log(Level.INFO, "token criado " + token, token);
@@ -91,6 +93,11 @@ public class Recognizer {
 
                 currentWord.append(tape[index]);
 
+                if (tape[index] == System.getProperty("line.separator").toCharArray()[0]) {
+                    this.columnGenerate++;
+                    this.lineGenerate = 1;
+                }
+
                 if (currentState.equals(automaton.getStartState())) {
                     reset();
                 }
@@ -99,6 +106,7 @@ public class Recognizer {
 
             } catch (TransitionException e) {
                 generateToken();
+                this.lineGenerate++;
                 reset();
             }
 
@@ -203,8 +211,6 @@ public class Recognizer {
             default:
                 result = TokenClass.TK_UNDEFINED;
                 break;
-
-
 
         }
 
