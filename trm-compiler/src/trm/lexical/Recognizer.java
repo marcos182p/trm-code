@@ -46,6 +46,7 @@ public class Recognizer {
         this.tokenMap.put("mod", TokenClass.TK_MOD);
         this.tokenMap.put("and", TokenClass.TK_AND);
         this.tokenMap.put("or", TokenClass.TK_OR);
+        this.tokenMap.put("in", TokenClass.TK_IN);
 
         reset();
     }

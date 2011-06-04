@@ -4,6 +4,10 @@
  */
 package trm.lexical;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 /**
  *
  * @author Thyago
@@ -15,27 +19,21 @@ public class Main {
         Automaton automaton = CreateAutomaton.create();
 
 
-        //Test
+        //File test
 
 
-//        String texto = "";
-//        try {
-//            BufferedReader reader = new BufferedReader(new FileReader(new File("teste.trm")));
-//
-//            while (reader.ready()) {
-//                texto += reader.readLine() + System.getProperty("line.separator");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        //String arquivo = " false true  1.1 d123456 1212d /***aqui também*/ enquanto 3 //se 22\n   3hhg /***Isto é um comentário e deve ser ignorado*/ asdasds 123asd blá ";
+        String file = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File("C:/Users/Douglas/Documents/NetBeansProjects/trm-code/trm-compiler/src/serie_fibonnaci.txt")));
 
+            while (reader.ready()) {
+                file += reader.readLine() + System.getProperty("line.separator");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
-        String arquivo = "() {} [] + - * mod not or and > < = ; :  >= <=  = !=   <-";
-
-
-        Recognizer recognizer = new Recognizer(automaton, arquivo.toCharArray());
+        Recognizer recognizer = new Recognizer(automaton, file.toCharArray());
         recognizer.run();
 
     }
