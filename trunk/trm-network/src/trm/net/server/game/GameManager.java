@@ -203,7 +203,11 @@ public class GameManager {
 
     public void moveStone(Movement movement, ServerTask player) {
         RoomGame room = findRoomGameByPlayer(player);
-
+        
+        if (movement == null) {
+            throw new RuntimeException("movimenteto não especificado.");
+        }
+        
         if (room == null) {
             throw new RuntimeException("usario não pode mover a peça, "
                     + "pois não está em nenhuma sala.");
@@ -215,9 +219,12 @@ public class GameManager {
         switch (movement.action) {
             case PUT_LEFT:
                 room.putLeft(movement.stone, player);
+                movement.stone = room.getBoardStones().get(0);
                 break;
             case PUT_RIGHT:
                 room.putRight(movement.stone, player);
+                movement.stone = room.getBoardStones().get(
+                        room.getBoardStones().size() - 1);
                 break;
             case PASS:
                 movement = new Movement(null, Movement.Action.PASS);

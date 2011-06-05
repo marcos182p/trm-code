@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import trm.core.DominoesGame;
+import trm.core.Movement;
 import trm.core.Player;
 import trm.core.PlayerInf;
 import trm.core.Stone;
@@ -57,26 +58,38 @@ public class RoomGame {
     }
     
     void putLeft(Stone stone, ServerTask player) {
-        
-        if (!isValidPlay(player)) {
-            throw new RuntimeException("jogador não pertencente a essa sala");
-        }
-        dominoesGame.putLeft(stone, player.getPlayer());
+        runMovement(new Movement(stone, Movement.Action.PUT_LEFT), player);
     }
     
     void putRight(Stone stone, ServerTask player) {
-        if (!isValidPlay(player)) {
-            throw new RuntimeException("jogador não pertencente a essa sala");
-        }
-        dominoesGame.putRight(stone, player.getPlayer());
+        
+        runMovement(new Movement(stone, Movement.Action.PUT_RIGHT), player);
     }
     
     void putPass(ServerTask player) {
-        if (!isValidPlay(player)) {
+        runMovement(new Movement(null, Movement.Action.PASS), player);
+    }
+    
+    void runMovement(Movement movement, ServerTask task) {
+        if (!isStarted()) {
+            throw new RuntimeException("jogo não iniciado.");
+        }
+        
+        if (!tasks.contains(task)) {
             throw new RuntimeException("jogador não pertencente a essa sala");
         }
         
-        dominoesGame.putPass(player.getPlayer());
+        switch (movement.action) {
+            case PUT_LEFT:
+                dominoesGame.putLeft(movement.stone, task.getPlayer());
+                break;
+            case PUT_RIGHT:
+                dominoesGame.putRight(movement.stone, task.getPlayer());
+                break;
+            case PASS:
+                dominoesGame.putPass(task.getPlayer());
+                break;
+        }
     }
     
     
