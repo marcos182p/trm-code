@@ -253,7 +253,6 @@ public class ServerView extends javax.swing.JFrame implements ActionListener {
         clearTable(playersTable);
         
         DefaultTableModel temp = (DefaultTableModel)playersTable.getModel();
-        System.out.println(">>>>");
         for (PlayerServer player : players) {
             String id = player.getInf().getId().toString();
             String nickNameName = player.getInf().getNickName();
