@@ -229,6 +229,9 @@ public class Recognizer {
             case ATRIBUTION:
                 result = TokenClass.TK_ATTRIBUTION;
                 break;
+            case COMMAN:
+                result = TokenClass.TK_COMMAN;
+                break;
             default:
                 result = TokenClass.TK_UNDEFINED;
                 break;

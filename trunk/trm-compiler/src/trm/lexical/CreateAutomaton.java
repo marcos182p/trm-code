@@ -55,13 +55,14 @@ public class CreateAutomaton {
         State firstNotEqualState = new State("37", new StateDescription());
         State notEqualState = new State("38", new StateDescription(WordType.NOT_EQUAL));
         State atributionState = new State("39", new StateDescription(WordType.ATRIBUTION));
+        State commanState = new State("40", new StateDescription(WordType.COMMAN));
 
         // Instanciação/Criação do automato
         Automaton automaton = new Automaton(startState, idState, integerState, realState, charState, stringState,
                 openCurlyBracketState, closeCurlyBracketState, openParenthesesState, closeParenthesesState, addState,
                 subState, multState, divState, equalState, greaterThanState, lessThanState, openSquareBracketState,
                 closeSquareBracketState, semiColonState, colonState, greaterOrEqualState, lessOrEqualState, notEqualState,
-                atributionState);
+                atributionState, commanState);
 
 
 
@@ -75,6 +76,8 @@ public class CreateAutomaton {
         automaton.addTransition("7", startState, addState, new InclusiveRule('+'));
         automaton.addTransition("8", startState, subState, new InclusiveRule('-'));
         automaton.addTransition("9", startState, multState, new InclusiveRule('*'));
+
+        //aqui
         automaton.addTransition("10", startState, divState, new InclusiveRule('/'));
         automaton.addTransition("11", startState, equalState, new InclusiveRule('='));
         automaton.addTransition("12", startState, greaterThanState, new InclusiveRule('>'));
@@ -91,33 +94,34 @@ public class CreateAutomaton {
         automaton.addTransition("23", startState, openParenthesesState, new InclusiveRule('('));
         automaton.addTransition("24", startState, closeParenthesesState, new InclusiveRule(')'));
         automaton.addTransition("25", startState, firstNotEqualState, new InclusiveRule('!'));
-        automaton.addTransition("26", firstNotEqualState, notEqualState, new InclusiveRule('='));
-        automaton.addTransition("27", firstCharState, secondCharState, new IsDigitRule());
-        automaton.addTransition("28", firstCharState, secondCharState, new IsLetterRule());
-        automaton.addTransition("29", firstCharState, secondCharState, new IsSymbolRule());
-        automaton.addTransition("30", firstCharState, secondCharState, new WhitespaceRule());
-        automaton.addTransition("31", secondCharState, charState, new InclusiveRule('\''));
-        automaton.addTransition("32", firstStringState, firstStringState, new IsDigitRule());
-        automaton.addTransition("33", firstStringState, firstStringState, new IsLetterRule());
-        automaton.addTransition("34", firstStringState, firstStringState, new IsSymbolRule());
-        automaton.addTransition("35", firstStringState, firstStringState, new WhitespaceRule());
-        automaton.addTransition("36", firstStringState, stringState, new InclusiveRule('"'));
-        automaton.addTransition("37", idState, idState, new IsDigitRule());
-        automaton.addTransition("38", idState, idState, new IsLetterRule());
-        automaton.addTransition("39", idState, idState, new InclusiveRule('_'));
-        automaton.addTransition("40", integerState, integerState, new IsDigitRule());
-        automaton.addTransition("41", integerState, fisrtRealState, new InclusiveRule('.'));
-        automaton.addTransition("42", fisrtRealState, realState, new IsDigitRule());
-        automaton.addTransition("43", realState, realState, new IsDigitRule());
-        automaton.addTransition("44", firstSlashState, secondSlashState, new InclusiveRule('/'));
-        automaton.addTransition("45", firstSlashState, firstStarState, new InclusiveRule('*'));
-        automaton.addTransition("46", secondSlashState, secondSlashState, new ExclusiveRule('\n'));
-        automaton.addTransition("47", secondSlashState, startState, new InclusiveRule('\n'));
-        automaton.addTransition("48", firstStarState, firstStarState, new ExclusiveRule('*'));
-        automaton.addTransition("49", firstStarState, secondStarState, new InclusiveRule('*'));
-        automaton.addTransition("50", secondStarState, secondStarState, new InclusiveRule('*'));
-        automaton.addTransition("51", secondStarState, firstStarState, new ExclusiveRule('*', '/'));
-        automaton.addTransition("52", secondStarState, startState, new InclusiveRule('/'));
+        automaton.addTransition("26", startState, commanState, new InclusiveRule(','));
+        automaton.addTransition("27", firstNotEqualState, notEqualState, new InclusiveRule('='));
+        automaton.addTransition("28", firstCharState, secondCharState, new IsDigitRule());
+        automaton.addTransition("29", firstCharState, secondCharState, new IsLetterRule());
+        automaton.addTransition("30", firstCharState, secondCharState, new IsSymbolRule());
+        automaton.addTransition("31", firstCharState, secondCharState, new WhitespaceRule());
+        automaton.addTransition("32", secondCharState, charState, new InclusiveRule('\''));
+        automaton.addTransition("33", firstStringState, firstStringState, new IsDigitRule());
+        automaton.addTransition("34", firstStringState, firstStringState, new IsLetterRule());
+        automaton.addTransition("35", firstStringState, firstStringState, new IsSymbolRule());
+        automaton.addTransition("36", firstStringState, firstStringState, new WhitespaceRule());
+        automaton.addTransition("37", firstStringState, stringState, new InclusiveRule('"'));
+        automaton.addTransition("38", idState, idState, new IsDigitRule());
+        automaton.addTransition("39", idState, idState, new IsLetterRule());
+        automaton.addTransition("40", idState, idState, new InclusiveRule('_'));
+        automaton.addTransition("41", integerState, integerState, new IsDigitRule());
+        automaton.addTransition("42", integerState, fisrtRealState, new InclusiveRule('.'));
+        automaton.addTransition("43", fisrtRealState, realState, new IsDigitRule());
+        automaton.addTransition("44", realState, realState, new IsDigitRule());
+        automaton.addTransition("45", firstSlashState, secondSlashState, new InclusiveRule('/'));
+        automaton.addTransition("46", firstSlashState, firstStarState, new InclusiveRule('*'));
+        automaton.addTransition("47", secondSlashState, secondSlashState, new ExclusiveRule('\n'));
+        automaton.addTransition("48", secondSlashState, startState, new InclusiveRule('\n'));
+        automaton.addTransition("49", firstStarState, firstStarState, new ExclusiveRule('*'));
+        automaton.addTransition("50", firstStarState, secondStarState, new InclusiveRule('*'));
+        automaton.addTransition("51", secondStarState, secondStarState, new InclusiveRule('*'));
+        automaton.addTransition("52", secondStarState, firstStarState, new ExclusiveRule('*', '/'));
+        automaton.addTransition("53", secondStarState, startState, new InclusiveRule('/'));
 
         return automaton;
     }

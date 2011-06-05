@@ -110,5 +110,9 @@ public enum WordType {
     /**
      * Operador atribuição (<-)
      */
-    ATRIBUTION
+    ATRIBUTION,
+    /**
+     * virgula (,)
+     */
+    COMMAN
 }

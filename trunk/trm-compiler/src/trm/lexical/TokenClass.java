@@ -186,7 +186,11 @@ public enum TokenClass {
     /**
      * Classe fecha chaves - unívoca
      */
-    TK_CLOSE_CURLY_BRACKET(true);
+    TK_CLOSE_CURLY_BRACKET(true),
+    /**
+     * Classe virgula - unívoca
+     */
+    TK_COMMAN(true);
     private boolean univoque;
 
     /** Construtor TokenClass da Enumeração -
