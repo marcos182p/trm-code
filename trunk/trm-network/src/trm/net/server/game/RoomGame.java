@@ -71,6 +71,7 @@ public class RoomGame {
         dominoesGame.putRight(stone, player.getPlayer());
     }
     
+    
     private boolean isValidPlay(ServerTask task) {
         return tasks.contains(task) && isStarted();
     }
@@ -100,6 +101,7 @@ public class RoomGame {
         started = true;
     }
     
+    //TODO nem todos os usarios podem dar o stopGame
     void stopGame() {
         
         if (!started) return;
