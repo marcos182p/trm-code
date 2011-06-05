@@ -17,26 +17,24 @@ public class Main {
         List<Token> lista;
         LexicalAnalyzer analisadorLexico = new LexicalAnalyzer();
 
-        /*
+
         //Análise do arquivo alo_mundo
         analisadorLexico.setPathFile("src/alo_mundo");
         lista = (List<Token>) analisadorLexico.parse();
         System.out.println("\nQuantidade de Tokens Gerados pelo arquivo alo_mundo: " + lista.size() + "\n");
-        */
 
-        /*
-        //Análise do arquivo serie_fibonnaci.txt
+
+        //Análise do arquivo serie_fibonnaci
         analisadorLexico.setPathFile("src/serie_fibonnaci");
         lista = (List<Token>) analisadorLexico.parse();
         System.out.println("\nQuantidade de Tokens Gerados pela serie de fibonnaci: " + lista.size() + "\n");
-         */
 
-        
-        //Análise do arquivo serie_fibonnaci.txt
+
+        //Análise do arquivo shellsort
         analisadorLexico.setPathFile("src/shellsort");
         lista = (List<Token>) analisadorLexico.parse();
         System.out.println("\nQuantidade de Tokens Gerados pelo arquivo shellsort: " + lista.size() + "\n");
-         
+
 
 
 
