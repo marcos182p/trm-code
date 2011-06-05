@@ -1,6 +1,6 @@
 package trm.lexical.rules;
 
-/** Classe para execução de regras de verificação de espacos em branco. Implementa a interface IRule
+/** Classe WhitespaceRule para execução de regras de verificação de espacos em branco. Implementa a interface IRule
  * @author TRM
  * @version 0.99
  */

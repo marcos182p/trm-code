@@ -1,6 +1,6 @@
 package trm.lexical.rules;
 
-/** Classe para execução de regras de verificação de Simbolos. Implementa a interface IRule
+/** Classe IsSymbolRule para execução de regras de verificação de Simbolos. Implementa a interface IRule
  * @author TRM
  * @version 0.99
  */

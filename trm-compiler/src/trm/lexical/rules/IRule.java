@@ -1,6 +1,6 @@
 package trm.lexical.rules;
 
-/** Interface IRule
+/** Interface IRule - Responsável pela avaliação de caracteres
  * @author TRM
  * @version 0.99
  */

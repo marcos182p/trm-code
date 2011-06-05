@@ -1,12 +1,114 @@
 package trm.lexical;
 
-/**
- * Tipo de palavra reconhecida.
+/** Enumerção para o tipo de palavras que a linguagem reconhece.
+ * @author TRM
+ * @version 0.99
  */
 public enum WordType {
+    //FIXME ver com marcos/rafael se vai ficar assim mesmo ou não vai colocar comentarios JavaDoc nessa enumeração
 
-    WORD, UNDEFINED, INTEGER_CTE, REAL_CTE, CHARACTER_CTE, STRING_CTE, SPACE, OPEN_PARENTHESES,
-    CLOSE_PARENTHESES, OPEN_CURLY_BRACKET, CLOSE_CURLY_BRACKET, ADD, SUB, MULT, DIV, AND, OR,
-    EQUAL, GREATER_THAN, LESS_THAN, OPEN_SQUARE_BRACKET, CLOSE_SQUARE_BRACKET, SEMICOLON, COLON,
-    GREATER_OR_EQUAL, LESS_OR_EQUAL, NOT_EQUAL, ATRIBUTION
+    /**
+     *Palavras
+     */
+    WORD,
+    /**
+     *Palavras não definidas
+     */
+    UNDEFINED,
+    /**
+     * Inteiro constantes (valores)
+     */
+    INTEGER_CTE,
+    /**
+     * Real constantes (valores)
+     */
+    REAL_CTE,
+    /**
+     * Caracter constantes (valores)
+     */
+    CHARACTER_CTE,
+    /**
+     * String constantes (valores)
+     */
+    STRING_CTE,
+    /**
+     * Espaco em Branco
+     */
+    SPACE,
+    /**
+     * Abre parênteses
+     */
+    OPEN_PARENTHESES,
+    /**
+     * Fecha parênteses
+     */
+    CLOSE_PARENTHESES,
+    /**
+     * Abre Chaves
+     */
+    OPEN_CURLY_BRACKET,
+    /**
+     * Fecha Chaves
+     */
+    CLOSE_CURLY_BRACKET,
+    /**
+     * Operador adicionar (+)
+     */
+    ADD,
+    /**
+     * Operador subtrair (-)
+     */
+    SUB,
+    /**
+     * Operador multiplicar (*)
+     */
+    MULT,
+    /**
+     * Operador dividir (/)
+     */
+    DIV,
+    /**
+     * Operador igual (=)
+     */
+    EQUAL,
+    /**
+     * Operador maior que (>)
+     */
+    GREATER_THAN,
+    /**
+     * Operador menor que (<)
+     */
+    LESS_THAN,
+    /**
+     * Abre Colchetes
+     */
+    OPEN_SQUARE_BRACKET,
+    /**
+     * Fecha Colchetes
+     */
+    CLOSE_SQUARE_BRACKET,
+    /**
+     * Ponto e vírgula
+     */
+    SEMICOLON,
+    /**
+     * Dois Pontos
+     */
+    COLON,
+    /**
+     * Operador maior ou igual (>=)
+     */
+    GREATER_OR_EQUAL,
+    /**
+     * Operador menor ou igual (<=)
+     */
+    LESS_OR_EQUAL,
+    /**
+     * Operador não-igual(!=)
+     */
+    NOT_EQUAL,
+    /**
+     * Operador atribuição (<-)
+     */
+    ATRIBUTION
 }

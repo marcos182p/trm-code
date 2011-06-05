@@ -7,12 +7,16 @@ import trm.lexical.rules.IsLetterRule;
 import trm.lexical.rules.IRule;
 import trm.lexical.rules.WhitespaceRule;
 
-/**
- *
- * @author Marcos Paulo
+/** Classe TransitionGenarator - Criar Transições dinamicamente (Em fase de implementação)
+ * @author TRM
+ * @version 0.99
  */
 public class TransitionGenarator {
 
+    /** Método createRule - Cria uma nova regra dinamicamente
+     * @param  rule String - Regra a ser criada
+     * @return IRule - Instancia da nova regra Criada que implementa IRule
+     */
     public static IRule createRule(String rule) {
 
         rule = rule.trim();
@@ -25,12 +29,11 @@ public class TransitionGenarator {
         }
         rule = rule.replace("{", "").replace("}", "");
 
-        if(rule.contains("-")) {
+        if (rule.contains("-")) {
             System.out.println("aquii");
             return new InclusiveRule(rule.replace("-", "").toCharArray());
 
         }
         return new ExclusiveRule(rule.toCharArray());
     }
-
 }
