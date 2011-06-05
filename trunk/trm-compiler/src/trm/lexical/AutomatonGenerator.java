@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import trm.lexical.rules.Rule;
+import trm.lexical.rules.IRule;
 
 /**
  *
@@ -114,7 +114,7 @@ public class AutomatonGenerator {
         }
         //fim da geração da origem e do destino.
 
-        Rule rule = TransitionGenarator.createRule(temp[1]);
+        IRule rule = TransitionGenarator.createRule(temp[1]);
 
 
         return new Transition(source, target, rule);

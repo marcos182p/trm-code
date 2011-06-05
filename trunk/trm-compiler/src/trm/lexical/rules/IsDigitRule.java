@@ -1,7 +1,7 @@
 package trm.lexical.rules;
 
 
-public class IsDigitRule implements Rule {
+public class IsDigitRule implements IRule {
 
     @Override
     public boolean evaluate(char transitionChar) {

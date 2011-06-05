@@ -1,15 +1,15 @@
 package trm.lexical;
 
-import trm.lexical.rules.Rule;
+import trm.lexical.rules.IRule;
 
 public class Transition {
 
     private State source;
     private State target;
     
-    private Rule rule;
+    private IRule rule;
 
-    public Transition(State source, State target, Rule rule) {
+    public Transition(State source, State target, IRule rule) {
         this.source = source;
         this.target = target;
         this.rule = rule;

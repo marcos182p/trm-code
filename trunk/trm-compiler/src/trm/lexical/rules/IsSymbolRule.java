@@ -8,7 +8,7 @@ package trm.lexical.rules;
  *
  * @author thyago
  */
-public class IsSymbolRule implements Rule {
+public class IsSymbolRule implements IRule {
 
     char[] simbolos = {'_', '+', '-', '=', '[', ']', '{', '}', '^', '~', '`', '´', ',', '”', '.',
         ';', ':', '/', '?', '\\', '\'', '¬', '¹', '²', '³', '£', '¢', '§', 'ª', 'º', '°', '·', '!',

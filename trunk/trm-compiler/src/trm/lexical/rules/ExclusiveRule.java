@@ -9,7 +9,7 @@ public class ExclusiveRule implements IRule {
     private char[] excludedChars;
 
     /** Construtor da Classe ExclusiveRule
-     * @param  excludedChars char[] - Caracterer não permitidos
+     * @param  excludedChars char... - Todos os caractereres não permitidos
      */
     public ExclusiveRule(char... excludedChars) {
         this.excludedChars = excludedChars;
