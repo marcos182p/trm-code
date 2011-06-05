@@ -5,6 +5,10 @@
 
 package trm.view.game.main;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import trm.net.model.protocol.ResponseServer;
 import trm.view.game.player.PlayerPanel;
 import trm.view.game.utils.BGPanel;
 import trm.view.game.board.BoardPanel;
@@ -19,6 +23,8 @@ import javax.swing.UIManager;
 import trm.core.SquareNumber;
 import trm.core.Stone;
 import trm.net.client.ClientTask;
+import trm.net.client.Listener;
+import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
 import trm.view.game.main.listener.GameScreenListener;
 import trm.view.game.player.PlayerList;
@@ -28,20 +34,19 @@ import trm.view.game.utils.ResourceWindow;
  *
  * @author Rafael
  */
-public class GameScreen extends JFrame{
+public class GameScreen extends JFrame implements Listener{
 
     private BoardPanel board;
     private ChatPanel chatPanel;
     private PlayerPanel playerPanel;
     private BGPanel content;
     private PlayerList playerList;
-
+    private ClientTask task;
+    
     public GameScreen() throws Exception{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         
-        ClientTask task = new ClientTask(null, new Socket("localhost", 8080));
-
-        addWindowListener(new GameScreenListener(task));
+        task = new ClientTask(null, new Socket("localhost", 8080));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -59,9 +64,13 @@ public class GameScreen extends JFrame{
         playerList = new PlayerList(panel);
         
         task.subscribe(RequestType.PUT_MESSAGE, chatPanel);
+        task.subscribe(RequestType.GET_PLAYERS, playerList);
+        task.subscribe(RequestType.ENTER_ROOM, this);
+        task.subscribe(RequestType.EXIT_ROOM, this);
         
         new Thread(task).start();
 
+        addWindowListener(new GameScreenListener(task, "jogador 3", "sala de teste"));
         setup();
         setResizable(false);
     }
@@ -119,5 +128,17 @@ public class GameScreen extends JFrame{
 
     public void open() {
         setVisible(true);
+    }
+
+    @Override
+    public void update(ResponseServer response) {
+        try {
+            task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, null, null, null));
+            if(response.getRequestType() == RequestType.EXIT_ROOM) {
+                chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
