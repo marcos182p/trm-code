@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import trm.lexical.rules.Rule;
+import trm.lexical.rules.IRule;
 
 public class Automaton {
 
@@ -35,7 +35,7 @@ public class Automaton {
         this(start, new State[]{end});
     }
 
-    public void addTransition(State source, State target, Rule rule) {
+    public void addTransition(State source, State target, IRule rule) {
 
         addTransition(new Transition(source, target, rule));
     }

@@ -4,7 +4,7 @@ import trm.lexical.rules.ExclusiveRule;
 import trm.lexical.rules.InclusiveRule;
 import trm.lexical.rules.IsDigitRule;
 import trm.lexical.rules.IsLetterRule;
-import trm.lexical.rules.Rule;
+import trm.lexical.rules.IRule;
 import trm.lexical.rules.WhitespaceRule;
 
 /**
@@ -13,7 +13,7 @@ import trm.lexical.rules.WhitespaceRule;
  */
 public class TransitionGenarator {
 
-    public static Rule createRule(String rule) {
+    public static IRule createRule(String rule) {
 
         rule = rule.trim();
         if (rule.equals("white")) {
