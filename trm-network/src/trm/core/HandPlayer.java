@@ -35,9 +35,19 @@ public class HandPlayer {
         return Collections.unmodifiableList(new ArrayList<Stone>(stones));
     }
     
-    // TODO Fazer verificação correta.
+    // TODO Fazer verificação de uma forma melhor.
     public boolean containsStone(Stone stone) {
-        return stones.contains(stone);
+        for (Stone s : stones) {
+            if (s.equals(stone)) {
+                return true;
+            }
+            if (s.equals(new Stone(stone.getSquareRight(), 
+                    stone.getSquareLeft()))) {
+                
+                return true;
+            }
+        }
+        return false;
     }
     
     public Player getPlayer() {

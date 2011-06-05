@@ -44,7 +44,6 @@ public class RequestHandlerImpl extends RequestHandler {
                 case END_GAME:
                     gameAction.endGame();
                     break;
-
                 case GET_ROOMS:
                     response.rooms = gameAction.listRooms();
                     break;
@@ -57,6 +56,7 @@ public class RequestHandlerImpl extends RequestHandler {
                 case PUT_STONE:
                     gameAction.moveStone(request.movement);
                     response.movement = request.movement;
+                    response.player = serverTask.getPlayer().getInf();
                     break;
                 case PUT_MESSAGE:
                     gameAction.postMessage(request.chatMessage);

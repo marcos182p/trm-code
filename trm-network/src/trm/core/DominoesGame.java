@@ -140,17 +140,17 @@ public class DominoesGame {
     private void put(Stone stone, Player player, int position) {
         
         if (winner != null) {
-            throw new RuntimeException("o jogo ja tem um vencendor");
+            throw new RuntimeException("o jogo ja tém um vencendor");
         }
         
         if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
         }
-
+        
         if (gameStones.contains(stone)) {
             throw new RuntimeException("Peça ja está no jogo");
         }
-        
+
         if (!getHandPlayer(player).containsStone(stone)) {
             throw new RuntimeException("Peça não pertencente ao jogador");
         }
