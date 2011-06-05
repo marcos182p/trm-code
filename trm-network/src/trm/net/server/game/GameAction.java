@@ -12,11 +12,21 @@ public interface GameAction {
     /**
      * entra em uma sala de jogo
      */
-    void entryRoom(String roomName) throws RuntimeException;
+    void enterRoom(String roomName) throws RuntimeException;
     /**
      * sai da sala do jogo
      */
     void exitRoom() throws RuntimeException;
+    
+    /**
+     * Inicia o jogo na sala que o jogador estar
+     */
+    void startGame() throws RuntimeException;
+    /**
+     * finalisa o jogo na sala que o jogador estar
+     */
+    void endGame() throws RuntimeException;
+    
     /**
      * lista as salas do que tem para jogar
      */
@@ -24,11 +34,11 @@ public interface GameAction {
     /**
      * lista as peças da mão do jogador
      */
-    List<Stone> listHandPlayer() throws RuntimeException;
+    List<Stone> getHandPlayer() throws RuntimeException;
     /**
      * lista as peças do tabuleiro do jogo
      */
-    List<Stone> listBoardStones() throws RuntimeException;
+    List<Stone> getBoardStones() throws RuntimeException;
     /**
      * Move uma peça no jogo
      */
@@ -37,12 +47,12 @@ public interface GameAction {
      * posta uma mensagem no jogo
      */
     void postMessage(String message) throws RuntimeException;
-
-    void startGame();
-
-    void endGame();
-
+    /**
+     * cria uma sala
+     */
     RoomInf createRoomGame(String roomName);
-
-    List<PlayerInf> listPlayer();
+    /**
+     * lista os jogadores da sala do jogador, em ordem de jogada
+     */
+    List<PlayerInf> getPlayers();
 }

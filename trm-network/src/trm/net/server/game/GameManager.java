@@ -158,7 +158,9 @@ public class GameManager {
         roomsMap.put(player.getPlayer(), room);
         try {
             
-            ResponseServer response = new ResponseServer(ResponseType.ACK, RequestType.ENTER_ROOM);
+            ResponseServer response = new ResponseServer(ResponseType.ACK, 
+                    RequestType.ENTER_ROOM);
+            
             response.player = player.getPlayer().getInf();
             response.playersInGame = room.getPlayers();
             
@@ -173,11 +175,26 @@ public class GameManager {
         RoomGame room = roomsMap.get(player.getPlayer());
 
         if (room == null) {
-            throw new RuntimeException("o usuario não podê sair da sala," + "pois não está cadastrado em nenhuma.");
+            throw new RuntimeException("o usuario não podê sair da sala,"
+                    + "pois não está cadastrado em nenhuma.");
         }
 
         room.removeServerTask(player);
         roomsMap.remove(player.getPlayer());
+        
+        try {
+
+            ResponseServer response = new ResponseServer(ResponseType.ACK,
+                    RequestType.EXIT_ROOM);
+
+            response.player = player.getPlayer().getInf();
+            response.playersInGame = room.getPlayers();
+
+            room.broadcast(response, player);
+
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public void removePlayer(ServerTask player) {

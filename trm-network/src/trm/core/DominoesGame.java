@@ -56,6 +56,20 @@ public class DominoesGame {
     public List<Stone> getBoardStones() {
         return Collections.unmodifiableList(gameStones);
     }
+    /**
+     * remove um jogador do jogo
+     */
+    public void removePlayer(Player player) {
+        HandPlayer hand = null;
+        for (HandPlayer h: playersQueue) {
+            if (player.equals(h.getPlayer())) {
+                hand = h;
+                break;
+            }
+                
+        }
+        playersQueue.remove(hand);
+    }
     
     
     //TODO refatorar!
