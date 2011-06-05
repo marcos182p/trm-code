@@ -202,6 +202,7 @@ public class GameManager {
             room.broadcast(response, player);
 
         } catch (IOException ex) {
+            ex.printStackTrace();
             throw new RuntimeException(ex);
         }
     }
@@ -209,11 +210,11 @@ public class GameManager {
     public void removePlayer(ServerTask player) {
 
         RoomGame room = roomsMap.get(player.getPlayer());
-
+        
         if (room != null) {
             removePlayerRoom(player);
         }
-
+        
         players.remove(player.getPlayer());
 
     }

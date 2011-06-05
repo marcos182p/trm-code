@@ -83,6 +83,7 @@ public class ServerTask implements Runnable {
         } finally {
             //TODO notificar sala de jogo casa ele esteja em alguma.
             close();
+            System.out.println(">><<<<");
             GameManager.getPlayerManager().removePlayer(this);
         }
     }
