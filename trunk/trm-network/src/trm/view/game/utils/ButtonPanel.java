@@ -46,7 +46,7 @@ public class ButtonPanel extends BGPanel{
 		}
 		return null;
 	}
-	public void setup() {
+	private void setup() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(5,5,5,5);

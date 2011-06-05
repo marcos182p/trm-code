@@ -72,13 +72,13 @@ public class ChatPanel extends BGPanel implements  Listener{
     }
 
     public void appendMessage(String text) {
-        chatArea.append(text);
+        chatArea.append(text + System.getProperty("line.separator"));
         chatArea.setCaretPosition( chatArea.getText().length() );
     }
 
     @Override
     public void update(ResponseServer response) {
-        appendMessage(response.player.getNickName() + " >> " + response.chatMessage + System.getProperty("line.separator"));
+        appendMessage(response.player.getNickName() + " >> " + response.chatMessage);
     }
 
 }

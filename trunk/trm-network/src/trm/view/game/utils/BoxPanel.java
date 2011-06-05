@@ -8,19 +8,19 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 
 /**Cria um painel com um label
  * e uma caixa de texto em baixo*/
 public class BoxPanel extends BGPanel{
 	private JLabel label;
-	private JTextArea messageArea;
+	private JTextPane messageArea;
 	
 	public BoxPanel(String bg, String label) {
 		super(bg);
 		this.label = new JLabel(label);
-		this.messageArea = new JTextArea();
-		this.messageArea.setLineWrap(true);
+		this.messageArea = new JTextPane();
 		setup();
 	}
 	
@@ -38,7 +38,7 @@ public class BoxPanel extends BGPanel{
 	public void setContent(String content) {
 		this.messageArea.setText(content);
 	}
-	public void setup() {
+	private void setup() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		JScrollPane pane = new JScrollPane(messageArea);

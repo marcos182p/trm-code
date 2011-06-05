@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import trm.net.client.ClientTask;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
+import trm.view.game.chat.ChatPanel;
 
 /**
  *
@@ -20,18 +21,23 @@ import trm.net.model.protocol.RequestType;
 public class GameScreenListener implements WindowListener{
 
     private ClientTask task;
-
-    public GameScreenListener(ClientTask taskToClose) {
+    private String nickname;
+    private String room;
+    
+    public GameScreenListener(ClientTask taskToClose,String nickname, String room) {
         this.task = taskToClose;
+        this.nickname = nickname;
+        this.room = room;
     }
 
     @Override
     public void windowOpened(WindowEvent arg0) {
         try {
-            task.sendRequest(new RequestClient(RequestType.LOGIN, "Marcos", null, null, null));
-            String roomGame = "test";
-            task.sendRequest(new RequestClient(RequestType.PUT_ROOM, null, roomGame, null, null));
-            task.sendRequest(new RequestClient(RequestType.ENTER_ROOM, null, roomGame, null, null));
+            task.sendRequest(new RequestClient(RequestType.LOGIN, nickname, null, null, null));
+            task.sendRequest(new RequestClient(RequestType.PUT_ROOM, null, room, null, null));
+            task.sendRequest(new RequestClient(RequestType.ENTER_ROOM, null, room, null, null));
+            task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, room, null, null));
+            
         }catch(Exception e) {
             
         }
@@ -41,7 +47,8 @@ public class GameScreenListener implements WindowListener{
     public void windowClosing(WindowEvent arg0) {
         try {
             System.out.println("closing");
-            task.close();
+            task.sendRequest(new RequestClient(RequestType.EXIT_ROOM, nickname, room, null, null));
+            
         } catch (Exception ex) {
             Logger.getLogger(GameScreenListener.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -49,6 +56,12 @@ public class GameScreenListener implements WindowListener{
 
     @Override
     public void windowClosed(WindowEvent arg0) {
+        try {
+            task.sendRequest(new RequestClient(RequestType.CLOSE_CONNECTION));
+             task.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GameScreenListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
