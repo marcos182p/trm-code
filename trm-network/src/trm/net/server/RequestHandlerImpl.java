@@ -2,7 +2,6 @@ package trm.net.server;
 
 import java.io.IOException;
 import trm.net.server.game.RoomInf;
-import trm.net.server.game.RoomGame;
 import trm.net.server.game.GameAction;
 import trm.net.server.game.GameManager;
 import java.util.ArrayList;
@@ -10,8 +9,7 @@ import java.util.List;
 import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.net.model.protocol.RequestClient;
-import trm.net.model.protocol.RequestClient.Position;
-import trm.net.model.protocol.RequestType;
+import trm.net.model.protocol.RequestClient.Movement;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.model.protocol.ResponseType;
 
@@ -31,50 +29,33 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
     @Override
     public ResponseServer handle(RequestClient request) {
         
-        PlayerInf player = serverTask.getPlayer().getInf();
-
-        RequestType requestType = request.requestType;
-        requestType = requestType != null? requestType: RequestType.UNDEFINED;
-        String ackMessage = null;
-        String erroMessage = null;
-        ResponseType responseType = ResponseType.ACK;
-        List<Stone> handPlayer = null;
-        List<Stone> boardStones = null;
-        List<PlayerInf> players = null;
-        List<RoomInf> rooms = null;
-        String chatMessage = request.chatMessage;
-
-        RoomInf newRoom = null;
+        ResponseServer response = new ResponseServer(ResponseType.ACK, 
+                request.requestType);
 
         try {
 
-            switch (requestType) {
-                case ENTRY_ROOM:
+            switch (request.requestType) {
+                case ENTER_ROOM:
                     entryRoom(request.roomId);
-                    ackMessage = "Entrou na sala " + request.roomId + "!";
                     break;
                 case EXIT_ROOM:
                     exitRoom();
-                    ackMessage = "Saida da sala com sucesso!";
                     break;
                 case LIST_ROOMS:
-                    rooms = listRooms();
-                    ackMessage = "Listagem de salas concluida com sucesso!";
+                    response.rooms = listRooms();
                     break;
                 case LIST_HAND:
-                    handPlayer = listHandPlayer();
+                    response.handStones = listHandPlayer();
                     break;
                 case LIST_BOARD_STONES:
-                    boardStones = listBoardStones();
-                    ackMessage = "Listagem de pedras concluida com sucesso!";
+                    response.boardStones = listBoardStones();
                     break;
                 case MOVE_STONE:
-                    moveStone(request.postionStone, request.stone);
-                    ackMessage = "Pedra movida com sucesso!";
+                    moveStone(request.movement, request.stone);
                     break;
                 case POST_MESSAGE:
-                    postMessage(chatMessage);
-                    ackMessage = "Mensagem postada com sucesso!";
+                    postMessage(request.chatMessage);
+                    response.chatMessage = request.chatMessage;
                     break;
                 case START_GAME:
                     startGame();
@@ -83,28 +64,31 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
                     endGame();
                     break;
                 case LIST_PLAYERS:
-                    players = listPlayer();
+                    response.playersInGame = listPlayer();
                     break;
                 case CREATE_ROOM:
-                    newRoom = createRoomGame(request.roomName);
+                    response.newRoom = createRoomGame(request.newRoom);
                     break;
                 case UNDEFINED:
-                    throw new RuntimeException("tipo de mensagem não reconhecida!");
+                    throw new RuntimeException("tipo de mensagem não "
+                            + "reconhecida!");
+
                 default:
-                    throw new RuntimeException("tipo de mensagem: " + requestType + " ainda não reconhecida!");
+                    throw new RuntimeException("tipo de mensagem: "
+                            + request.requestType + " ainda não reconhecida!");
                     
             }
-
+            
         } catch (Exception e) {
-
-            erroMessage = e.getMessage();
-            responseType = ResponseType.ERRO;
+            response = new ResponseServer(ResponseType.ERRO, request.requestType);
+            response.erroMessage = e.getMessage();
+            //TODO colocar sistema de log.
             e.printStackTrace();
         }
+        
+        response.senderPlayer = serverTask.getPlayer().getInf();
 
-        return new ResponseServer(responseType, requestType, ackMessage, 
-                erroMessage, rooms, handPlayer, boardStones, chatMessage,
-                player, null,  players);
+        return response;
     }
 
     @Override
@@ -135,7 +119,7 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
     }
 
     @Override
-    public void moveStone(Position position, Stone stone) throws RuntimeException {
+    public void moveStone(Movement position, Stone stone) throws RuntimeException {
 
         gameManager.moveStone(position, stone, serverTask);
     }

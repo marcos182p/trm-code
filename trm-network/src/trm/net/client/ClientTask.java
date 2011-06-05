@@ -85,7 +85,7 @@ public class ClientTask implements Runnable {
     }
     
     public void notifyAll(ResponseServer response) {
-        List<Listener> listeners = listenersMap.get(response.requestType);
+        List<Listener> listeners = listenersMap.get(response.getRequestType());
 
         if (listeners == null) return;
 
