@@ -43,7 +43,7 @@ public class GameScreen extends JFrame implements Listener{
     private PlayerList playerList;
     private ClientTask task;
     
-    public GameScreen() throws Exception{
+    public GameScreen(String playerNickname, String roomName) throws Exception{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         
         task = new ClientTask(null, new Socket("localhost", 8080));
@@ -58,19 +58,18 @@ public class GameScreen extends JFrame implements Listener{
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
-        board = new BoardPanel(panel, 14, 14, playerColor, othersColor);
+        board = new BoardPanel(panel,task, playerNickname, 14, 14, playerColor, othersColor);
         chatPanel = new ChatPanel(panel, task.getSender());
-        playerPanel = new PlayerPanel(panel, board, playerColor);
+        playerPanel = new PlayerPanel(panel, task, board, playerColor);
         playerList = new PlayerList(panel);
         
         task.subscribe(RequestType.PUT_MESSAGE, chatPanel);
         task.subscribe(RequestType.GET_PLAYERS, playerList);
         task.subscribe(RequestType.ENTER_ROOM, this);
         task.subscribe(RequestType.EXIT_ROOM, this);
-        
-        new Thread(task).start();
+        task.subscribe(RequestType.PUT_STONE, board);
 
-        addWindowListener(new GameScreenListener(task, "jogador 3", "sala de teste"));
+        addWindowListener(new GameScreenListener(task, playerNickname, roomName));
         setup();
         setResizable(false);
     }
@@ -127,6 +126,7 @@ public class GameScreen extends JFrame implements Listener{
     }
 
     public void open() {
+        new Thread(task).start();
         setVisible(true);
     }
 

@@ -17,7 +17,7 @@ public class Teste {
 
         ResourceWindow.setBG("board1.png");
         ResourceWindow.setPanelImage("wood");
-        GameScreen screen = new GameScreen();
+        GameScreen screen = new GameScreen("jogador 2", "teste room");
         screen.addPlayerPiece(SquareNumber.ZERO, SquareNumber.ZERO);
         screen.addPlayerPiece(SquareNumber.SIX, SquareNumber.ZERO);
         screen.addPlayerPiece(SquareNumber.FIVE, SquareNumber.THREE);

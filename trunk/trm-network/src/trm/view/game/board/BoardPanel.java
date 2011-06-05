@@ -5,6 +5,10 @@
 
 package trm.view.game.board;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import trm.net.model.protocol.ResponseServer;
 import trm.view.game.utils.GameSide;
 import trm.view.game.utils.StoneSide;
 import trm.view.game.utils.Orientation;
@@ -15,7 +19,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
+import trm.core.Movement;
+import trm.core.SquareNumber;
 import trm.core.Stone;
+import trm.net.client.ClientTask;
+import trm.net.client.Listener;
+import trm.net.model.protocol.RequestClient;
+import trm.net.model.protocol.RequestType;
 import trm.view.game.utils.BGPanel;
 import trm.view.utils.Drawable;
 
@@ -24,23 +34,24 @@ import trm.view.utils.Drawable;
  * desenhados os dominós
  * @author rafanet
  */
-public class BoardPanel extends BGPanel{
+public class BoardPanel extends BGPanel implements Listener{
 
     private List<DominoView> dominos;
     private Color playerColor;
     private Color othersColor;
     public static final int BOARD_BORDER = 16;
     private DominosGrid grid;
-    private int rows, cols;
+    private String playerNickname;
+    private ClientTask task;
 
-    public BoardPanel(String backgroundBoard, int rows, int cols, Color playerColor, Color othersColor) {
+    public BoardPanel(String backgroundBoard, ClientTask task,  String playerNickname, int rows, int cols, Color playerColor, Color othersColor) {
         super(backgroundBoard);
-        this.rows = rows;
-        this.cols = cols;
         this.dominos = new ArrayList<DominoView>();
         this.playerColor = playerColor;
         this.othersColor = othersColor;
-
+        this.playerNickname = playerNickname;
+        this.task = task;
+        
         setPreferredSize(
                 new Dimension(
                 rows * DominoView.SIZE + 2*BOARD_BORDER,
@@ -84,6 +95,40 @@ public class BoardPanel extends BGPanel{
         super.paintComponent(g);
         for(Drawable d : dominos) {
             d.draw(g);
+        }
+    }
+
+    @Override
+    /*FIXME preciso que response.movement seja recebido*/
+    public void update(ResponseServer response) {
+        System.out.println("BoardPanel: here i'm listening");
+        Movement m = response.movement;
+        System.out.println("BoardPanel: player = " + response.player.getNickName());
+        System.out.println("BoardPanel: ovement = " + m);
+        if(m != null) {
+            switch(m.action) {
+                case PUT_LEFT:
+                    putStone(
+                            m.stone,
+                            GameSide.LEFT,
+                            StoneSide.UP,
+                            response.player.getNickName().equals(playerNickname));
+                    break;
+                case PUT_RIGHT:
+                    putStone(
+                            m.stone,
+                            GameSide.RIGHT,
+                            StoneSide.UP,
+                            response.player.getNickName().equals(playerNickname));
+                    break;
+                case PASS:
+                    break;
+            }
+        }
+        try {
+            task.sendRequest(new RequestClient(RequestType.GET_PLAYERS));
+        } catch (IOException ex) {
+            Logger.getLogger(BoardPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
