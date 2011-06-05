@@ -18,7 +18,7 @@ public class CreateAutomaton {
      * @return Automaton - Instância do autômato que reconhecerá
      * a linguagem
      */
-    public static Automaton create() {
+    public static Automaton getInstance() {
 
         //Criação dos estados do automato
         State startState = new State("1", new StateDescription());
