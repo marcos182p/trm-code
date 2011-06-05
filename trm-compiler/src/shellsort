@@ -1,5 +1,5 @@
-shellSort ( array : int[], size : int ) {
-	h, c, i, j : int;
+shellSort ( array : integer[], size : integer ) {
+	h, c, i, j : integer;
 	h <- size/2;
 
 	while( h > 0 ) {
