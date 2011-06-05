@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import trm.core.Stone;
+import trm.net.client.ClientTask;
 import trm.view.game.player.listener.DominoButtonListener;
 import trm.view.game.player.listener.SendStoneListener;
 import trm.view.game.utils.BGPanel;
@@ -35,16 +36,17 @@ public class PlayerPanel extends BGPanel{
     private static final int selectedAlpha = 70;
     private ButtonPanel buttons;
 
-    public PlayerPanel(String background, BoardPanel board, Color playerColor) {
+    public PlayerPanel(String background, ClientTask task, BoardPanel board, Color playerColor) {
         super(background);
         this.dominos = new HashMap<Stone, JButton>();
         this.playerColor = playerColor;
         this.selectedStone = null;
 
-        buttons = new ButtonPanel(background, ButtonPanel.VERTICAL, "<<", ">>");
+        buttons = new ButtonPanel(background, ButtonPanel.VERTICAL, "<<", "pass", ">>");
 
-        buttons.getButton("<<").addActionListener(new SendStoneListener(this, board, GameSide.LEFT));
-        buttons.getButton(">>").addActionListener(new SendStoneListener(this, board, GameSide.RIGHT));
+        buttons.getButton("<<").addActionListener(new SendStoneListener(this, task, board, GameSide.LEFT));
+        buttons.getButton(">>").addActionListener(new SendStoneListener(this, task, board, GameSide.RIGHT));
+        buttons.getButton("pass").addActionListener(new SendStoneListener(this, task, board, null));
         
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setup();

@@ -5,6 +5,7 @@
 package trm.view.game.chat;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import sun.font.Font2D;
 import trm.net.client.Listener;
 import trm.net.model.Sender;
 import trm.net.model.protocol.RequestClient;
@@ -39,8 +41,12 @@ public class ChatPanel extends BGPanel implements  Listener{
             chat.addActionListener(new ChatListener(sender, chat));
         this.chatArea = new JTextArea();
         this.chatArea.setEditable(false);
-
+        this.chatArea.setWrapStyleWord(true);
         
+        Font f = this.chatArea.getFont();
+        Font f2 = new Font(f.getName(), f.getStyle(), f.getSize()-2);
+        
+        this.chatArea.setFont(f2);
 
         setup();
     }

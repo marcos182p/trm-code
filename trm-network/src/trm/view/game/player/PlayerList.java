@@ -13,9 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import trm.core.PlayerInf;
 import trm.net.client.Listener;
-import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
-import trm.net.model.protocol.ResponseType;
 import trm.view.game.utils.ListPanel;
 
 /**
@@ -48,9 +46,6 @@ public class PlayerList extends ListPanel implements Listener {
 
     public void setPlayers(List<String> players) {
         model.clear();
-        for(String s : players) {
-            System.out.println("adding player: " + s);
-        }
         model.addElement(players.get(0) + SEPARATOR + currentPlayerComplement);
         for (int i = 1; i < players.size(); i++) {
             model.addElement(players.get(i) + SEPARATOR + waitingPlayerComplement);
