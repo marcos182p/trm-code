@@ -9,7 +9,8 @@ import java.util.Collection;
 public interface ILexical {
 
     /** Método que analisa determinada entidade.
-     * @return Collection<Token> - Resultado da avaliação
+     * @return Collection<Token> - Lista de tokens gerados
+     * depois da avaliação/análise
      */
     Collection<Token> parse();
 }

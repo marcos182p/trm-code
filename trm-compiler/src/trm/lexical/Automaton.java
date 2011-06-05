@@ -118,7 +118,6 @@ public class Automaton {
      * @param  c char - Caracter a ser lido.
      * @return State - O estado alvo desta transição
      */
-    //FIXME colocar nome de metodo mais sugestivo.
     public State nextTargetState(State source, char c) {
         Set<Transition> trasition = getTransitions(source);
 
