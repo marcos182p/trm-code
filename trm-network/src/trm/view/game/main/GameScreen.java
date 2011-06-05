@@ -58,7 +58,7 @@ public class GameScreen extends JFrame{
         playerPanel = new PlayerPanel(panel, board, playerColor);
         playerList = new PlayerList(panel);
         
-        task.subscribe(RequestType.POST_MESSAGE, chatPanel);
+        task.subscribe(RequestType.PUT_MESSAGE, chatPanel);
         
         new Thread(task).start();
 

@@ -1,5 +1,6 @@
 package trm.net.model.protocol;
 
+import trm.core.Movement;
 import com.google.gson.reflect.TypeToken;
 import trm.core.SquareNumber;
 import trm.core.Stone;
@@ -12,39 +13,28 @@ import trm.net.util.ParserMessage;
  */
 public class RequestClient {
 
-    public static enum Movement {
-
-        PUT_LEFT, PUT_RIGHT, PASS
-    }
+    /**
+     * tipo de requisição
+     */
+    public RequestType requestType;
     /**
      * apelido do usuario
      */
-    public String userName;
+    public String nickName;
     /**
-     * numero da sala que o úsuario quer entrar
+     * numero da sala que o úsuario quer entrar ou cabeçalho que é usado quando 
+     * o jogador quer criar uma sala, ele não precisa entrar nessa sala
+     * >> a semantica desse atributo dependera do tipo requisição <<
      */
-    public Long roomId;
+    public String room;
     /**
-     * cabeçalho que é usado quando o jogador quer criar uma sala, ele não
-     * precisa entrar nessa sala
-     */
-    public String newRoom;
-    /**
-     * Peça que vai ser jogada no jogo
-     */
-    public Stone stone;
-    /**
-     * a posição que a peça vai ser jogada no jogo
+     * Movimento que o jogador quer fazer no jogo
      */
     public Movement movement;
     /**
      * mensagem pra ser postada na sala do jogo
      */
     public String chatMessage;
-    /**
-     * tipo de requisição
-     */
-    public RequestType requestType;
 
     public RequestClient() {
     }
@@ -53,33 +43,32 @@ public class RequestClient {
         this.requestType = requestType;
     }
 
-    public RequestClient(String userName, Long roomId, String roomName,
-            Stone stone, Movement postionStone, String chatMessage,
-            RequestType requestType) {
-        
-        this.userName = userName;
-        this.roomId = roomId;
-        this.newRoom = roomName;
-        this.stone = stone;
-        this.movement = postionStone;
+    public RequestClient(RequestType requestType, String nickName, String room, 
+            Movement movement, String chatMessage) {
+        this.nickName = nickName;
+        this.room = room;
+        this.movement = movement;
         this.chatMessage = chatMessage;
         this.requestType = requestType;
     }
+
 
     public static void main(String[] args) throws InvalidMessageException {
         ParserMessage<RequestClient> messageFactory = 
                 new GsonParser<RequestClient>(new TypeToken<RequestClient>() {
         });
 
-        RequestClient message = new RequestClient("marcos", 1L, null,
-                new Stone(SquareNumber.FIVE, SquareNumber.FIVE), Movement.PUT_LEFT,
-                null, RequestType.LIST_ROOMS);
+        RequestClient message = new RequestClient(RequestType.GET_ROOMS,
+                "marcos", "salaTest", new Movement(
+                new Stone(SquareNumber.FIVE, SquareNumber.FIVE),
+                Movement.Action.PUT_LEFT), null);
 
 
         String m = messageFactory.buildMessage(message);
         System.out.println(m);
 
-        RequestClient message2 = messageFactory.parseMessage("{\"user-name\":\"marcos\",\"room-game\":1,\"postion_stone\":\"LEFT\",\"request-type\":\"LOGIN\"}");
+        RequestClient message2 = messageFactory.parseMessage(
+                "{\"user-name\":\"marcos\",\"room-game\":1,\"postion_stone\":\"LEFT\",\"request-type\":\"LOGIN\"}");
 
         System.out.println(message2.requestType);
     }

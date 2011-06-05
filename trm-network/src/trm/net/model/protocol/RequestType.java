@@ -7,22 +7,22 @@ public enum RequestType {
 
     LOGIN,
 
-    LIST_ROOMS,
-
-    CREATE_ROOM,
-
-    ENTER_ROOM,
-    EXIT_ROOM,
-
-    MOVE_STONE,
-    POST_MESSAGE,
-    LIST_BOARD_STONES,
-    LIST_HAND,
-    LIST_PLAYERS,
-
-    START_GAME,
-    END_GAME,
+    ENTER_ROOM,//solicita a entrada em uma sala
+    EXIT_ROOM,//solicita a saida da sala que está jogando
     
-    CLOSE_CONNECTION,
-    UNDEFINED
+    START_GAME,//solicita o inicio do jogo
+    END_GAME,//solicita o fim do jogo
+
+    PUT_STONE,//solicitação para colocar uma peça no tabuleiro
+    PUT_MESSAGE,//solicitação para postar uma mensagens para os outros players
+    PUT_ROOM,//solicita que uma nova sala seja adicionada no servidor
+    
+    GET_STONES,//solicita peças do tabuleiro
+    GET_HAND,//solicita peças da mão do jogador
+    GET_PLAYERS,//solicita jogadores na sala
+    GET_ROOMS,//solicita salas do servidor
+    GET_WINNER,//solicita vencedor de uma sala
+    
+    CLOSE_CONNECTION,//solicita o fechamento da conexão
+    UNDEFINED//reservada para o servidor
 }

@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trm.core.PlayerInf;
 import trm.core.Stone;
-import trm.net.model.protocol.RequestClient.Movement;
+import trm.core.Movement;
 import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.model.protocol.ResponseType;
@@ -52,7 +50,12 @@ public class GameManager {
     }
 
     public RoomInf newRoomGame(String roomName) {
-        RoomGame roomGame = new RoomGame(lastRoomGameId++, roomName);
+        RoomGame roomGame = new RoomGame(roomName);
+        
+        if (rooms.contains(roomGame)) {
+            throw new RuntimeException("Sala " + roomName + " ja criada.");
+        }
+        
         rooms.add(roomGame);
         return roomGame.getRoomInf();
     }
@@ -69,7 +72,7 @@ public class GameManager {
             ResponseServer response = new ResponseServer(
                     ResponseType.ACK, RequestType.START_GAME);
             
-            response.senderPlayer = task.getPlayer().getInf();
+            response.player = task.getPlayer().getInf();
             
             room.broadcast(response, task);
 
@@ -90,7 +93,7 @@ public class GameManager {
             ResponseServer response = new ResponseServer(
                     ResponseType.ACK, RequestType.END_GAME);
             
-            response.senderPlayer = task.getPlayer().getInf();
+            response.player = task.getPlayer().getInf();
             
             room.broadcast(response, task);
 
@@ -105,7 +108,7 @@ public class GameManager {
 
             @Override
             public int compare(RoomInf o1, RoomInf o2) {
-                return o1.id.compareTo(o2.id);
+                return o1.roomName.compareTo(o2.roomName);
             }
         });
 
@@ -120,10 +123,10 @@ public class GameManager {
         return players;
     }
 
-    public RoomGame findRoomById(Long id) {
+    public RoomGame findRoomByName(String roomName) {
 
         for (RoomGame room : rooms) {
-            if (room.getId().equals(id)) {
+            if (room.getRoomGame().equals(roomName)) {
                 return room;
             }
         }
@@ -135,11 +138,11 @@ public class GameManager {
         return roomsMap.get(player.getPlayer());
     }
 
-    public void putPlayerRoom(ServerTask player, long roomId) {
-        RoomGame room = findRoomById(roomId);
+    public void putPlayerRoom(ServerTask player, String roomName) {
+        RoomGame room = findRoomByName(roomName);
 
         if (room == null) {
-            throw new RuntimeException("sala de jogo " + roomId + " não cadastrada");
+            throw new RuntimeException("sala de jogo " + roomName + " não cadastrada");
         }
 
         if (!players.contains(player.getPlayer())) {
@@ -156,10 +159,10 @@ public class GameManager {
         try {
             
             ResponseServer response = new ResponseServer(ResponseType.ACK, RequestType.ENTER_ROOM);
-            response.senderPlayer = player.getPlayer().getInf();
+            response.player = player.getPlayer().getInf();
             response.playersInGame = room.getPlayers();
             
-            room.broadcast(null, player);
+            room.broadcast(response, player);
             
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -189,7 +192,7 @@ public class GameManager {
 
     }
 
-    public void moveStone(Movement position, Stone stone, ServerTask player) {
+    public void moveStone(Movement movement, ServerTask player) {
         RoomGame room = findRoomGameByPlayer(player);
 
         if (room == null) {
@@ -197,12 +200,12 @@ public class GameManager {
                     + "pois não está em nenhuma sala.");
         }
 
-        switch (position) {
+        switch (movement.action) {
             case PUT_LEFT:
-                room.putLeft(stone, player);
+                room.putLeft(movement.stone, player);
                 break;
             case PUT_RIGHT:
-                room.putRight(stone, player);
+                room.putRight(movement.stone, player);
                 break;
         }
 

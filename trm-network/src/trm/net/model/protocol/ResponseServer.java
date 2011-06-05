@@ -12,7 +12,7 @@ import trm.net.server.game.RoomInf;
 public class ResponseServer {
 
     /**
-     * se for ACK' essa resposta é de confirmação de uma requisição, se for
+     * se for ACK essa resposta é de confirmação de uma requisição, se for
      * ERRO é uma mensagem avisando que ouve um erro no formato da mensage 
      * enviada pelo cliente podendo ser acompanhado por uma mensagem de texto
      * sobre o erro.
@@ -31,33 +31,24 @@ public class ResponseServer {
      */
     public List<RoomInf> rooms;
     /**
-     * peças que estão na mão do jogador.
+     * peças que estão na mão do jogador ou configuração do tabuleiro do 
+     * jogo(ordenado)
+     * >> a semantica depende do tipo requisição  <<
      */
-    public List<Stone> handStones;
-    /**
-     * configuração do tabuleiro do jogo(ordenado)
-     */
-    public List<Stone> boardStones;
+    public List<Stone> stones;
     /**
      * mensagem enviada por algum usuario
      */
     public String chatMessage;
     /**
-     * jogador que enviou a mensagem
+     * jogador que enviou a mensagem ou jogador que ganhou a partida
+     * >> a semantica depende do tipo requisição  <<
      */
-    public PlayerInf senderPlayer;
+    public PlayerInf player;
     /**
-     * jogador que ganhou a partida
-     */
-    public PlayerInf winnerPlyer;
-    /**
-     * Jogadores que estão no jogo.
+     * jogadores que estão no jogo.
      */
     public List<PlayerInf> playersInGame;
-    /**
-     * sala criada
-     */
-    public RoomInf newRoom;
 
     public ResponseServer() {
     }
@@ -85,8 +76,8 @@ public class ResponseServer {
 
     public static ResponseServer createResponseServer(String message,
             Player senderPlayer) {
-        ResponseServer response = new ResponseServer(ResponseType.ACK, RequestType.POST_MESSAGE);
-        response.senderPlayer = senderPlayer.getInf();
+        ResponseServer response = new ResponseServer(ResponseType.ACK, RequestType.PUT_MESSAGE);
+        response.player = senderPlayer.getInf();
         response.chatMessage = message;
         return response;
     }

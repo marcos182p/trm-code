@@ -78,7 +78,7 @@ public class ChatPanel extends BGPanel implements  Listener{
 
     @Override
     public void update(ResponseServer response) {
-        appendMessage(response.senderPlayer.getNickName() + " >> " + response.chatMessage + System.getProperty("line.separator"));
+        appendMessage(response.player.getNickName() + " >> " + response.chatMessage + System.getProperty("line.separator"));
     }
 
 }

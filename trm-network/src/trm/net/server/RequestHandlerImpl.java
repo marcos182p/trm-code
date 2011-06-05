@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import trm.core.PlayerInf;
 import trm.core.Stone;
+import trm.core.Movement;
 import trm.net.model.protocol.RequestClient;
-import trm.net.model.protocol.RequestClient.Movement;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.model.protocol.ResponseType;
 
@@ -36,26 +36,27 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
 
             switch (request.requestType) {
                 case ENTER_ROOM:
-                    entryRoom(request.roomId);
+                    entryRoom(request.room);
                     break;
                 case EXIT_ROOM:
                     exitRoom();
                     break;
-                case LIST_ROOMS:
+                case GET_ROOMS:
                     response.rooms = listRooms();
                     break;
-                case LIST_HAND:
-                    response.handStones = listHandPlayer();
+                case GET_HAND:
+                    response.stones = listHandPlayer();
                     break;
-                case LIST_BOARD_STONES:
-                    response.boardStones = listBoardStones();
+                case GET_STONES:
+                    response.stones = listBoardStones();
                     break;
-                case MOVE_STONE:
-                    moveStone(request.movement, request.stone);
+                case PUT_STONE:
+                    moveStone(request.movement);
                     break;
-                case POST_MESSAGE:
+                case PUT_MESSAGE:
                     postMessage(request.chatMessage);
                     response.chatMessage = request.chatMessage;
+                    System.out.println(">>>>>");
                     break;
                 case START_GAME:
                     startGame();
@@ -63,11 +64,11 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
                 case END_GAME:
                     endGame();
                     break;
-                case LIST_PLAYERS:
+                case GET_PLAYERS:
                     response.playersInGame = listPlayer();
                     break;
-                case CREATE_ROOM:
-                    response.newRoom = createRoomGame(request.newRoom);
+                case PUT_ROOM:
+                    createRoomGame(request.room);
                     break;
                 case UNDEFINED:
                     throw new RuntimeException("tipo de mensagem não "
@@ -85,15 +86,15 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
             //TODO colocar sistema de log.
             e.printStackTrace();
         }
-        
-        response.senderPlayer = serverTask.getPlayer().getInf();
 
+        response.player = serverTask.getPlayer().getInf();
+        
         return response;
     }
 
     @Override
-    public void entryRoom(Long roomId) throws RuntimeException {
-        gameManager.putPlayerRoom(serverTask, roomId);
+    public void entryRoom(String roomName) throws RuntimeException {
+        gameManager.putPlayerRoom(serverTask, roomName);
     }
 
     @Override
@@ -119,9 +120,9 @@ public class RequestHandlerImpl extends RequestHandler implements GameAction {
     }
 
     @Override
-    public void moveStone(Movement position, Stone stone) throws RuntimeException {
+    public void moveStone(Movement movement) throws RuntimeException {
 
-        gameManager.moveStone(position, stone, serverTask);
+        gameManager.moveStone(movement, serverTask);
     }
 
     @Override

@@ -124,12 +124,12 @@ public class ServerTask implements Runnable {
 
     //metodos uteis-------------------------------------------------------------
     
-    private ResponseServer login(RequestClient message) {
+    private ResponseServer login(RequestClient request) {
 
         ResponseServer response = null;
 
         GameManager playerManager = GameManager.getPlayerManager();
-        String nickName = message.userName;
+        String nickName = request.nickName;
 
 
         if (isValidNickName(nickName)) {
