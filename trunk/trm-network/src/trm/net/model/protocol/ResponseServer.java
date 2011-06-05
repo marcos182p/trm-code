@@ -76,15 +76,20 @@ public class ResponseServer {
 
     public static ResponseServer createResponseServer(String message,
             Player senderPlayer) {
-        ResponseServer response = new ResponseServer(ResponseType.ACK, RequestType.PUT_MESSAGE);
+        
+        RequestType type = RequestType.PUT_MESSAGE;
+        
+        ResponseServer response = new ResponseServer(ResponseType.ACK, type);
+        
         response.player = senderPlayer.getInf();
         response.chatMessage = message;
+        
         return response;
     }
 
-    public static ResponseServer createResponseErro(String erroMessage, 
+    public static ResponseServer createResponseErro(String erroMessage,
             RequestType type) {
-        
+
         ResponseServer response = new ResponseServer(ResponseType.ERRO, type);
         response.erroMessage = erroMessage;
         return response;

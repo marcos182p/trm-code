@@ -119,8 +119,7 @@ public class RoomGame {
         if (!tasks.contains(task)) {
             throw new RuntimeException("task não pertecente a essa sala");
         }
-        stopGame();
-        //TODO notifica os outros jogadores
+        dominoesGame.removePlayer(task.getPlayer());
         tasks.remove(task);
     }
 
