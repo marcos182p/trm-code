@@ -8,10 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trm.core.PlayerInf;
 import trm.core.Stone;
-import trm.net.model.protocol.RequestClient.Position;
+import trm.net.model.protocol.RequestClient.Movement;
+import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
+import trm.net.model.protocol.ResponseType;
 import trm.net.server.ServerTask;
 
 /**
@@ -58,13 +62,41 @@ public class GameManager {
     }
 
     public void startGame(ServerTask task) {
+        RoomGame room = getRoomGame(task);
+        room.startGame(task);
+        try {
+            
+            ResponseServer response = new ResponseServer(
+                    ResponseType.ACK, RequestType.START_GAME);
+            
+            response.senderPlayer = task.getPlayer().getInf();
+            
+            room.broadcast(response, task);
 
-        getRoomGame(task).startGame(task);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        
     }
 
     public void endGame(ServerTask task) {
         //TODO nem todos os usarios podem da o stopGame
-        getRoomGame(task).stopGame();
+        RoomGame room = getRoomGame(task);
+        room.stopGame();
+        
+        try {
+            
+            ResponseServer response = new ResponseServer(
+                    ResponseType.ACK, RequestType.END_GAME);
+            
+            response.senderPlayer = task.getPlayer().getInf();
+            
+            room.broadcast(response, task);
+
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public Set<RoomInf> findAllRooms() {
@@ -121,6 +153,17 @@ public class GameManager {
         room.putServerTask(player);
 
         roomsMap.put(player.getPlayer(), room);
+        try {
+            
+            ResponseServer response = new ResponseServer(ResponseType.ACK, RequestType.ENTER_ROOM);
+            response.senderPlayer = player.getPlayer().getInf();
+            response.playersInGame = room.getPlayers();
+            
+            room.broadcast(null, player);
+            
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public void removePlayerRoom(ServerTask player) {
@@ -146,18 +189,19 @@ public class GameManager {
 
     }
 
-    public void moveStone(Position position, Stone stone, ServerTask player) {
+    public void moveStone(Movement position, Stone stone, ServerTask player) {
         RoomGame room = findRoomGameByPlayer(player);
 
         if (room == null) {
-            throw new RuntimeException("usario não pode mover a peça, " + "pois não está em nenhuma sala.");
+            throw new RuntimeException("usario não pode mover a peça, "
+                    + "pois não está em nenhuma sala.");
         }
 
         switch (position) {
-            case LEFT:
+            case PUT_LEFT:
                 room.putLeft(stone, player);
                 break;
-            case RIGHT:
+            case PUT_RIGHT:
                 room.putRight(stone, player);
                 break;
         }
@@ -168,10 +212,14 @@ public class GameManager {
         RoomGame room = findRoomGameByPlayer(serverTask);
 
         if (room == null) {
-            throw new RuntimeException("usuario não pode postar mensagem," + "pois não está cadastrado em uma sala.");
+            throw new RuntimeException("usuario não pode postar mensagem," 
+                    + "pois não está cadastrado em uma sala.");
         }
 
-        room.broadcast(ResponseServer.createResponseServer(message, serverTask.getPlayer()), serverTask);
+        ResponseServer response = ResponseServer.createResponseServer(message,
+                serverTask.getPlayer());
+        
+        room.broadcast(response, serverTask);
 
     }
 

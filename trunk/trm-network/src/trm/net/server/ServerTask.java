@@ -136,20 +136,17 @@ public class ServerTask implements Runnable {
 
             player = playerManager.newPlayer(nickName);
 
-            //FIXME ajeitar aqui
-            response =  new ResponseServer(ResponseType.ACK, RequestType.LOGIN, "sucesso!", null, null, null, null, null, player.getInf(), null, null);
-//            response = messageFactoy.createResponseServer(null);
+            response = new ResponseServer(ResponseType.ACK, RequestType.LOGIN);
 
         } else {
-            //FIXME terminar essa parte
-            response = messageFactoy.createResponseServer(null);
+            response = ResponseServer.createResponseErro(
+                    "Nome de usuario não valido", RequestType.LOGIN);
         }
         return response;
     }
 
-    //FIXME verificar se apelido é valido
     private boolean isValidNickName(String nickName) {
-        return true;
+        return nickName != null && !nickName.trim().equals("");
     }
 
     @Override

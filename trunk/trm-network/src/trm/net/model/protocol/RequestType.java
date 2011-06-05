@@ -11,7 +11,7 @@ public enum RequestType {
 
     CREATE_ROOM,
 
-    ENTRY_ROOM,
+    ENTER_ROOM,
     EXIT_ROOM,
 
     MOVE_STONE,
