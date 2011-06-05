@@ -225,6 +225,7 @@ public class GameManager {
                 break;
         }
         response.movement = movement;
+        response.player = player.getPlayer().getInf();
         
         room.broadcast(response, player);
 
