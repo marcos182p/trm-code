@@ -104,7 +104,7 @@ public class BoardPanel extends BGPanel implements Listener{
         System.out.println("BoardPanel: here i'm listening");
         Movement m = response.movement;
         System.out.println("BoardPanel: player = " + response.player.getNickName());
-        System.out.println("BoardPanel: ovement = " + m);
+        System.out.println("BoardPanel: movement = " + m);
         if(m != null) {
             switch(m.action) {
                 case PUT_LEFT:
