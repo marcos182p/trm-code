@@ -71,6 +71,14 @@ public class RoomGame {
         dominoesGame.putRight(stone, player.getPlayer());
     }
     
+    void putPass(ServerTask player) {
+        if (!isValidPlay(player)) {
+            throw new RuntimeException("jogador não pertencente a essa sala");
+        }
+        
+        dominoesGame.putPass(player.getPlayer());
+    }
+    
     
     private boolean isValidPlay(ServerTask task) {
         return tasks.contains(task) && isStarted();
@@ -149,13 +157,18 @@ public class RoomGame {
         return players;
     }
 
-    void broadcast(ResponseServer message, ServerTask... excluded) throws IOException {
+    void broadcast(ResponseServer message, ServerTask... excluded) {
         List<ServerTask> excludedList = Arrays.asList(excluded);
-    
-        for (ServerTask user : tasks) {
-            if (excludedList.contains(user)) continue;
-            
-            user.sendMessage(message);
+        try {
+            for (ServerTask user : tasks) {
+                if (excludedList.contains(user)) {
+                    continue;
+                }
+
+                user.sendMessage(message);
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 

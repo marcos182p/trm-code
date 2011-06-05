@@ -99,6 +99,16 @@ public class DominoesGame {
         put(stone, player, gameStones.size() - 1);
     }
     
+    public void putPass(Player player) {
+        
+        if (!isPlaying(player)) {
+            throw new RuntimeException("Não é a vez desse jogador");
+        }
+        
+        playersQueue.poll();
+        playersQueue.add(getHandPlayer(player));
+    }
+    
     private boolean isValidPlayed(SquareNumber square, Position position) {
         
         if (gameStones.isEmpty()) {
