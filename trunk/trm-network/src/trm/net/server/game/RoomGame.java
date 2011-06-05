@@ -128,7 +128,7 @@ public class RoomGame {
     }
 
     void putServerTask(ServerTask task) {
-        if (tasks.size() > DominoesGame.MAX_PLAYER) {
+        if (tasks.size() > DominoesGame.MAX_PLAYER - 1) {
             throw new RuntimeException("Numero maximo de jogadores atigindos");
         }
 
