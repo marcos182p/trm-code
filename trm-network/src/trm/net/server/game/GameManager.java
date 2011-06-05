@@ -24,7 +24,6 @@ public class GameManager {
 
     private static GameManager instance = new GameManager();
     private long lastPlayerId = 0L;
-    private long lastRoomGameId = 0L;
     private Set<PlayerServer> players;
     private Set<RoomGame> rooms;
     private Map<PlayerServer, RoomGame> roomsMap;
@@ -61,7 +60,14 @@ public class GameManager {
     }
 
     public List<PlayerInf> findPlayers(ServerTask task) {
-        return getRoomGame(task).getPlayers();
+        RoomGame room = findRoomGameByPlayer(task);
+
+        if (room == null) {
+            throw new RuntimeException("Usuario não está em uma sala.Logo não"
+                    + " pode listar usuarios de sala.");
+        }
+        
+        return room.getPlayers();
     }
 
     public void startGame(ServerTask task) {
@@ -84,7 +90,7 @@ public class GameManager {
     }
 
     public void endGame(ServerTask task) {
-        //TODO nem todos os usarios podem da o stopGame
+        
         RoomGame room = getRoomGame(task);
         room.stopGame();
         
@@ -142,15 +148,18 @@ public class GameManager {
         RoomGame room = findRoomByName(roomName);
 
         if (room == null) {
-            throw new RuntimeException("sala de jogo " + roomName + " não cadastrada");
+            throw new RuntimeException("sala de jogo " + roomName
+                    + " não cadastrada");
         }
 
         if (!players.contains(player.getPlayer())) {
-            throw new RuntimeException("jogador não cadastrado. reiniciar a" + "conexão");
+            throw new RuntimeException("jogador não cadastrado. reiniciar a"
+                    + "conexão");
         }
 
         if (roomsMap.get(player.getPlayer()) != null) {
-            throw new RuntimeException("jogador já cadastrado em uma sala de jogo");
+            throw new RuntimeException("jogador já cadastrado em uma sala de "
+                    + "jogo");
         }
 
         room.putServerTask(player);
@@ -224,6 +233,8 @@ public class GameManager {
             case PUT_RIGHT:
                 room.putRight(movement.stone, player);
                 break;
+            case PASS:
+                break;
         }
 
     }
@@ -244,11 +255,25 @@ public class GameManager {
     }
 
     public List<Stone> getHandPlayer(ServerTask serverTask) {
-        return getRoomGame(serverTask).getBoardStones();
+        RoomGame room = findRoomGameByPlayer(serverTask);
+
+        if (room == null) {
+            throw new RuntimeException("Usuario não está em uma sala.Logo não"
+                    + " pode pegar as suas peças.");
+        }
+        
+        return room.getBoardStones();
     }
 
     public List<Stone> getBoardStones(ServerTask serverTask) {
-        return getRoomGame(serverTask).getBoardStones();
+        RoomGame room = findRoomGameByPlayer(serverTask);
+
+        if (room == null) {
+            throw new RuntimeException("Usuario não está em uma sala. Logo não"
+                    + " pode pegar as peças do tabuleiro.");
+        }
+        
+        return room.getBoardStones();
     }
 
     private RoomGame getRoomGame(ServerTask player) {
