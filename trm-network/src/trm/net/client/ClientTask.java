@@ -50,7 +50,7 @@ public class ClientTask implements Runnable {
     @Override
     public void run() {
 
-        while (!socket.isInputShutdown()) {
+        while (!socket.isClosed()) {
             try {
                 ResponseServer response = receiver.receive();
                 notifyAll(response);
