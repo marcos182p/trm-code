@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.lexical;
 
 import java.io.BufferedReader;
@@ -22,7 +18,7 @@ public class Main {
         //File test
 
 
-        String fileText = "";
+        String fileText = "and or ";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File("src/serie_fibonnaci.txt")));
 

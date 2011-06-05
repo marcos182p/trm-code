@@ -7,8 +7,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Classe que verifica se uma fita é reconhecida por um automato.
+/** Classe Recognizer - verifica se uma fita é reconhecida por um automato.
+ * @author TRM
+ * @version 0.99
  */
 public class Recognizer {
 
@@ -23,25 +24,42 @@ public class Recognizer {
     private int lineGenerate = 1;
     private int columnGenerate = 1;
 
+    /** Construtor Recognizer da Classe -
+     * Inicializa os atributos da classe com os valores recebidos
+     * como parâmetro. Inicializa a lista de tokens com palavras
+     * chave e chama o metodo reset que prepara a inicialização
+     * do reconhecedor.
+     * @param  automaton Automaton - Automato que será utilizado para
+     * o reconhecimento da fita
+     * @param  tape char[] - Array de caracteres representando a fita
+     */
     public Recognizer(Automaton automaton, char[] tape) {
 
         this.automaton = automaton;
         this.tape = tape;
-
-        this.initTokens();
-
+        initTokens();
         reset();
     }
 
+    /** Método que retorna a lista de Tokens
+     * @return List<Token> - Lista de tokens reconhecidos
+     */
     public List<Token> getTokens() {
         return tokens;
     }
 
+    /** Método que prepara a inicialização do reconhecedor.
+     * @return void
+     */
     private void reset() {
         this.currentState = automaton.getStartState();
         this.currentWord = new StringBuilder();
     }
 
+    /** Método que gera um novo token com as informações
+     * contidas nos atributos da classe
+     * @return void
+     */
     private void generateToken() {
 
         if (!automaton.getFinalStates().contains(currentState)) {
@@ -58,8 +76,11 @@ public class Recognizer {
 
     }
 
-    /**
-     * Verifica se a fita é reconhecida pelo automato.
+    /** Método que verifica se a fita é reconhecida
+     * pelo automato.
+     * @exception TransitionException - Tratada pelo
+     * próprio método
+     * @return void
      */
     public void run() {
 
@@ -97,8 +118,10 @@ public class Recognizer {
 
     }
 
-    //Metodo que inicializa a lista com tokens reservados 
-    public void initTokens() {
+    /** Método que inicializa a lista com tokens reservados
+     * @return void
+     */
+    private void initTokens() {
         this.tokens = new ArrayList<Token>();
         this.tokenMap = new HashMap<String, TokenClass>();
         this.tokenMap.put("string", TokenClass.TK_STRING);
@@ -122,6 +145,11 @@ public class Recognizer {
         this.tokenMap.put("in", TokenClass.TK_IN);
     }
 
+    /** Método que retorna a classe do Token
+     * @param  state State - Estado que o automato se localiza
+     * @param  word String - palavra lida (para o caso de IDs)
+     * @return TokenClass - Classe do Token
+     */
     private TokenClass getTokenClass(State state, String word) {
 
         TokenClass result = null;
@@ -211,9 +239,14 @@ public class Recognizer {
         return result;
     }
 
+    /** Método que procura uma transição baseado no
+     * proximo caractere lido
+     * @param  c char - Caracterer lido
+     * @return void
+     */
     private void transition(char c) {
 
-        State target = automaton.nextState(currentState, c);
+        State target = automaton.nextTargetState(currentState, c);
 
 
         if (target == null) {
@@ -227,20 +260,38 @@ public class Recognizer {
     }
 }
 
-/**
- * Exceção que sinaliza quando não existe mais transição em um estado para
- * leitura de um valor.
+/** Classe TransitionException - Exceção que sinaliza quando
+ * não existe mais transição em um estado para a leitura
+ * de um valor. extends RuntimeException .
+ * @author TRM
+ * @version 0.99
  */
 class TransitionException extends RuntimeException {
 
+    /** Construtor TransitionException da Classe -
+     * Inicializa os atributos da classe com os valores recebidos
+     * como parâmetro.
+     * @param  cause Throwable - causa da Exception
+     */
     public TransitionException(Throwable cause) {
         super(cause);
     }
 
+    /** Construtor TransitionException da Classe -
+     * Inicializa os atributos da classe com os valores recebidos
+     * como parâmetro.
+     * @param  message String - mensagem da Exception
+     * @param  cause Throwable - causa da Exception
+     */
     public TransitionException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /** Construtor TransitionException da Classe -
+     * Inicializa os atributos da classe com os valores recebidos
+     * como parâmetro.
+     * @param  message String - mensagem da Exception
+     */
     public TransitionException(String message) {
 
         super(message);

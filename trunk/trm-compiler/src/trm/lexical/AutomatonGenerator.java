@@ -12,15 +12,25 @@ import java.util.Map;
 import java.util.Set;
 import trm.lexical.rules.IRule;
 
-/**
- *
- * @author Marcos Paulo
+/** Classe AutomatonGenerator - Classe que
+ * cria o automato que reconhecerá a linguagem
+ * dinamicamente, baseada em um arquivo.
+ * (Em fase de implementação)
+ * @author TRM
+ * @version 0.99
  */
 public class AutomatonGenerator {
 
     private BufferedReader reader;
     private Automaton automaton;
+    private Map<String, State> states = new HashMap<String, State>();
 
+    /** Construtor AutomatonGenerator da Classe -
+     * Cria um buffer de leitura do arquivo baseado
+     * na variavel path.
+     * @param  path String - Caminho onde se localiza
+     * o arquivo que define o autômato
+     */
     public AutomatonGenerator(String path) {
         try {
             reader = new BufferedReader(new FileReader(new File(path)));
@@ -29,13 +39,18 @@ public class AutomatonGenerator {
         }
     }
 
+    /** Método que gera o autômato automaticamente
+     * @throws  IOException -  se algum erro de entrada
+     * e saída ocorrer
+     * @return void
+     */
     public void generate() throws IOException {
-        
+
         State initialState = new State(reader.readLine().trim());
         Set<State> finalStates = generateStates(reader.readLine().trim());
-        
+
         automaton = new Automaton(initialState, new ArrayList<State>(finalStates));
-        
+
         Set<Transition> transitions = generateTransitions();
 
         for (Transition transition : transitions) {
@@ -43,21 +58,23 @@ public class AutomatonGenerator {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+//    public static void main(String[] args) throws IOException {
 //        String temp = " A -> A, white ".trim();
 //        for(String string:temp.split(",")) {
 //            System.out.println(string);
 //        }
-
 //        String temp = " - {\\}";
 //        TransitionGenarator.createRule(temp);
 //        System.out.println(temp.replace("{",  "").replace("}", ""));
-
-        AutomatonGenerator generator = new AutomatonGenerator("src/exemplo_definicao_automato");
-        generator.generate();
-
-    }
-
+//        AutomatonGenerator generator = new AutomatonGenerator("src/exemplo_definicao_automato");
+//        generator.generate();
+//
+//    }
+    /** Método que gera estados para o autômato automaticamente
+     * @param  line String - Linha do arquivo de definição do
+     * autõmato
+     * @return Set<State> - Conjunto de estados gerados
+     */
     private Set<State> generateStates(String line) {
         Set<State> result = new HashSet<State>();
         for (String label : line.split(",")) {
@@ -66,19 +83,22 @@ public class AutomatonGenerator {
         return result;
     }
 
-    private Map<String, State> states = new HashMap<String, State>();
-    
+    /** Método que gera transições para o autômato automaticamente
+     * @throws  IOException -  se algum erro de entrada
+     * e saída ocorrer
+     * @return Set<Transition> - Conjunto de transições gerados
+     */
     private Set<Transition> generateTransitions() throws IOException {
 
         Set<Transition> result = new HashSet<Transition>();
 
-        
+
         states.put(automaton.getStartState().getLabel(), automaton.getStartState());
-        
+
         for (State state : automaton.getFinalStates()) {
             states.put(state.getLabel(), state);
         }
-        
+
         String line = null;
 
         while ((line = reader.readLine()) != null) {
@@ -93,13 +113,19 @@ public class AutomatonGenerator {
         return result;
     }
 
+    /** Método que gera transição para uma linha do arquivo
+     * de definição do autômato
+     * @param  line String - Linha do arquivo de definição do
+     * autõmato
+     * @return Transition - Transição gerada
+     */
     private Transition generateTransition(String line) {
 
         String[] temp = line.split(",");
         String[] labels = temp[0].split("->");
 
 
-        //FIX ME melhorar isso!
+        //FIXME melhorar isso!
         //gerando a origem e o destino.
         State source = states.get(labels[0].trim());
 
@@ -116,8 +142,7 @@ public class AutomatonGenerator {
 
         IRule rule = TransitionGenarator.createRule(temp[1]);
 
-
-        return new Transition(source, target, rule);
+        //FIXME ver como gerar nomes automaticamente
+        return new Transition("", source, target, rule);
     }
-
 }

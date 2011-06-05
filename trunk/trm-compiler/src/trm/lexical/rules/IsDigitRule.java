@@ -1,6 +1,6 @@
 package trm.lexical.rules;
 
-/** Classe para execução de regras de verificação de digitos. Implementa a interface IRule
+/** Classe IsDigitRule para execução de regras de verificação de digitos. Implementa a interface IRule
  * @author TRM
  * @version 0.99
  */
