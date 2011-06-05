@@ -1,6 +1,7 @@
 package trm.net.model.protocol;
 
 import java.util.List;
+import trm.core.Movement;
 import trm.core.Player;
 import trm.core.PlayerInf;
 import trm.core.Stone;
@@ -36,6 +37,10 @@ public class ResponseServer {
      * >> a semantica depende do tipo requisição  <<
      */
     public List<Stone> stones;
+    /**
+     * movimento feito pelo player
+     */
+    public Movement movement;
     /**
      * mensagem enviada por algum usuario
      */

@@ -56,6 +56,7 @@ public class RequestHandlerImpl extends RequestHandler {
                     break;
                 case PUT_STONE:
                     gameAction.moveStone(request.movement);
+                    response.movement = request.movement;
                     break;
                 case PUT_MESSAGE:
                     gameAction.postMessage(request.chatMessage);

@@ -73,39 +73,30 @@ public class GameManager {
     public void startGame(ServerTask task) {
         RoomGame room = getRoomGame(task);
         room.startGame(task);
-        try {
-            
-            ResponseServer response = new ResponseServer(
-                    ResponseType.ACK, RequestType.START_GAME);
-            
-            response.player = task.getPlayer().getInf();
-            
-            room.broadcast(response, task);
 
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        
-        
+        ResponseServer response = new ResponseServer(ResponseType.ACK,
+                RequestType.START_GAME);
+
+        response.player = task.getPlayer().getInf();
+
+        room.broadcast(response, task);
+
+
+
     }
 
     public void endGame(ServerTask task) {
         
         RoomGame room = getRoomGame(task);
         room.stopGame();
-        
-        try {
-            
-            ResponseServer response = new ResponseServer(
-                    ResponseType.ACK, RequestType.END_GAME);
-            
-            response.player = task.getPlayer().getInf();
-            
-            room.broadcast(response, task);
 
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        ResponseServer response = new ResponseServer(ResponseType.ACK,
+                RequestType.END_GAME);
+
+        response.player = task.getPlayer().getInf();
+
+        room.broadcast(response, task);
+
     }
 
     public Set<RoomInf> findAllRooms() {
@@ -165,19 +156,15 @@ public class GameManager {
         room.putServerTask(player);
 
         roomsMap.put(player.getPlayer(), room);
-        try {
-            
-            ResponseServer response = new ResponseServer(ResponseType.ACK, 
-                    RequestType.ENTER_ROOM);
-            
-            response.player = player.getPlayer().getInf();
-            response.playersInGame = room.getPlayers();
-            
-            room.broadcast(response, player);
-            
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+
+        ResponseServer response = new ResponseServer(ResponseType.ACK,
+                RequestType.ENTER_ROOM);
+
+        response.player = player.getPlayer().getInf();
+        response.playersInGame = room.getPlayers();
+
+        room.broadcast(response, player);
+
     }
 
     public void removePlayerRoom(ServerTask player) {
@@ -191,20 +178,15 @@ public class GameManager {
         room.removeServerTask(player);
         roomsMap.remove(player.getPlayer());
         
-        try {
 
-            ResponseServer response = new ResponseServer(ResponseType.ACK,
-                    RequestType.EXIT_ROOM);
+        ResponseServer response = new ResponseServer(ResponseType.ACK,
+                RequestType.EXIT_ROOM);
 
-            response.player = player.getPlayer().getInf();
-            response.playersInGame = room.getPlayers();
+        response.player = player.getPlayer().getInf();
+        response.playersInGame = room.getPlayers();
 
-            room.broadcast(response, player);
+        room.broadcast(response, player);
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException(ex);
-        }
     }
 
     public void removePlayer(ServerTask player) {
@@ -226,6 +208,9 @@ public class GameManager {
             throw new RuntimeException("usario não pode mover a peça, "
                     + "pois não está em nenhuma sala.");
         }
+        
+        ResponseServer response = new ResponseServer(ResponseType.ACK,
+                RequestType.PUT_STONE);
 
         switch (movement.action) {
             case PUT_LEFT:
@@ -235,8 +220,13 @@ public class GameManager {
                 room.putRight(movement.stone, player);
                 break;
             case PASS:
+                movement = new Movement(null, Movement.Action.PASS);
+                room.putPass(player);
                 break;
         }
+        response.movement = movement;
+        
+        room.broadcast(response, player);
 
     }
 
@@ -286,4 +276,5 @@ public class GameManager {
 
         return room;
     }
+    
 }
