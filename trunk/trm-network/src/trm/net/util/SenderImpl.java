@@ -24,7 +24,6 @@ public class SenderImpl<Message> implements Sender<Message> {
 
     @Override
     public void send(Message message) throws IOException {
-
         writer.println(parserMessage.buildMessage(message));
         writer.flush();
     }

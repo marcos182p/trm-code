@@ -125,14 +125,14 @@ public class ServerView extends javax.swing.JFrame implements ActionListener {
 
             },
             new String [] {
-                "Id", "Nome", "Quantidade jogadores", "Estado"
+                "Nome", "Quantidade jogadores", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -167,7 +167,7 @@ public class ServerView extends javax.swing.JFrame implements ActionListener {
 
         jLabel2.setText("Jogadores:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24));
         jLabel3.setText("Informações do servidor");
 
         updateButton.setText("Atualiza");
@@ -237,7 +237,6 @@ public class ServerView extends javax.swing.JFrame implements ActionListener {
         DefaultTableModel temp = (DefaultTableModel)roomsTable.getModel();
         
         for (RoomInf roomInf : roomsInfs) {
-            String id = roomInf.id.toString();
             String roomName = roomInf.roomName;
             String players = roomInf.players.toString();
             String stateRoom = "iniciada";
@@ -246,7 +245,7 @@ public class ServerView extends javax.swing.JFrame implements ActionListener {
                 stateRoom = "não iniciada";
             }
 
-            temp.addRow(new String[]{id, roomName, players, stateRoom});
+            temp.addRow(new String[]{roomName, players, stateRoom});
         }
     }
     

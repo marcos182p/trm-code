@@ -18,26 +18,21 @@ import trm.net.server.ServerTask;
  */
 public class RoomGame {
 
-    private Long id;
     private String roomName;
     private DominoesGame dominoesGame;
     private Queue<ServerTask> tasks;
     private boolean started;
     
-    public RoomGame(Long id, String roomName) {
-        this.id = id;
+    public RoomGame(String roomName) {
         this.roomName = roomName;
         tasks = new ArrayDeque<ServerTask>();
         started = false;
     }
     
     public RoomInf getRoomInf() {
-        return new RoomInf(id, roomName, tasks.size(), started);
+        return new RoomInf(roomName, tasks.size(), started);
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public String getRoomGame() {
         return roomName;
@@ -87,7 +82,7 @@ public class RoomGame {
     void startGame(ServerTask owner) {
 
         if (started) {
-            throw new RuntimeException("jogo na sala : " + id + ":" + roomName +
+            throw new RuntimeException("jogo na sala : " + roomName +
                     " já em execução");
         }
 
@@ -160,7 +155,7 @@ public class RoomGame {
             user.sendMessage(message);
         }
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -170,7 +165,7 @@ public class RoomGame {
             return false;
         }
         final RoomGame other = (RoomGame) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if ((this.roomName == null) ? (other.roomName != null) : !this.roomName.equals(other.roomName)) {
             return false;
         }
         return true;
@@ -178,9 +173,8 @@ public class RoomGame {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + (this.id != null ? this.id.hashCode() : 0);
+        int hash = 3;
+        hash = 79 * hash + (this.roomName != null ? this.roomName.hashCode() : 0);
         return hash;
     }
-
 }

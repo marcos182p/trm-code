@@ -35,7 +35,7 @@ public class ChatListener implements ActionListener{
         try {
             String message = field.getText();
             
-            sender.send(new RequestClient(null, null, null, null, null, message, RequestType.POST_MESSAGE));
+            sender.send(new RequestClient(RequestType.PUT_MESSAGE, null, null, null, message));
             field.setText("");
         } catch (IOException ex) {
             Logger.getLogger(ChatListener.class.getName()).log(Level.SEVERE, null, ex);

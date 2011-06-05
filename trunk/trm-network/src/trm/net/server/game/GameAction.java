@@ -3,7 +3,7 @@ package trm.net.server.game;
 import java.util.List;
 import trm.core.PlayerInf;
 import trm.core.Stone;
-import trm.net.model.protocol.RequestClient.Movement;
+import trm.core.Movement;
 
 /**
  * Ações que um jogador pode executar
@@ -12,7 +12,7 @@ public interface GameAction {
     /**
      * entra em uma sala de jogo
      */
-    void entryRoom(Long room) throws RuntimeException;
+    void entryRoom(String roomName) throws RuntimeException;
     /**
      * sai da sala do jogo
      */
@@ -32,7 +32,7 @@ public interface GameAction {
     /**
      * Move uma peça no jogo
      */
-    void moveStone(Movement position, Stone stone) throws RuntimeException;
+    void moveStone(Movement position) throws RuntimeException;
     /**
      * posta uma mensagem no jogo
      */

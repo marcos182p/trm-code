@@ -28,10 +28,10 @@ public class GameScreenListener implements WindowListener{
     @Override
     public void windowOpened(WindowEvent arg0) {
         try {
-            task.sendRequest(new RequestClient("Rafael", null, null, null, null, null, RequestType.LOGIN));
-            long roomGame = 0;
-            task.sendRequest(new RequestClient(null, null, "teste", null, null, null,  RequestType.CREATE_ROOM));
-            task.sendRequest(new RequestClient(null, roomGame, null, null, null, null, RequestType.ENTER_ROOM));
+            task.sendRequest(new RequestClient(RequestType.LOGIN, "Marcos", null, null, null));
+            String roomGame = "test";
+            task.sendRequest(new RequestClient(RequestType.PUT_ROOM, null, roomGame, null, null));
+            task.sendRequest(new RequestClient(RequestType.ENTER_ROOM, null, roomGame, null, null));
         }catch(Exception e) {
             
         }
