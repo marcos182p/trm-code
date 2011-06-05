@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.lexical.rules;
 
-/**
- *
- * @author thyago
+/** Classe para execução de regras de verificação de Simbolos. Implementa a interface IRule
+ * @author TRM
+ * @version 0.99
  */
 public class IsSymbolRule implements IRule {
 
@@ -14,6 +10,12 @@ public class IsSymbolRule implements IRule {
         ';', ':', '/', '?', '\\', '\'', '¬', '¹', '²', '³', '£', '¢', '§', 'ª', 'º', '°', '·', '!',
         '@', '#', '$', '%', '&', '*', '(', ')'};
 
+    /** Método de avaliação da regra de simbolos:
+     * caso o elemento c (char) seja um simbolo
+     * retorna true. Caso contrario retorna false.
+     * @param  transitionChar char - Caracterer a ser avaliado
+     * @return boolean - Resultado da avaliação
+     */
     @Override
     public boolean evaluate(char transitionChar) {
 

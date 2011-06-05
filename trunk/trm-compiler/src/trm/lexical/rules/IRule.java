@@ -1,6 +1,6 @@
 package trm.lexical.rules;
 
-/** Interface IRul
+/** Interface IRule
  * @author TRM
  * @version 0.99
  */
