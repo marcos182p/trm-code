@@ -4,14 +4,13 @@
  */
 package trm.view.game.player;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trm.net.model.protocol.ResponseServer;
 import trm.view.game.board.DominoView;
 import trm.view.game.utils.GameSide;
 import trm.view.game.utils.Orientation;
 import trm.view.game.board.BoardPanel;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -44,15 +43,18 @@ public class PlayerPanel extends BGPanel implements Listener {
     private Stone selectedStone;
     private static final int selectedAlpha = 70;
     private ButtonPanel buttons;
+    private BGPanel pieces;
     private String playerNickname;
 
     public PlayerPanel(String background, ClientTask task, String playerNickname, BoardPanel board, Color playerColor) {
         super(background);
+        
         this.dominos = new HashMap<Stone, JButton>();
         this.playerColor = playerColor;
         this.selectedStone = null;
         this.playerNickname = playerNickname;
 
+        pieces = new BGPanel(background);
         buttons = new ButtonPanel(background, ButtonPanel.VERTICAL, "<<", "pass", ">>", "start");
 
         buttons.getButton("<<").addActionListener(new SendStoneListener(this, task, board, GameSide.LEFT));
@@ -71,7 +73,13 @@ public class PlayerPanel extends BGPanel implements Listener {
         c.gridy = 0;
         c.weightx = 0;
         c.weighty = 0;
-        add(buttons);
+        add(buttons, c);
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+        
+        c.gridx = 1;
+        add(pieces, c);
     }
 
     public void addPiece(Stone s) {
@@ -81,10 +89,11 @@ public class PlayerPanel extends BGPanel implements Listener {
         dominos.put(s, b);
         b.getText();
         b.addActionListener(new DominoButtonListener(this, s));
-        add(b);
-
+        pieces.add(b);
+        pieces.revalidate();
+        pieces.repaint();
     }
-
+    
     public boolean containsPiece(Stone s) {
         return dominos.containsKey(s);
     }
@@ -113,16 +122,18 @@ public class PlayerPanel extends BGPanel implements Listener {
 
     public void removePiece(Stone s) {
         JButton b = dominos.get(s);
-        remove(b);
+        pieces.remove(b);
+        pieces.revalidate();
+        pieces.repaint();
         dominos.remove(s);
+        
         selectedStone = null;
-        this.repaint();
     }
 
     public void setPieces(List<Stone> stones) {
         if (!dominos.isEmpty()) {
             for (JButton b : dominos.values()) {
-                remove(b);
+                pieces.remove(b);
             }
             dominos.clear();
         }
@@ -140,17 +151,13 @@ public class PlayerPanel extends BGPanel implements Listener {
 
             switch (response.getRequestType()) {
                 case GET_HAND:
+                    
                     List<Stone> stones = response.stones;
                     System.out.println("stones list: " + stones);
-                    System.out.println("stone list size" + stones.size());
-                    System.out.println("request" + response.getRequestType());
+                    System.out.println("stone list size: " + stones.size());
+                    System.out.println("request " + response.getRequestType());
                     setPieces(stones);
-                    try {
-                        Thread.sleep(150);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(PlayerPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    repaint();
+                    
                     break;
                 case PUT_STONE:
                     if (response.movement.action != Movement.Action.PASS) {

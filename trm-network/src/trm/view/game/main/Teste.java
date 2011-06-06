@@ -5,7 +5,6 @@
 
 package trm.view.game.main;
 
-import trm.core.SquareNumber;
 import trm.view.game.utils.ResourceWindow;
 
 /**
