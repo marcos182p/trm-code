@@ -93,6 +93,8 @@ public class BoardPanel extends BGPanel implements Listener{
 
     public void clear() {
         dominos.clear();
+        grid.reset();
+        repaint();
     }
 
     @Override

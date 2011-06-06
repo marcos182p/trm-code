@@ -29,12 +29,17 @@ public class DominosGrid {
     private int cols;
 
     public DominosGrid(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
         this.grid = new int[rows][cols];
+       
+        reset();
+    }
+
+    public void reset() {
         this.leftPosition = new Point(rows/2, cols/2);
         this.rightPosition = leftPosition.getLocation();
         this.nextLeftPosition = leftPosition;
-        this.rows = rows;
-        this.cols = cols;
         this.leftOrientation = Orientation.EAST;
         this.rightOrientation = Orientation.EAST;
         this.rightJump = 1;
@@ -42,7 +47,6 @@ public class DominosGrid {
         this.nextLeftPosition = leftPosition.getLocation();
         this.nextRightPosition = rightPosition.getLocation();
         first = true;
-
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 grid[i][j] = 0;

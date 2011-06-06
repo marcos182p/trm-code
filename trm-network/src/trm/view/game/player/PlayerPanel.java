@@ -4,6 +4,8 @@
  */
 package trm.view.game.player;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trm.net.model.protocol.ResponseServer;
 import trm.view.game.board.DominoView;
 import trm.view.game.utils.GameSide;
@@ -91,6 +93,11 @@ public class PlayerPanel extends BGPanel implements Listener {
         pieces.add(b);
         pieces.revalidate();
         pieces.repaint();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PlayerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public boolean containsPiece(Stone s) {
