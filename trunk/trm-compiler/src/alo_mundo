@@ -1,3 +1,10 @@
+/** Método responsável pela inicialização do programa
+ * @author TRM
+ * @version 0.1 Beta
+ * @return integer - inteiro representando sucesso ou erro
+ */
 main () : integer {
-    print("alo mundo");
+
+    print("alo mundo"); //Função que imprime na tela
+
 }

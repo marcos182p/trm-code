@@ -1,4 +1,12 @@
-shellSort ( array : integer[], size : integer ) {
+/** Método que ordena os valores de um array
+ * @author TRM
+ * @version 0.1 Beta
+ * @param  array integer[] - Array a ser ordenado
+ * @param  size integer - Tamanho do array a ser ordenado
+ * @return void
+ */
+
+shellSort ( array : integer[], size : integer ): void {
     h, c, i, j : integer;
     h <- size/2;
 
