@@ -16,6 +16,7 @@ public class HandPlayer {
     
     private Player player;
     private Set<Stone> stones;
+    private int score;
     
     public HandPlayer(Player player, Set<Stone> initialStones) {
         if (initialStones.size() != 7) {
@@ -23,7 +24,15 @@ public class HandPlayer {
         }
         
         this.player = player;
+
         stones = new HashSet<Stone>(initialStones);
+        
+        score = 0;
+        for (Stone stone: stones) {
+            score += stone.getSquareLeft().ordinal();
+            score += stone.getSquareRight().ordinal();
+
+        }
     }
     
     
@@ -36,6 +45,10 @@ public class HandPlayer {
     
     public List<Stone> getStones() {
         return Collections.unmodifiableList(new ArrayList<Stone>(stones));
+    }
+
+    public int getScore() {
+        return score;
     }
     
     // TODO Fazer verificação de uma forma melhor.

@@ -28,7 +28,7 @@ public class DominoesGame {
     private Queue<HandPlayer> playersQueue;
     private Map<Player, HandPlayer> playersMap;
     
-    private Player winner;
+    private HandPlayer winner;
     
     public DominoesGame(List<Player> players) {
         
@@ -48,9 +48,29 @@ public class DominoesGame {
         this.gameStones = new ArrayList<Stone>();
         this.winner = null;
     }
-    
-    public Player getWinner() {
-        return winner;
+    //TODO
+    public PlayerInf getWinner() {
+
+        if (!isLocked()) {
+            return null;
+        }
+
+        if (winner != null) {
+            return winner.getPlayer().getInf();
+        }
+
+        for (HandPlayer hand : playersQueue) {
+            if (winner == null) {
+                winner = hand;
+            }
+
+            if (winner.getScore() < hand.getScore()) {
+                winner = hand;
+            }
+        }
+
+
+        return winner.getPlayer().getInf();
     }
 
     public List<Stone> getBoardStones() {
@@ -79,7 +99,6 @@ public class DominoesGame {
             throw new RuntimeException("Não é a vez desse jogador");
         }
         
-        
         if (!isValidPlayed(stone.getSquareRight(), Position.LEFT)) {
             if (!isValidPlayed(stone.getSquareLeft(), Position.LEFT)) {
                 throw new RuntimeException("Impossivel colocar peça");
@@ -90,7 +109,47 @@ public class DominoesGame {
 
        put(stone, player, 0);
     }
-    
+    /**
+     * Analisa se a peça pode ser colocada no jogo, na esquerda ou na direita.
+     */
+    private boolean isValidPut(Stone stone) {
+
+        if (isValidPlayed(stone.getSquareRight(), Position.LEFT) ||
+                isValidPlayed(stone.getSquareLeft(), Position.LEFT)) {
+            return true;
+        }
+
+
+        if (isValidPlayed(stone.getSquareLeft(), Position.RIGHT) ||
+                isValidPlayed(stone.getSquareRight(), Position.RIGHT)) {
+            return true;
+        }
+
+        return false;
+    }
+    /**
+     * Verifica se a mão dos jogadores permitem que o jogo continue
+     */
+    private boolean isLocked() {
+
+        if (winner != null) {
+            return true;
+        }
+
+        for (HandPlayer hand : playersQueue) {
+            System.out.println("\naqui" + hand.getPlayer().getInf().getNickName());
+            System.out.println("stones.size = " + hand.getStones().size() );
+            for (Stone stone : hand.getStones()) {
+                if (isValidPut(stone)) {
+                    return false;
+                }
+                System.out.print(stone + " ");
+            }
+        }
+
+        return true;
+    }
+
     //TODO refatorar!
     public void putRight(Stone stone, Player player) {
 
@@ -167,7 +226,7 @@ public class DominoesGame {
         playersQueue.add(getHandPlayer(player));
         
         if (getHandPlayer(player).getStones().isEmpty()) {
-            winner = player;
+            winner = getHandPlayer(player);
         }
 
         System.out.println("Estado atual");

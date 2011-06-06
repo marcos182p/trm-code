@@ -91,11 +91,6 @@ public class RoomGame {
                 break;
         }
     }
-    
-    
-    private boolean isValidPlay(ServerTask task) {
-        return tasks.contains(task) && isStarted();
-    }
 
     private ServerTask getOwner() {
         return tasks.peek();
@@ -138,6 +133,11 @@ public class RoomGame {
         dominoesGame = null;
     }
 
+
+    public PlayerInf getWinner() {
+        return dominoesGame.getWinner();
+    }
+
     private void resetPlayers() {
         for (ServerTask t : tasks) {
             t.getPlayer().setState(StatePlayer.NO_PLAYING);
@@ -169,16 +169,26 @@ public class RoomGame {
 
         tasks.add(task);
     }
-    
+    //TODO refatorar
     List<PlayerInf> getPlayers() {
         
         List<PlayerInf> players = new ArrayList<PlayerInf>();
-
-        for (ServerTask task: tasks) {
-            PlayerInf pi = task.getPlayer().getInf();
-            players.add(new PlayerInf(pi.getId(), pi.getNickName(),
-                    getOwner().equals(task)));
+        if (dominoesGame == null) {
+            for (ServerTask task : tasks) {
+                PlayerInf pi = task.getPlayer().getInf();
+                players.add(new PlayerInf(pi.getId(), pi.getNickName(),
+                        getOwner().equals(task)));
+            }
+            return players;
         }
+
+        for (Player player : dominoesGame.getPlayers()) {
+
+            PlayerInf pi = player.getInf();
+            players.add(new PlayerInf(pi.getId(), pi.getNickName(),
+                    getOwner().getPlayer().equals(player)));
+        }
+
         return players;
     }
 
