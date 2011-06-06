@@ -1,10 +1,18 @@
-fibonnaci ( n : integer ) {
+/** Método que imprime na tela todos os n primeiros valores
+ * da serie de fibonnaci
+ * @author TRM
+ * @version 0.1 Beta
+ * @param  n integer - Inteiro representando n primeiros valores
+ * @return void
+ */
+
+fibonnaci ( n : integer ) : void {
     f : integer[n+1];
     i : integer;
     f[0] <- 0;
     f[1] <- 1;
     for( i in 2 : n+1 ) {
-        out(f[i-1]);
+        print(f[i-1]); //Função que imprime na tela
         f[i] <- f[i-1] + f[i-2];
     }
 }
