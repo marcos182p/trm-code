@@ -154,7 +154,6 @@ public class PlayerPanel extends BGPanel implements Listener {
                     break;
                 case PUT_STONE:
                     if (response.movement.action != Movement.Action.PASS) {
-                        if (response.player.getNickName().equals(playerNickname)) {
                             Stone stone = response.movement.stone;
                             Stone inverted = new Stone(stone.getSquareRight(), stone.getSquareLeft());
                             if (containsPiece(stone)) {
@@ -162,7 +161,6 @@ public class PlayerPanel extends BGPanel implements Listener {
                             } else if (containsPiece(inverted)) {
                                 removePiece(inverted);
                             }
-                        }
                     }
             }
         }
