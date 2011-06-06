@@ -1,17 +1,17 @@
 shellSort ( array : integer[], size : integer ) {
-	h, c, i, j : integer;
-	h <- size/2;
+    h, c, i, j : integer;
+    h <- size/2;
 
-	while( h > 0 ) {
-		for ( i in h : n ) {
-			c <- array[i];
-			j <- i;
-			while ( j >= h and array[ j - h ] > c ) {
-				array[j] <- array[ j - h ];
-				j <- j - h;
-			}
-			array[j] <- c;
-		}
-		h <- h/2;
-	}
+    while( h > 0 ) {
+        for ( i in h : n ) {
+            c <- array[i];
+            j <- i;
+            while ( j >= h and array[ j - h ] > c ) {
+                array[j] <- array[ j - h ];
+                j <- j - h;
+            }
+            array[j] <- c;
+        }
+        h <- h/2;
+    }
 }
