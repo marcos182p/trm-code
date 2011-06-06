@@ -34,6 +34,8 @@ public class DominoView implements Drawable{
     private int height;
     private Color proeminentColor;
     private int colorOpacity;
+    public static final Image backLeft = DominoImageLoader.loadDominoBack();
+    public static final Image backRight = DominoImageLoader.loadDominoBack();
     
     public DominoView(Stone s, final int row, final int col, Orientation orientation, Color c, boolean anchorRight) {
         this.left = DominoImageLoader.loadDominoSquareImage(s.getSquareLeft());
@@ -137,6 +139,21 @@ public class DominoView implements Drawable{
         g2d.drawImage(right,afRight,null);
         g2d.setColor(proeminentColor);
         g2d.fillRect(x, y, width, height);
+        g = g2d.create();
+
+        return bf;
+    }
+
+    public static Image getBackImage() {
+        BufferedImage bf = new BufferedImage(
+                SIZE,
+                SIZE*2,
+                BufferedImage.TYPE_INT_RGB);
+        Graphics g = bf.getGraphics();
+        Graphics2D g2d = (Graphics2D)g;
+        AffineTransform f = new AffineTransform();
+        g2d.drawImage(backLeft,0,0,SIZE, SIZE, null);
+        g2d.drawImage(backRight, 0,SIZE, null);
         g = g2d.create();
 
         return bf;
