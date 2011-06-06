@@ -42,6 +42,7 @@ public class SendStoneListener implements ActionListener {
         Stone stone = panel.getSelectedStone();
 
         Movement.Action action = null;
+
         if (side == null) {
             System.out.println("SendStoneListener: pass");
             action = Movement.Action.PASS;

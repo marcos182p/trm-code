@@ -64,7 +64,7 @@ public class DominoesGame {
                 winner = hand;
             }
 
-            if (winner.getScore() < hand.getScore()) {
+            if (winner.getScore() > hand.getScore()) {
                 winner = hand;
             }
         }

@@ -14,9 +14,9 @@ import trm.view.game.utils.ResourceWindow;
 public class Teste {
     public static void main(String[] args) throws Exception {
 
-        ResourceWindow.setBG("board1.png");
-        ResourceWindow.setPanelImage("wood");
-        GameScreen screen = new GameScreen("Daniel", "teste room");
+        ResourceWindow.setBG("glass");
+        ResourceWindow.setPanelImage("board2.png");
+        GameScreen screen = new GameScreen("Rafael", "teste room");
         
         screen.open();
         

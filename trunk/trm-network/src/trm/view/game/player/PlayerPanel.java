@@ -10,7 +10,6 @@ import trm.view.game.utils.GameSide;
 import trm.view.game.utils.Orientation;
 import trm.view.game.board.BoardPanel;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -55,7 +54,7 @@ public class PlayerPanel extends BGPanel implements Listener {
         this.playerNickname = playerNickname;
 
         pieces = new BGPanel(background);
-        buttons = new ButtonPanel(background, ButtonPanel.VERTICAL, "<<", "pass", ">>", "start");
+        buttons = new ButtonPanel(background, ButtonPanel.VERTICAL, ">>", "pass", "<<", "start");
 
         buttons.getButton("<<").addActionListener(new SendStoneListener(this, task, board, GameSide.LEFT));
         buttons.getButton(">>").addActionListener(new SendStoneListener(this, task, board, GameSide.RIGHT));
@@ -153,9 +152,6 @@ public class PlayerPanel extends BGPanel implements Listener {
                 case GET_HAND:
                     
                     List<Stone> stones = response.stones;
-                    System.out.println("stones list: " + stones);
-                    System.out.println("stone list size: " + stones.size());
-                    System.out.println("request " + response.getRequestType());
                     setPieces(stones);
                     
                     break;
