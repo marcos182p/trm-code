@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package trm.view.game.main;
 
 import java.io.IOException;
@@ -36,7 +35,7 @@ import trm.view.game.utils.ResourceWindow;
  *
  * @author Rafael
  */
-public class GameScreen extends JFrame implements Listener{
+public class GameScreen extends JFrame implements Listener {
 
     private BoardPanel board;
     private ChatPanel chatPanel;
@@ -46,11 +45,10 @@ public class GameScreen extends JFrame implements Listener{
     private ClientTask task;
     private String playerNickname;
 
-    
-    public GameScreen(String playerNickname, String roomName) throws Exception{
+    public GameScreen(String playerNickname, String roomName) throws Exception {
         this.playerNickname = playerNickname;
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        
+
         task = new ClientTask(null, new Socket("192.168.7.231", 8080));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,16 +56,16 @@ public class GameScreen extends JFrame implements Listener{
         String bg = ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE);
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
-        setSize(800,800);
-        Color playerColor = Color.GREEN ;
+        setSize(800, 800);
+        Color playerColor = Color.ORANGE;
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
-        board = new BoardPanel(panel,task, playerNickname, 14, 14, playerColor, othersColor);
+        board = new BoardPanel(panel, task, playerNickname, 14, 14, playerColor, othersColor);
         chatPanel = new ChatPanel(panel, task.getSender());
         playerPanel = new PlayerPanel(panel, task, playerNickname, board, playerColor);
         playerList = new PlayerList(panel);
-        
+
         task.subscribe(RequestType.PUT_MESSAGE, chatPanel);
         task.subscribe(RequestType.GET_PLAYERS, playerList);
         task.subscribe(RequestType.ENTER_ROOM, this);
@@ -77,6 +75,7 @@ public class GameScreen extends JFrame implements Listener{
         task.subscribe(RequestType.GET_HAND, playerPanel);
         task.subscribe(RequestType.PUT_STONE, playerPanel);
         task.subscribe(RequestType.END_GAME, this);
+        task.subscribe(RequestType.GET_WINNER, this);
 
         addWindowListener(new GameScreenListener(task, playerNickname, roomName));
         setup();
@@ -103,7 +102,7 @@ public class GameScreen extends JFrame implements Listener{
         c.weighty = 0.01;
         c.gridy = 1;
         content.add(playerPanel, c);
-        
+
         BGPanel panel = new BGPanel(ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE));
         panel.setLayout(new GridBagLayout());
         c.fill = GridBagConstraints.BOTH;
@@ -113,58 +112,67 @@ public class GameScreen extends JFrame implements Listener{
         c.weighty = 1;
         panel.add(chatPanel, c);
         c.fill = GridBagConstraints.BOTH;
-        c.insets = new Insets(0,30,0,5);
+        c.insets = new Insets(0, 30, 0, 5);
         c.gridx = 0;
         c.weightx = 0.4;
         panel.add(playerList, c);
-        
+
         c.insets = new Insets(10, 10, 0, 10);
         c.weighty = 0.2;
         c.gridx = 0;
         c.gridy = 2;
-        content.add(panel,c);
+        content.add(panel, c);
         getContentPane().add(content);
     }
 
     public void addPlayerPiece(
             SquareNumber left, SquareNumber right) {
-        
-            Stone s = new Stone(left, right);
-            playerPanel.addPiece(s);
-        
+
+        Stone s = new Stone(left, right);
+        playerPanel.addPiece(s);
+
     }
 
     public void open() {
         new Thread(task).start();
         setVisible(true);
-        
+
     }
 
     @Override
     public void update(ResponseServer response) {
-        if(response.getResponseType() == ResponseType.ERRO) {
+        if (response.getResponseType() == ResponseType.ERRO) {
             JOptionPane.showMessageDialog(null, response.erroMessage);
             return;
         }
         try {
-            if(response.getRequestType() == RequestType.ENTER_ROOM) {
-                task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, null, null, null));
-            }else if(response.getRequestType() == RequestType.EXIT_ROOM) {
-                chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
-            }else if(response.getRequestType() == RequestType.START_GAME){
-                task.sendRequest(new RequestClient(RequestType.GET_HAND));
-            }else if(response.getRequestType() == RequestType.END_GAME) {
-                String winner = response.player.getNickName();
-                
-                if(winner.equals(playerNickname)) {
-                    JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
-                }else {
-                    JOptionPane.showMessageDialog(null, "O jogador " + winner + " venceu");
-                }
-                
-                board.clear();
-                playerPanel.clear();
+            switch (response.getRequestType()) {
+                case ENTER_ROOM:
+                    task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, null, null, null));
+                    break;
+                case EXIT_ROOM:
+                    chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
+                    break;
+                case START_GAME:
+                    task.sendRequest(new RequestClient(RequestType.GET_HAND));
+                    break;
+                case END_GAME:
+                    task.sendRequest(new RequestClient(RequestType.GET_WINNER));
+                    break;
+                case GET_WINNER:
+                    String winner = response.player.getNickName();
+
+                    if (winner.equals(playerNickname)) {
+                        JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Talvez na próxima, O jogador " + winner + " venceu");
+                    }
+                    board.clear();
+                    playerPanel.clear();
+                    break;
             }
+
+
         } catch (IOException ex) {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
         }

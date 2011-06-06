@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.core.Movement;
@@ -206,7 +208,7 @@ public class GameManager {
     }
 
     public void moveStone(Movement movement, ServerTask player) {
-        RoomGame room = findRoomGameByPlayer(player);
+        final RoomGame room = findRoomGameByPlayer(player);
         
         if (movement == null) {
             throw new RuntimeException("movimenteto não especificado.");
