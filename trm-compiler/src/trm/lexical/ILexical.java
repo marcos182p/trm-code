@@ -1,7 +1,5 @@
 package trm.lexical;
 
-import java.util.Collection;
-
 /** Interface IRule - Responsável por analisar determinada entidade.
  * @author TRM
  * @version 0.99
@@ -9,8 +7,8 @@ import java.util.Collection;
 public interface ILexical {
 
     /** Método que analisa determinada entidade.
-     * @return Collection<Token> - Lista de tokens gerados
+     * @return Token - Proximo token gerado
      * depois da avaliação/análise
      */
-    Collection<Token> parse();
+    Token nextToken();
 }

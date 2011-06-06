@@ -21,6 +21,7 @@ public class Recognizer {
     private Map<String, TokenClass> tokenMap;
     private int lineGenerate = 1;
     private int columnGenerate = 1;
+    private int indexRead = 0;
 
     /** Construtor Recognizer da Classe -
      * Inicializa os atributos da classe com os valores recebidos
@@ -56,9 +57,9 @@ public class Recognizer {
 
     /** Método que gera um novo token com as informações
      * contidas nos atributos da classe
-     * @return void
+     * @return Token - Token Gerado
      */
-    private void generateToken() {
+    private Token generateToken() {
 
         if (!automaton.getFinalStates().contains(currentState)) {
             // LOGGER.log(Level.WARNING, "erro ao criar " + currentWord);
@@ -66,11 +67,12 @@ public class Recognizer {
         }
 
         String value = currentWord.toString();
-        
+
         Token token = new Token(value, getTokenClass(currentState, value), this.lineGenerate, this.columnGenerate - value.length());
         tokens.add(token);
         System.out.println(token);
-        // LOGGER.log(Level.INFO, "token criado " + token, token);
+        return token;
+    // LOGGER.log(Level.INFO, "token criado " + token, token);
 
     }
 
@@ -78,42 +80,42 @@ public class Recognizer {
      * pelo automato.
      * @exception TransitionException - Tratada pelo
      * próprio método
-     * @return void
+     * @return Token - Token Gerado
      */
-    public void run() {
+    public Token run() {
 
         reset();
 
-        int index = 0;
-
-        while (index < tape.length) {
+        while (indexRead < tape.length) {
             try {
-                transition(tape[index]);
+                transition(tape[indexRead]);
 
-                currentWord.append(tape[index]);
+                currentWord.append(tape[indexRead]);
 
-                if (tape[index] == System.getProperty("line.separator").toCharArray()[0]) {
+                if (tape[indexRead] == System.getProperty("line.separator").toCharArray()[0]) {
                     this.lineGenerate++;
-                    this.columnGenerate = 1;
+                    this.columnGenerate = 0;
                 }
 
                 if (currentState.equals(automaton.getStartState())) {
                     reset();
                 }
 
-                index++;
+                indexRead++;
                 this.columnGenerate++;
             } catch (TransitionException e) {
-                generateToken();
-          
+                Token token = generateToken();
                 reset();
+                return token;
             }
 
         }
+        Token token = null;
         if (!currentState.equals(automaton.getStartState())) {
-            generateToken();
+            token = generateToken();
         }
 
+        return token;
     }
 
     /** Método que inicializa a lista com tokens reservados
