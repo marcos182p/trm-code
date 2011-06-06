@@ -14,7 +14,6 @@ import trm.view.game.utils.BGPanel;
 import trm.view.game.board.BoardPanel;
 import trm.view.game.chat.ChatPanel;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -45,8 +44,11 @@ public class GameScreen extends JFrame implements Listener{
     private BGPanel content;
     private PlayerList playerList;
     private ClientTask task;
+    private String playerNickname;
+
     
     public GameScreen(String playerNickname, String roomName) throws Exception{
+        this.playerNickname = playerNickname;
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         
         task = new ClientTask(null, new Socket("192.168.7.231", 8080));
@@ -56,8 +58,8 @@ public class GameScreen extends JFrame implements Listener{
         String bg = ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE);
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
-        setSize(800,900);
-        Color playerColor = Color.ORANGE ;
+        setSize(800,800);
+        Color playerColor = Color.GREEN ;
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
@@ -74,6 +76,7 @@ public class GameScreen extends JFrame implements Listener{
         task.subscribe(RequestType.START_GAME, this);
         task.subscribe(RequestType.GET_HAND, playerPanel);
         task.subscribe(RequestType.PUT_STONE, playerPanel);
+        task.subscribe(RequestType.END_GAME, this);
 
         addWindowListener(new GameScreenListener(task, playerNickname, roomName));
         setup();
@@ -150,6 +153,14 @@ public class GameScreen extends JFrame implements Listener{
                 chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
             }else if(response.getRequestType() == RequestType.START_GAME){
                 task.sendRequest(new RequestClient(RequestType.GET_HAND));
+            }else if(response.getRequestType() == RequestType.END_GAME) {
+                String winner = response.player.getNickName();
+
+                if(winner.equals(playerNickname)) {
+                    JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
+                }else {
+                    JOptionPane.showMessageDialog(null, "O jogador " + winner + " venceu");
+                }
             }
         } catch (IOException ex) {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);

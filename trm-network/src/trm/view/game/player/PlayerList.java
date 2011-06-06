@@ -60,7 +60,6 @@ public class PlayerList extends ListPanel implements Listener {
 
     @Override
     public void update(ResponseServer response) {
-
         List<PlayerInf> inf = response.playersInGame;
         List<String> players = new ArrayList<String>();
         for (PlayerInf i : inf) {
