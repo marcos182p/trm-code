@@ -55,4 +55,9 @@ public interface GameAction {
      * lista os jogadores da sala do jogador, em ordem de jogada
      */
     List<PlayerInf> getPlayers();
+    /**
+     * retorna o vencedor da sala, se tiver
+     * @return
+     */
+    PlayerInf getWinner();
 }

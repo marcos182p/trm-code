@@ -254,6 +254,17 @@ public class GameManager {
         }
     }
 
+    public PlayerInf getWinner(ServerTask serverTask) {
+        RoomGame room = findRoomGameByPlayer(serverTask);
+
+        if (room == null) {
+            throw new RuntimeException("usario não pode mover a peça, " +
+                    "pois não está em nenhuma sala.");
+        }
+
+        return room.getWinner();
+    }
+
     public void postMessage(String message, ServerTask serverTask) throws IOException {
         RoomGame room = findRoomGameByPlayer(serverTask);
 

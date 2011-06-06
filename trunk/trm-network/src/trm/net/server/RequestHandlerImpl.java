@@ -68,6 +68,10 @@ public class RequestHandlerImpl extends RequestHandler {
                 case PUT_ROOM:
                     gameAction.createRoomGame(request.room);
                     break;
+                case GET_WINNER:
+                    response.player = gameAction.getWinner();
+                    break;
+
                 case UNDEFINED:
                     throw new RuntimeException("tipo de mensagem não "
                             + "reconhecida!");

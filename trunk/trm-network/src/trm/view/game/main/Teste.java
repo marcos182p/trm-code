@@ -16,7 +16,7 @@ public class Teste {
 
         ResourceWindow.setBG("glass");
         ResourceWindow.setPanelImage("board2.png");
-        GameScreen screen = new GameScreen("Rafael", "teste room");
+        GameScreen screen = new GameScreen("Marcos", "teste room");
         
         screen.open();
         

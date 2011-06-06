@@ -88,4 +88,9 @@ public class GameActionImpl implements GameAction {
     public void endGame() {
         gameManager.endGame(serverTask);
     }
+
+    @Override
+    public PlayerInf getWinner() {
+        return gameManager.getWinner(serverTask);
+    }
 }
