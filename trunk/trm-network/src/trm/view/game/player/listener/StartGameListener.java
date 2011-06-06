@@ -5,18 +5,11 @@
 
 package trm.view.game.player.listener;
 
-import com.sun.corba.se.pept.broker.Broker;
-import com.sun.corba.se.pept.encoding.InputObject;
-import com.sun.corba.se.pept.encoding.OutputObject;
-import com.sun.corba.se.pept.protocol.ClientRequestDispatcher;
-import com.sun.corba.se.pept.transport.ContactInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.omg.CORBA.portable.ApplicationException;
-import org.omg.CORBA.portable.RemarshalException;
 import trm.net.client.ClientTask;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;

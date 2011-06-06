@@ -8,14 +8,20 @@ public class PlayerInf {
     
     private Long id;
     private String nickName;
+    private boolean owner;
 
     protected PlayerInf() {
         //para o gson
     }
     
     public PlayerInf(Long id, String nickName) {
+        this (id, nickName, false);
+    }
+
+    public PlayerInf(Long id, String nickName, boolean owner) {
         this.id = id;
         this.nickName = nickName;
+        this.owner = owner;
     }
     
     public Long getId() {
@@ -24,6 +30,10 @@ public class PlayerInf {
     
     public String getNickName() {
         return nickName;
+    }
+
+    public boolean isOwner() {
+        return owner;
     }
 
     @Override
