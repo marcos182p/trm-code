@@ -48,7 +48,7 @@ public class DominoesGame {
         this.gameStones = new ArrayList<Stone>();
         this.winner = null;
     }
-    //TODO
+    //TODO olhar se estar valido
     public PlayerInf getWinner() {
 
         if (!isLocked()) {
