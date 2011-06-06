@@ -72,6 +72,7 @@ public class GameScreen extends JFrame implements Listener{
         task.subscribe(RequestType.PUT_STONE, board);
         task.subscribe(RequestType.START_GAME, this);
         task.subscribe(RequestType.GET_HAND, playerPanel);
+        task.subscribe(RequestType.GET_HAND, this);
         task.subscribe(RequestType.PUT_STONE, playerPanel);
 
         addWindowListener(new GameScreenListener(task, playerNickname, roomName));
@@ -93,6 +94,7 @@ public class GameScreen extends JFrame implements Listener{
         c.weighty = 1;
         c.anchor = GridBagConstraints.CENTER;
         content.add(boardPanel, c);
+        c.fill = GridBagConstraints.NONE;
         c.gridx = 0;
         c.weightx = 0.01;
         c.weighty = 0.01;
@@ -101,21 +103,20 @@ public class GameScreen extends JFrame implements Listener{
         
         BGPanel panel = new BGPanel(ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE));
         panel.setLayout(new GridBagLayout());
-        c.insets = new Insets(0,5,0,30);
-        //c.fill = GridBagConstraints.BOTH;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 0;
-       // c.weightx = 0.6;
-       // c.weighty = 1;
+        c.weightx = 0.6;
+        c.weighty = 1;
         panel.add(chatPanel, c);
-       // c.fill = GridBagConstraints.BOTH;
-        //c.insets = new Insets(0,30,0,5);
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets(0,30,0,5);
         c.gridx = 0;
-        //c.weightx = 0.4;
+        c.weightx = 0.4;
         panel.add(playerList, c);
         
-        //c.insets = new Insets(10, 10, 0, 10);
-       // c.weighty = 0.2;
+        c.insets = new Insets(10, 10, 0, 10);
+        c.weighty = 0.2;
         c.gridx = 0;
         c.gridy = 2;
         content.add(panel,c);
@@ -154,6 +155,8 @@ public class GameScreen extends JFrame implements Listener{
                 chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
             }else if(response.getRequestType() == RequestType.START_GAME){
                 task.sendRequest(new RequestClient(RequestType.GET_HAND));
+            }else {
+                repaint();
             }
         } catch (IOException ex) {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);

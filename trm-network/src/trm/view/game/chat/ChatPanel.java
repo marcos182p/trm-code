@@ -37,7 +37,7 @@ public class ChatPanel extends BGPanel implements  Listener{
         super(background);
         
         this.label = new JLabel("Chat: ");
-        this.chat = new JTextField(45);
+        this.chat = new JTextField(25);
             chat.addActionListener(new ChatListener(sender, chat));
         this.chatArea = new JTextArea();
         this.chatArea.setEditable(false);
@@ -63,7 +63,8 @@ public class ChatPanel extends BGPanel implements  Listener{
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        c.insets = new Insets(5, 5, 5, 5);
+        c.insets = new Insets(5, 0, 5, 0);
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 0;
         add(label, c);

@@ -67,6 +67,7 @@ public class SendStoneListener implements ActionListener{
                 System.out.println("SendStoneListener: movment is : " + m);
                 try {
                     task.sendRequest(new RequestClient(RequestType.PUT_STONE, null, null, m, null));
+                    task.sendRequest(new RequestClient(RequestType.GET_PLAYERS));
                 } catch (IOException ex) {
                     Logger.getLogger(SendStoneListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
