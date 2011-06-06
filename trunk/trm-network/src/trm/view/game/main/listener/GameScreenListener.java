@@ -34,9 +34,9 @@ public class GameScreenListener implements WindowListener{
         try {
             task.sendRequest(new RequestClient(RequestType.LOGIN, nickname, null, null, null));
             task.sendRequest(new RequestClient(RequestType.PUT_ROOM, null, room, null, null));
-            task.sendRequest(new RequestClient(RequestType.ENTER_ROOM, null, room, null, null));
+            task.sendRequest(new RequestClient(RequestType.ENTER_ROOM, nickname, room, null, null));
             task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, room, null, null));
-            
+            task.sendRequest(new RequestClient(RequestType.START_GAME, nickname, room, null, null));
         }catch(Exception e) {
             
         }
@@ -56,7 +56,7 @@ public class GameScreenListener implements WindowListener{
     public void windowClosed(WindowEvent arg0) {
         try {
             task.sendRequest(new RequestClient(RequestType.CLOSE_CONNECTION));
-             task.close();
+            task.close();
         } catch (Exception ex) {
             Logger.getLogger(GameScreenListener.class.getName()).log(Level.SEVERE, null, ex);
         }
