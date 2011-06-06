@@ -14,6 +14,7 @@ import trm.view.game.utils.BGPanel;
 import trm.view.game.board.BoardPanel;
 import trm.view.game.chat.ChatPanel;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -55,7 +56,7 @@ public class GameScreen extends JFrame implements Listener{
         String bg = ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE);
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
-        setSize(800,800);
+        setSize(800,900);
         Color playerColor = Color.ORANGE ;
         Color othersColor = Color.BLACK;
 
@@ -72,12 +73,11 @@ public class GameScreen extends JFrame implements Listener{
         task.subscribe(RequestType.PUT_STONE, board);
         task.subscribe(RequestType.START_GAME, this);
         task.subscribe(RequestType.GET_HAND, playerPanel);
-        task.subscribe(RequestType.GET_HAND, this);
         task.subscribe(RequestType.PUT_STONE, playerPanel);
 
         addWindowListener(new GameScreenListener(task, playerNickname, roomName));
         setup();
-        setResizable(true);
+        setResizable(false);
         repaint();
     }
 
@@ -133,13 +133,8 @@ public class GameScreen extends JFrame implements Listener{
 
     public void open() {
         new Thread(task).start();
-        try {
-            Thread.sleep(150);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        repaint();
         setVisible(true);
+        
     }
 
     @Override
@@ -155,8 +150,6 @@ public class GameScreen extends JFrame implements Listener{
                 chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
             }else if(response.getRequestType() == RequestType.START_GAME){
                 task.sendRequest(new RequestClient(RequestType.GET_HAND));
-            }else {
-                repaint();
             }
         } catch (IOException ex) {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
