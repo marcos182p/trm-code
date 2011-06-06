@@ -102,10 +102,10 @@ public class Recognizer {
                 }
 
                 index++;
-
+                this.columnGenerate++;
             } catch (TransitionException e) {
                 generateToken();
-                this.columnGenerate++;
+          
                 reset();
             }
 
