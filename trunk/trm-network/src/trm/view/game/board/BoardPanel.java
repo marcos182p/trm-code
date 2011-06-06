@@ -91,6 +91,10 @@ public class BoardPanel extends BGPanel implements Listener{
         addStone(s, position.y, position.x, orientation, stoneSide, player, gameSide == GameSide.RIGHT);
     }
 
+    public void clear() {
+        dominos.clear();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

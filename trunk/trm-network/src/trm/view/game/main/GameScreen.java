@@ -155,7 +155,8 @@ public class GameScreen extends JFrame implements Listener{
                 task.sendRequest(new RequestClient(RequestType.GET_HAND));
             }else if(response.getRequestType() == RequestType.END_GAME) {
                 String winner = response.player.getNickName();
-
+                board.clear();
+                playerPanel.clear();
                 if(winner.equals(playerNickname)) {
                     JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
                 }else {
