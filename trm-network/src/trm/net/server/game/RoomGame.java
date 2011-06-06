@@ -111,6 +111,7 @@ public class RoomGame {
         if (!getOwner().equals(owner)) {
             throw new RuntimeException("usario sem permição de iniciar o jogo");
         }
+        
 
         List<Player> players = new ArrayList<Player>();
         for (ServerTask task : tasks) {
@@ -118,20 +119,29 @@ public class RoomGame {
             task.getPlayer().setState(StatePlayer.PLAYING);
         }
 
-        dominoesGame = new DominoesGame(players);
-        started = true;
+        try {
+
+            dominoesGame = new DominoesGame(players);
+            started = true;
+        } catch (Exception e) {
+            resetPlayers();
+            throw new RuntimeException(e.getMessage());
+        }
     }
     
     //TODO nem todos os usarios podem dar o stopGame
     void stopGame() {
         
         if (!started) return;
-        
+        resetPlayers();
+        started = false;
+        dominoesGame = null;
+    }
+
+    private void resetPlayers() {
         for (ServerTask t : tasks) {
             t.getPlayer().setState(StatePlayer.NO_PLAYING);
         }
-        started = false;
-        dominoesGame = null;
     }
 
     public boolean isStarted() {
@@ -165,7 +175,9 @@ public class RoomGame {
         List<PlayerInf> players = new ArrayList<PlayerInf>();
 
         for (ServerTask task: tasks) {
-            players.add(task.getPlayer().getInf());
+            PlayerInf pi = task.getPlayer().getInf();
+            players.add(new PlayerInf(pi.getId(), pi.getNickName(),
+                    getOwner().equals(task)));
         }
         return players;
     }

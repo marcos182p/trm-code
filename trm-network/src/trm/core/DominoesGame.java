@@ -82,7 +82,7 @@ public class DominoesGame {
         
         if (!isValidPlayed(stone.getSquareRight(), Position.LEFT)) {
             if (!isValidPlayed(stone.getSquareLeft(), Position.LEFT)) {
-                throw new RuntimeException("Impossivel colocar peça left" + stone);
+                throw new RuntimeException("Impossivel colocar peça");
             }
             stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
         }
@@ -101,7 +101,7 @@ public class DominoesGame {
         
         if (!isValidPlayed(stone.getSquareLeft(), Position.RIGHT)) {
             if (!isValidPlayed(stone.getSquareRight(), Position.RIGHT)) {
-                throw new RuntimeException("Impossivel colocar peça right: " + stone);
+                throw new RuntimeException("Impossivel colocar peça");
             }
             stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
         }

@@ -177,13 +177,17 @@ public class GameManager {
 
         room.removeServerTask(player);
         roomsMap.remove(player.getPlayer());
-        
+
 
         ResponseServer response = new ResponseServer(ResponseType.ACK,
                 RequestType.EXIT_ROOM);
 
         response.player = player.getPlayer().getInf();
         response.playersInGame = room.getPlayers();
+
+        if (room.getRoomInf().players == 0) {
+            room.stopGame();
+        }
 
         room.broadcast(response, player);
 
