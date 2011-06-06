@@ -28,7 +28,10 @@ public class HandPlayer {
     
     
     boolean removeStone(Stone stone) {
-        return stones.remove(stone);
+        Stone inverted = new Stone(
+                stone.getSquareRight(),
+                stone.getSquareLeft());
+        return stones.remove(stone) || stones.remove(inverted);
     }
     
     public List<Stone> getStones() {

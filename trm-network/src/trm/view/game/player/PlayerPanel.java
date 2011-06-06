@@ -128,6 +128,7 @@ public class PlayerPanel extends BGPanel implements Listener {
         for (Stone s : stones) {
             addPiece(s);
         }
+        repaint();
     }
 
     @Override
@@ -146,7 +147,7 @@ public class PlayerPanel extends BGPanel implements Listener {
                     setPieces(stones);
                     break;
                 case PUT_STONE:
-                    if(response.movement.action != Movement.Action.PASS) {
+                    if (response.movement.action != Movement.Action.PASS) {
                         if (response.player.getNickName().equals(playerNickname)) {
                             Stone stone = response.movement.stone;
                             Stone inverted = new Stone(stone.getSquareRight(), stone.getSquareLeft());
@@ -157,10 +158,7 @@ public class PlayerPanel extends BGPanel implements Listener {
                             }
                         }
                     }
-
             }
-
-
         }
     }
 }

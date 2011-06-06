@@ -55,7 +55,7 @@ public class GameScreen extends JFrame implements Listener{
         String bg = ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE);
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
-        setSize(1000,1000);
+        setSize(800,800);
         Color playerColor = Color.ORANGE ;
         Color othersColor = Color.BLACK;
 
@@ -84,39 +84,38 @@ public class GameScreen extends JFrame implements Listener{
 
         content.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-
-        c.insets = new Insets(10, 10, 0, 10);
+        BGPanel boardPanel = new BGPanel(ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE));
+        boardPanel.add(board);
         c.gridx = 0;
         c.gridy = 0;
-        c.fill = GridBagConstraints.NONE;
-        c.weightx = 0.6;
-        c.weighty = 0.6;
-        content.add(board, c);
-        c.gridx = 0;
-        c.weightx = 1;
-        c.weighty = 0.2;
-        c.insets = new Insets(5,50,5,50);
         c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.anchor = GridBagConstraints.CENTER;
+        content.add(boardPanel, c);
+        c.gridx = 0;
+        c.weightx = 0.01;
+        c.weighty = 0.01;
         c.gridy = 1;
         content.add(playerPanel, c);
         
         BGPanel panel = new BGPanel(ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE));
         panel.setLayout(new GridBagLayout());
         c.insets = new Insets(0,5,0,30);
-        c.fill = GridBagConstraints.BOTH;
+        //c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 0;
-        c.weightx = 0.6;
-        c.weighty = 1;
+       // c.weightx = 0.6;
+       // c.weighty = 1;
         panel.add(chatPanel, c);
-        c.fill = GridBagConstraints.BOTH;
-        c.insets = new Insets(0,30,0,5);
+       // c.fill = GridBagConstraints.BOTH;
+        //c.insets = new Insets(0,30,0,5);
         c.gridx = 0;
-        c.weightx = 0.4;
+        //c.weightx = 0.4;
         panel.add(playerList, c);
         
-        c.insets = new Insets(10, 10, 0, 10);
-        c.weighty = 0.2;
+        //c.insets = new Insets(10, 10, 0, 10);
+       // c.weighty = 0.2;
         c.gridx = 0;
         c.gridy = 2;
         content.add(panel,c);
@@ -133,6 +132,12 @@ public class GameScreen extends JFrame implements Listener{
 
     public void open() {
         new Thread(task).start();
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        repaint();
         setVisible(true);
     }
 
@@ -153,6 +158,5 @@ public class GameScreen extends JFrame implements Listener{
         } catch (IOException ex) {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        repaint();
     }
 }

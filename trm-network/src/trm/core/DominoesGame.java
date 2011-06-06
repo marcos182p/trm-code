@@ -106,7 +106,7 @@ public class DominoesGame {
             stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
         }
         
-        put(stone, player, gameStones.size() - 1);
+        put(stone, player, gameStones.size());
     }
     
     public void putPass(Player player) {
