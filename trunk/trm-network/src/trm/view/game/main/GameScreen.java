@@ -155,13 +155,15 @@ public class GameScreen extends JFrame implements Listener{
                 task.sendRequest(new RequestClient(RequestType.GET_HAND));
             }else if(response.getRequestType() == RequestType.END_GAME) {
                 String winner = response.player.getNickName();
-                board.clear();
-                playerPanel.clear();
+                
                 if(winner.equals(playerNickname)) {
                     JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
                 }else {
                     JOptionPane.showMessageDialog(null, "O jogador " + winner + " venceu");
                 }
+                
+                board.clear();
+                playerPanel.clear();
             }
         } catch (IOException ex) {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
