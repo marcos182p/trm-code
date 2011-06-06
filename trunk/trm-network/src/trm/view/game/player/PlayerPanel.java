@@ -4,6 +4,8 @@
  */
 package trm.view.game.player;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trm.net.model.protocol.ResponseServer;
 import trm.view.game.board.DominoView;
 import trm.view.game.utils.GameSide;
@@ -80,7 +82,6 @@ public class PlayerPanel extends BGPanel implements Listener {
         b.getText();
         b.addActionListener(new DominoButtonListener(this, s));
         add(b);
-        repaint();
 
     }
 
@@ -128,7 +129,6 @@ public class PlayerPanel extends BGPanel implements Listener {
         for (Stone s : stones) {
             addPiece(s);
         }
-        repaint();
     }
 
     @Override
@@ -145,6 +145,12 @@ public class PlayerPanel extends BGPanel implements Listener {
                     System.out.println("stone list size" + stones.size());
                     System.out.println("request" + response.getRequestType());
                     setPieces(stones);
+                    try {
+                        Thread.sleep(150);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PlayerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    repaint();
                     break;
                 case PUT_STONE:
                     if (response.movement.action != Movement.Action.PASS) {
