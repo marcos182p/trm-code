@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public class Recognizer {
 
-    //private static final Logger LOGGER = Logger.getLogger(Recognizer.class.getName());
     private Automaton automaton;
     private State lastState;
     private State currentState;
@@ -62,7 +61,6 @@ public class Recognizer {
     private Token generateToken() {
 
         if (!automaton.getFinalStates().contains(currentState)) {
-            // LOGGER.log(Level.WARNING, "erro ao criar " + currentWord);
             throw new RuntimeException("Impossivel gerar token.");
         }
 
@@ -72,7 +70,6 @@ public class Recognizer {
         tokens.add(token);
         System.out.println(token);
         return token;
-    // LOGGER.log(Level.INFO, "token criado " + token, token);
 
     }
 
