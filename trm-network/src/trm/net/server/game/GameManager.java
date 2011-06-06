@@ -217,7 +217,7 @@ public class GameManager {
                     + "pois não está em nenhuma sala.");
         }
         
-        ResponseServer response = new ResponseServer(ResponseType.ACK,
+        ResponseServer movementResponse = new ResponseServer(ResponseType.ACK,
                 RequestType.PUT_STONE);
 
         switch (movement.action) {
@@ -235,11 +235,23 @@ public class GameManager {
                 room.putPass(player);
                 break;
         }
-        response.movement = movement;
-        response.player = player.getPlayer().getInf();
+        movementResponse.movement = movement;
+        movementResponse.player = player.getPlayer().getInf();
         
-        room.broadcast(response, player);
+        room.broadcast(movementResponse, player);
 
+        PlayerInf winner = room.getWinner();
+        
+        if (winner != null) {
+            room.stopGame();
+            
+            ResponseServer responseServer = new ResponseServer(ResponseType.ACK,
+                    RequestType.END_GAME);
+
+            responseServer.player = winner;
+            
+            room.broadcast(movementResponse);
+        }
     }
 
     public void postMessage(String message, ServerTask serverTask) throws IOException {
