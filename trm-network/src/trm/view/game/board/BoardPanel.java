@@ -19,13 +19,14 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import trm.core.Movement;
-import trm.core.SquareNumber;
 import trm.core.Stone;
 import trm.net.client.ClientTask;
 import trm.net.client.Listener;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
+import trm.net.model.protocol.ResponseType;
 import trm.view.game.utils.BGPanel;
 import trm.view.utils.Drawable;
 
@@ -105,6 +106,10 @@ public class BoardPanel extends BGPanel implements Listener{
         Movement m = response.movement;
         System.out.println("BoardPanel: player = " + response.player.getNickName());
         System.out.println("BoardPanel: movement = " + m);
+        if(response.getResponseType() == ResponseType.ERRO) {
+            JOptionPane.showMessageDialog(null, response.erroMessage);
+            return;
+        }
         if(m != null) {
             switch(m.action) {
                 case PUT_LEFT:
@@ -130,5 +135,6 @@ public class BoardPanel extends BGPanel implements Listener{
         } catch (IOException ex) {
             Logger.getLogger(BoardPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        repaint();
     }
 }

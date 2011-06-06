@@ -49,7 +49,7 @@ public class ButtonPanel extends BGPanel{
 	private void setup() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(2,5,2,5);
+		c.insets = new Insets(0,5,0,5);
 		int jumpx = 0;
 		int jumpy = 0;
 		if(orientation == HORIZONTAL) {
