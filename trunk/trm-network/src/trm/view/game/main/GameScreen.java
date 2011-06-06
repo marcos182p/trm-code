@@ -19,6 +19,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.net.Socket;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import trm.core.SquareNumber;
 import trm.core.Stone;
@@ -26,6 +27,7 @@ import trm.net.client.ClientTask;
 import trm.net.client.Listener;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
+import trm.net.model.protocol.ResponseType;
 import trm.view.game.main.listener.GameScreenListener;
 import trm.view.game.player.PlayerList;
 import trm.view.game.utils.ResourceWindow;
@@ -53,14 +55,14 @@ public class GameScreen extends JFrame implements Listener{
         String bg = ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE);
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
-        setSize(800,800);
+        setSize(1000,1000);
         Color playerColor = Color.ORANGE ;
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
         board = new BoardPanel(panel,task, playerNickname, 14, 14, playerColor, othersColor);
         chatPanel = new ChatPanel(panel, task.getSender());
-        playerPanel = new PlayerPanel(panel, task, board, playerColor);
+        playerPanel = new PlayerPanel(panel, task, playerNickname, board, playerColor);
         playerList = new PlayerList(panel);
         
         task.subscribe(RequestType.PUT_MESSAGE, chatPanel);
@@ -68,10 +70,14 @@ public class GameScreen extends JFrame implements Listener{
         task.subscribe(RequestType.ENTER_ROOM, this);
         task.subscribe(RequestType.EXIT_ROOM, this);
         task.subscribe(RequestType.PUT_STONE, board);
+        task.subscribe(RequestType.START_GAME, this);
+        task.subscribe(RequestType.GET_HAND, playerPanel);
+        task.subscribe(RequestType.PUT_STONE, playerPanel);
 
         addWindowListener(new GameScreenListener(task, playerNickname, roomName));
         setup();
-        setResizable(false);
+        setResizable(true);
+        repaint();
     }
 
     private void setup() {
@@ -132,13 +138,21 @@ public class GameScreen extends JFrame implements Listener{
 
     @Override
     public void update(ResponseServer response) {
+        if(response.getResponseType() == ResponseType.ERRO) {
+            JOptionPane.showMessageDialog(null, response.erroMessage);
+            return;
+        }
         try {
-            task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, null, null, null));
-            if(response.getRequestType() == RequestType.EXIT_ROOM) {
+            if(response.getRequestType() == RequestType.ENTER_ROOM) {
+                task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, null, null, null));
+            }else if(response.getRequestType() == RequestType.EXIT_ROOM) {
                 chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
+            }else if(response.getRequestType() == RequestType.START_GAME){
+                task.sendRequest(new RequestClient(RequestType.GET_HAND));
             }
         } catch (IOException ex) {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
+        repaint();
     }
 }

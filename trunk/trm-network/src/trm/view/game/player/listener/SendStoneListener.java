@@ -45,14 +45,11 @@ public class SendStoneListener implements ActionListener{
         
         Movement.Action action = null;
         if(stone != null) {
-            if(acceptTransition(stone, side)) {
                 System.out.println("SendStoneListener: move to");
                 if(side == null) {
                     System.out.println("SendStoneListener: pass");
                     action = Movement.Action.PASS;
                 }else {
-                    
-                    panel.removePiece(stone);
                     switch(side) {
                         case LEFT:
                             System.out.println("SendStoneListener: left");
@@ -73,22 +70,6 @@ public class SendStoneListener implements ActionListener{
                 } catch (IOException ex) {
                     Logger.getLogger(SendStoneListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-            }
         }
-    }
-
-    /*TODO enviar mensagem para domínio de que a peça pra determinado lado
-     foi mandada e retornar true caso seja bem sucessido ou false caso contrario*/
-    private boolean acceptTransition(Stone stone, GameSide side) {
-        switch(side) {
-            
-            case LEFT:
-                break;
-            case RIGHT:
-                
-                break;
-        }
-        return true;
     }
 }

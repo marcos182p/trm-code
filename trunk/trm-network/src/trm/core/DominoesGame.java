@@ -75,9 +75,14 @@ public class DominoesGame {
     //TODO refatorar!
     public void putLeft(Stone stone, Player player) {
         
+         if (!isPlaying(player)) {
+            throw new RuntimeException("Não é a vez desse jogador");
+        }
+        
+        
         if (!isValidPlayed(stone.getSquareRight(), Position.LEFT)) {
             if (!isValidPlayed(stone.getSquareLeft(), Position.LEFT)) {
-                throw new RuntimeException("Impossivel colocar peça");
+                throw new RuntimeException("Impossivel colocar peça left" + stone);
             }
             stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
         }
@@ -88,10 +93,15 @@ public class DominoesGame {
     
     //TODO refatorar!
     public void putRight(Stone stone, Player player) {
+
+         if (!isPlaying(player)) {
+            throw new RuntimeException("Não é a vez desse jogador");
+        }
+        
         
         if (!isValidPlayed(stone.getSquareLeft(), Position.RIGHT)) {
             if (!isValidPlayed(stone.getSquareRight(), Position.RIGHT)) {
-                throw new RuntimeException("Impossivel colocar peça");
+                throw new RuntimeException("Impossivel colocar peça right: " + stone);
             }
             stone = new Stone(stone.getSquareRight(), stone.getSquareLeft());
         }
@@ -100,7 +110,7 @@ public class DominoesGame {
     }
     
     public void putPass(Player player) {
-        
+
         if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
         }
@@ -122,11 +132,11 @@ public class DominoesGame {
         switch (position) {
             case LEFT:
                 currentStone = gameStones.get(0);
-                result = currentStone.getSquareRight().equals(square);
+                result = currentStone.getSquareLeft().equals(square);
                 break;
             case RIGHT:
                 currentStone = gameStones.get(gameStones.size() - 1);
-                result = currentStone.getSquareLeft().equals(square);
+                result = currentStone.getSquareRight().equals(square);
                 break;
         }
         
@@ -141,10 +151,6 @@ public class DominoesGame {
         
         if (winner != null) {
             throw new RuntimeException("o jogo ja tém um vencendor");
-        }
-        
-        if (!isPlaying(player)) {
-            throw new RuntimeException("Não é a vez desse jogador");
         }
         
         if (gameStones.contains(stone)) {
@@ -162,6 +168,11 @@ public class DominoesGame {
         
         if (getHandPlayer(player).getStones().isEmpty()) {
             winner = player;
+        }
+
+        System.out.println("Estado atual");
+        for(Stone s : gameStones) {
+            System.out.print(s + " ");
         }
     }
 

@@ -36,7 +36,6 @@ public class GameScreenListener implements WindowListener{
             task.sendRequest(new RequestClient(RequestType.PUT_ROOM, null, room, null, null));
             task.sendRequest(new RequestClient(RequestType.ENTER_ROOM, nickname, room, null, null));
             task.sendRequest(new RequestClient(RequestType.GET_PLAYERS, null, room, null, null));
-            task.sendRequest(new RequestClient(RequestType.START_GAME, nickname, room, null, null));
         }catch(Exception e) {
             
         }

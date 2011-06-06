@@ -261,7 +261,7 @@ public class GameManager {
                     + " pode pegar as suas peças.");
         }
         
-        return room.getBoardStones();
+        return room.getHandPlayer(serverTask.getPlayer());
     }
 
     public List<Stone> getBoardStones(ServerTask serverTask) {
