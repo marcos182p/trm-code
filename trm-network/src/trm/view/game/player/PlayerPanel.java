@@ -129,6 +129,10 @@ public class PlayerPanel extends BGPanel implements Listener {
         selectedStone = null;
     }
 
+    public void clear() {
+        pieces.removeAll();
+    }
+
     public void setPieces(List<Stone> stones) {
         if (!dominos.isEmpty()) {
             for (JButton b : dominos.values()) {
