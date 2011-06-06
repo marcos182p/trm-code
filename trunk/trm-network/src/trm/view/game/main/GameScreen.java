@@ -13,9 +13,11 @@ import trm.view.game.utils.BGPanel;
 import trm.view.game.board.BoardPanel;
 import trm.view.game.chat.ChatPanel;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.net.Socket;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -44,12 +46,13 @@ public class GameScreen extends JFrame implements Listener {
     private PlayerList playerList;
     private ClientTask task;
     private String playerNickname;
+    private String winner;
 
     public GameScreen(String playerNickname, String roomName) throws Exception {
         this.playerNickname = playerNickname;
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-        task = new ClientTask(null, new Socket("192.168.7.231", 8080));
+        task = new ClientTask(null, new Socket("192.168.7.124", 8080));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -57,7 +60,7 @@ public class GameScreen extends JFrame implements Listener {
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
         setSize(800, 800);
-        Color playerColor = Color.ORANGE;
+        Color playerColor = Color.GREEN;
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
@@ -123,6 +126,11 @@ public class GameScreen extends JFrame implements Listener {
         c.gridy = 2;
         content.add(panel, c);
         getContentPane().add(content);
+
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(800,800);
+
+        setLocation(d.width/2 - getWidth()/2, d.height/2 - getHeight()/2);
     }
 
     public void addPlayerPiece(
@@ -157,18 +165,19 @@ public class GameScreen extends JFrame implements Listener {
                     task.sendRequest(new RequestClient(RequestType.GET_HAND));
                     break;
                 case END_GAME:
+                    winner = response.player.getNickName();
                     task.sendRequest(new RequestClient(RequestType.GET_WINNER));
                     break;
                 case GET_WINNER:
-                    String winner = response.player.getNickName();
-
-                    if (winner.equals(playerNickname)) {
-                        JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Talvez na próxima, O jogador " + winner + " venceu");
+                    if(winner != null) {
+                        if (winner.equals(playerNickname)) {
+                            JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Talvez na próxima, O jogador " + winner + " venceu");
+                        }
+                        board.clear();
+                        playerPanel.clear();
                     }
-                    board.clear();
-                    playerPanel.clear();
                     break;
             }
 

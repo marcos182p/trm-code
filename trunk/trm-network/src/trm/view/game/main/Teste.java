@@ -14,10 +14,10 @@ import trm.view.game.utils.ResourceWindow;
 public class Teste {
     public static void main(String[] args) throws Exception {
 
-        ResourceWindow.setBG("board1.png");
-        ResourceWindow.setPanelImage("wood");
+        ResourceWindow.setBG("glass");
+        ResourceWindow.setPanelImage("board2.png");
         GameScreen screen = new GameScreen("Rafael", "teste room");
-        
+      
         screen.open();
         
     }

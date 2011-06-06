@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -21,7 +20,10 @@ public class FieldPanel extends BGPanel{
 	private JLabel label;
 	private JTextField box;
 	private int fieldPosition;
-	
+
+        /**Especifica a imagem de fundo, nome do label que antecede o field, numero de colunas, se
+         o campo eh um campo de senha e portanto não mostra os caracteres da palabra, e a posicao do
+         campo em relação ao label definida por constantes da classe*/
 	public FieldPanel(String bg, String label, int fieldColumns,  boolean isPassword, int fieldPosition) {
 		super(bg);
 		this.label = new JLabel(label);
