@@ -250,7 +250,7 @@ public class GameManager {
 
             responseServer.player = winner;
             
-            room.broadcast(movementResponse);
+            room.broadcast(responseServer);
         }
     }
 

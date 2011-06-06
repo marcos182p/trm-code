@@ -40,7 +40,14 @@ public class HandPlayer {
         Stone inverted = new Stone(
                 stone.getSquareRight(),
                 stone.getSquareLeft());
-        return stones.remove(stone) || stones.remove(inverted);
+
+        boolean result = stones.remove(stone) || stones.remove(inverted);
+
+        if (result) {
+            score -= stone.getSquareLeft().ordinal();
+            score -= stone.getSquareRight().ordinal();
+        }
+        return result;
     }
     
     public List<Stone> getStones() {

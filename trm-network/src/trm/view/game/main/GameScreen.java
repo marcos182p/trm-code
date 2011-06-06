@@ -49,7 +49,7 @@ public class GameScreen extends JFrame implements Listener{
     public GameScreen(String playerNickname, String roomName) throws Exception{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         
-        task = new ClientTask(null, new Socket("localhost", 8080));
+        task = new ClientTask(null, new Socket("192.168.7.231", 8080));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
