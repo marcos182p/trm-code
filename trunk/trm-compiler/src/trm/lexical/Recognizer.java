@@ -66,8 +66,8 @@ public class Recognizer {
         }
 
         String value = currentWord.toString();
-
-        Token token = new Token(value, getTokenClass(currentState, value), this.lineGenerate, this.columnGenerate);
+        
+        Token token = new Token(value, getTokenClass(currentState, value), this.lineGenerate, this.columnGenerate - value.length());
         tokens.add(token);
         System.out.println(token);
         // LOGGER.log(Level.INFO, "token criado " + token, token);
