@@ -131,6 +131,8 @@ public class PlayerPanel extends BGPanel implements Listener {
 
     public void clear() {
         pieces.removeAll();
+        pieces.revalidate();
+        pieces.repaint();
     }
 
     public void setPieces(List<Stone> stones) {
