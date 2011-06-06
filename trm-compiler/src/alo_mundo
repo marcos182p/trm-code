@@ -1,3 +1,4 @@
 main () : integer {
     print("alo mundo");
 }
+

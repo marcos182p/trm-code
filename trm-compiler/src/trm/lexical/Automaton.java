@@ -37,7 +37,7 @@ public class Automaton {
      * Inicializa os atributos da classe com os valores recebidos
      * como parâmetro
      * @param  startState State - Estado inicial do autômato
-     * @param  endStates  List<State> - List<State> contendo os estados
+     * @param  endStates  List<State> - Lista contendo os estados
      * finais do autômato
      */
     public Automaton(State startState, List<State> endStates) {

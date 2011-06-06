@@ -1,5 +1,6 @@
 package trm.lexical;
 
+import java.beans.Expression;
 import trm.lexical.rules.ExclusiveRule;
 import trm.lexical.rules.InclusiveRule;
 import trm.lexical.rules.IsDigitRule;
@@ -7,18 +8,18 @@ import trm.lexical.rules.IsLetterRule;
 import trm.lexical.rules.IsSymbolRule;
 import trm.lexical.rules.WhitespaceRule;
 
-/** Classe CreateAutomaton - Classe responsável por
+/** Classe AutomatonFactory - Classe responsável por
  * criar o automato que reconhecerá a linguagem
  * @author TRM
  * @version 0.99
  */
-public class CreateAutomaton {
+public class AutomatonFactory {
 
     /** Método responsável pela instanciação/criação do automato
      * @return Automaton - Instância do autômato que reconhecerá
      * a linguagem
      */
-    public static Automaton getInstance() {
+    public static Automaton createAutomaton() {
 
         //Criação dos estados do automato
         State startState = new State("1", new StateDescription());
@@ -76,8 +77,6 @@ public class CreateAutomaton {
         automaton.addTransition("7", startState, addState, new InclusiveRule('+'));
         automaton.addTransition("8", startState, subState, new InclusiveRule('-'));
         automaton.addTransition("9", startState, multState, new InclusiveRule('*'));
-
-        //aqui
         automaton.addTransition("10", startState, divState, new InclusiveRule('/'));
         automaton.addTransition("11", startState, equalState, new InclusiveRule('='));
         automaton.addTransition("12", startState, greaterThanState, new InclusiveRule('>'));

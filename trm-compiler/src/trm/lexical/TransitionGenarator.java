@@ -7,7 +7,8 @@ import trm.lexical.rules.IsLetterRule;
 import trm.lexical.rules.IRule;
 import trm.lexical.rules.WhitespaceRule;
 
-/** Classe TransitionGenarator - Criar Transições dinamicamente (Em fase de implementação)
+/** Classe TransitionGenarator - Criar Transições dinamicamente
+ * (Em fase de implementação)
  * @author TRM
  * @version 0.99
  */

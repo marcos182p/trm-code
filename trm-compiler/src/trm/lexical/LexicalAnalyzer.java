@@ -41,7 +41,7 @@ public class LexicalAnalyzer implements ILexical {
      * depois da análise lexica
      */
     public Collection<Token> parse() {
-        Automaton automaton = CreateAutomaton.getInstance();
+        Automaton automaton = AutomatonFactory.createAutomaton();
 
         String fileText = "";
         try {
