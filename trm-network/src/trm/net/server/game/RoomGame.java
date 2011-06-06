@@ -130,7 +130,7 @@ public class RoomGame {
         if (!started) return;
         resetPlayers();
         started = false;
-        dominoesGame = null;
+//        dominoesGame = null;
     }
 
 
