@@ -1,7 +1,5 @@
 package trm.lexical;
 
-import java.util.List;
-
 /** Classe Main - Classe responsável pela inicialização do programa
  * @author TRM
  * @version 0.99
@@ -14,27 +12,29 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        List<Token> lista;
+        Token nextToken;
         LexicalAnalyzer analisadorLexico = new LexicalAnalyzer();
 
 
         //Análise do arquivo alo_mundo
         analisadorLexico.setPathFile("src/alo_mundo");
-        lista = (List<Token>) analisadorLexico.parse();
-        System.out.println("\nQuantidade de Tokens Gerados pelo arquivo alo_mundo: " + lista.size() + "\n");
 
 
-        //Análise do arquivo serie_fibonnaci
-        analisadorLexico.setPathFile("src/serie_fibonnaci");
-        lista = (List<Token>) analisadorLexico.parse();
-        System.out.println("\nQuantidade de Tokens Gerados pela serie de fibonnaci: " + lista.size() + "\n");
+        while (analisadorLexico.nextToken() != null) {
+        }
 
 
-        //Análise do arquivo shellsort
-        analisadorLexico.setPathFile("src/shellsort");
-        lista = (List<Token>) analisadorLexico.parse();
-        System.out.println("\nQuantidade de Tokens Gerados pelo arquivo shellsort: " + lista.size() + "\n");
-
+//        //Análise do arquivo serie_fibonnaci
+//        analisadorLexico.setPathFile("src/serie_fibonnaci");
+//        lista = (List<Token>) analisadorLexico.parse();
+//        System.out.println("\nQuantidade de Tokens Gerados pela serie de fibonnaci: " + lista.size() + "\n");
+//
+//
+//        //Análise do arquivo shellsort
+//        analisadorLexico.setPathFile("src/shellsort");
+//        lista = (List<Token>) analisadorLexico.parse();
+//        System.out.println("\nQuantidade de Tokens Gerados pelo arquivo shellsort: " + lista.size() + "\n");
+//
 
 
 

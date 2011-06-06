@@ -3,7 +3,6 @@ package trm.lexical;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Collection;
 
 /** Classe LexicalAnalyzer - Analisador Lexico da linguagem
  * @author TRM
@@ -12,15 +11,15 @@ import java.util.Collection;
 public class LexicalAnalyzer implements ILexical {
 
     private String pathFile;
+    private Recognizer recognizer;
 
     /** Construtor LexicalAnalyzer da Classe -
      * Inicializa os atributos da classe com os valores recebidos
-     * como parâmetro.
+     * como parâmetro. E inicializa o analisador lexico
      * @param  pathFile String - Caminho do arquivo a ser analisado
      */
     public LexicalAnalyzer(String pathFile) {
-
-        this.pathFile = pathFile;
+        setPathFile(pathFile);
     }
 
     /** Construtor LexicalAnalyzer da Classe - Padrão
@@ -34,13 +33,13 @@ public class LexicalAnalyzer implements ILexical {
      */
     public void setPathFile(String pathFile) {
         this.pathFile = pathFile;
+        initLexicalAnalyzer();
     }
 
-    /** Método que analisa o arquivo de entrada (programa)
-     * @return Collection<Token> - Lista de tokens gerados
-     * depois da análise lexica
+    /** Metodo que inicializa o analisador Lexico
+     * @return void
      */
-    public Collection<Token> parse() {
+    private void initLexicalAnalyzer() {
         Automaton automaton = AutomatonFactory.createAutomaton();
 
         String fileText = "";
@@ -54,9 +53,15 @@ public class LexicalAnalyzer implements ILexical {
             e.printStackTrace();
         }
 
-        Recognizer recognizer = new Recognizer(automaton, fileText.toCharArray());
-        recognizer.run();
+        recognizer = new Recognizer(automaton, fileText.toCharArray());
+    }
 
-        return recognizer.getTokens();
+    /** Método que analisa o arquivo de entrada (programa)
+     * @return Token - Proximo token Gerado
+     * depois da análise lexica
+     */
+    public Token nextToken() {
+        Token token = recognizer.run();
+        return token;
     }
 }
