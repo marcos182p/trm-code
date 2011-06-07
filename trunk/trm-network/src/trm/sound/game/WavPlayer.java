@@ -16,10 +16,11 @@ import java.util.logging.Logger;
  * @author Rafael
  */
 public class WavPlayer {
+    private static final String PATH = "rsc//";
     private static AudioClip audioClip;
     public static void play(String wavFile) {
         
-        File f = new File(wavFile);
+        File f = new File(PATH + wavFile);
         try {
             audioClip = Applet.newAudioClip(f.toURI().toURL());
             audioClip.play();
