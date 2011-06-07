@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
         LexicalAnalyzer analisadorLexico = new LexicalAnalyzer();
-        analisadorLexico.setPathFile("src/serie_fibonnaci");
+        analisadorLexico.setPathFile("src/alo_mundo");
 
         while (analisadorLexico.nextToken() != null) {
         }
