@@ -18,7 +18,7 @@ public class FieldPanel extends BGPanel{
 	 * no construtor, coloca o campo abaixo do label*/
 	public static final int BELOW = 1;
 	private JLabel label;
-	private JTextField box;
+	private JTextField field;
 	private int fieldPosition;
 
         /**Especifica a imagem de fundo, nome do label que antecede o field, numero de colunas, se
@@ -28,10 +28,10 @@ public class FieldPanel extends BGPanel{
 		super(bg);
 		this.label = new JLabel(label);
 		if(isPassword) {
-			this.box = new JPasswordField(fieldColumns);
+			this.field = new JPasswordField(fieldColumns);
 			
 		}else {
-			this.box = new JTextField(fieldColumns);
+			this.field = new JTextField(fieldColumns);
 		}
 		this.fieldPosition = fieldPosition;
 		setup();
@@ -40,18 +40,21 @@ public class FieldPanel extends BGPanel{
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-		box.setEnabled(enabled);
+		field.setEnabled(enabled);
 	}
 	
 	public void clear() {
-		box.setText("");
+		field.setText("");
 	}
 	public String getContent() {
-		return box.getText();
+		return field.getText();
 	}
 	public void setContent(String content) {
-		this.box.setText(content);
+		this.field.setText(content);
 	}
+    public JTextField getField() {
+        return this.field;
+    }
 	private void setup() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -65,6 +68,6 @@ public class FieldPanel extends BGPanel{
 		if(fieldPosition == BELOW) {
 			c.gridy = 1;
 		}
-		add(box, c);
+		add(field, c);
 	}
 }

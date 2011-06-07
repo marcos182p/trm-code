@@ -5,10 +5,8 @@
 package trm.sound.game;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
@@ -29,16 +27,20 @@ public class MidiPlayer {
         try {
             sequence = MidiSystem.getSequence(new File(PATH + midifile));
             sequencer = MidiSystem.getSequencer();
-            sequencer.open();
-            sequencer.setSequence(sequence);
-            sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-            sequencer.start();
+            if(sequencer != null) {
+                sequencer.open();
+                sequencer.setSequence(sequence);
+                sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
+                sequencer.start();
+            }
         } catch (Exception ex) {
             Logger.getLogger(MidiPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public static void close() {
-        sequencer.close();
+        if(sequencer != null) {
+            sequencer.close();
+        }
     }
 }

@@ -16,10 +16,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import trm.core.PlayerInf;
 import trm.core.SquareNumber;
 import trm.core.Stone;
 import trm.net.client.ClientTask;
@@ -44,13 +44,13 @@ public class GameScreen extends JFrame implements Listener {
     private BGPanel content;
     private PlayerList playerList;
     private ClientTask task;
-    private String playerNickname;
-    private String winner;
+    private PlayerInf player;
+    private PlayerInf winner;
 
-    public GameScreen(ClientTask task, String playerNickname, String server, String roomName) throws Exception {
+    public GameScreen(ClientTask task, PlayerInf inf, String server, String roomName) throws Exception {
         MidiPlayer.close();
         MidiPlayer.play("castle.mid");
-        this.playerNickname = playerNickname;
+        this.player = inf;
         this.task = task;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -58,13 +58,13 @@ public class GameScreen extends JFrame implements Listener {
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
         setSize(800, 800);
-        Color playerColor = Color.ORANGE;
+        Color playerColor = Color.GREEN;
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
-        board = new BoardPanel(panel, task, playerNickname, 14, 14, playerColor, othersColor);
+        board = new BoardPanel(panel, task, player.getNickName(), 14, 14, playerColor, othersColor);
         chatPanel = new ChatPanel(panel, task.getSender());
-        playerPanel = new PlayerPanel(panel, task, playerNickname, board, playerColor);
+        playerPanel = new PlayerPanel(panel, task, player.getNickName(), board, playerColor);
         playerList = new PlayerList(panel);
 
         task.subscribe(RequestType.PUT_MESSAGE, chatPanel);
@@ -78,7 +78,7 @@ public class GameScreen extends JFrame implements Listener {
         task.subscribe(RequestType.END_GAME, this);
         task.subscribe(RequestType.GET_WINNER, this);
 
-        addWindowListener(new GameScreenListener(task, playerNickname, roomName));
+        addWindowListener(new GameScreenListener(task, player.getNickName(), roomName));
         setup();
         setResizable(false);
         repaint();
@@ -140,7 +140,6 @@ public class GameScreen extends JFrame implements Listener {
     }
 
     public void open() {
-        new Thread(task).start();
         setVisible(true);
 
     }
@@ -165,15 +164,15 @@ public class GameScreen extends JFrame implements Listener {
                     task.sendRequest(new RequestClient(RequestType.GET_HAND));
                     break;
                 case END_GAME:
-                    winner = response.player.getNickName();
+                    winner = response.player;
                     task.sendRequest(new RequestClient(RequestType.GET_WINNER));
                     break;
                 case GET_WINNER:
                     MidiPlayer.close();
                     MidiPlayer.play("castle.mid");
-
+                    System.out.println(response.player);
                     if(winner != null) {
-                        if (winner.equals(playerNickname)) {
+                        if (winner.equals(player)) {
                             JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
                         } else {
                             JOptionPane.showMessageDialog(null, "Talvez na próxima, O jogador " + winner + " venceu");

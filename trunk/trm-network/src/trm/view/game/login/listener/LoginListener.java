@@ -22,26 +22,23 @@ import trm.view.game.main.GameScreen;
  */
 public class LoginListener implements ActionListener{
     private LoginScreen screen;
-    private ClientTask task;
     
-    public LoginListener(LoginScreen screen, ClientTask task) {
+    public LoginListener(LoginScreen screen) {
         this.screen = screen;
-        this.task = task;
     }
     
     public void actionPerformed(ActionEvent e) {
         try {
+            
             if(screen.getNickname() != null && screen.getServer() != null) {
                 
-                task = new ClientTask(screen.getNickname(), new Socket(screen.getServer(), 8080));
+                ClientTask task = screen.createTask();
                 task.subscribe(RequestType.LOGIN, screen);
+                new Thread(task).start();
+                
                 task.sendRequest(new RequestClient(RequestType.LOGIN, screen.getNickname(), null, null, null));
-                try {
-                    new GameScreen(task, screen.getNickname(), screen.getServer(), "teste").open();
-                } catch (Exception ex) {
-                    Logger.getLogger(LoginListener.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                screen.dispose();
+                
+                
             }
         } catch (IOException ex) {
             Logger.getLogger(LoginListener.class.getName()).log(Level.SEVERE, null, ex);

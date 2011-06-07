@@ -15,7 +15,7 @@ import trm.view.game.utils.ResourceWindow;
 public class Teste {
     public static void main(String[] args) throws Exception {
 
-        String theme = "wood";
+        String theme = "glass";
         ResourceWindow.setBG(theme + "bg");
         ResourceWindow.setPanelImage(theme + "panel");
         //GameScreen screen = new GameScreen("Rafael", "localhost", "teste room");
