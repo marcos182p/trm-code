@@ -44,6 +44,7 @@ public enum TokenClass {
     TK_WHILE(true),
     /**
      * Classe for - unívoca
+     *
      */
     TK_FOR(true),
     /**
@@ -88,6 +89,7 @@ public enum TokenClass {
     TK_ADD(true),
     /**
      * Classe sub - unívoca
+     *
      */
     TK_SUB(true),
     /**
