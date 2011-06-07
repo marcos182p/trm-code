@@ -78,7 +78,7 @@ public class LoginScreen extends JFrame implements Listener {
 
     public void open() {
         setVisible(true);
-        MidiPlayer.play("field.mid");
+        MidiPlayer.play("icecave.mid");
     }
 
     private void setup() {
