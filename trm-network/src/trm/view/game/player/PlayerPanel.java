@@ -27,6 +27,7 @@ import trm.core.Stone;
 import trm.net.client.ClientTask;
 import trm.net.client.Listener;
 import trm.net.model.protocol.ResponseType;
+import trm.sound.game.WavPlayer;
 import trm.view.game.player.listener.DominoButtonListener;
 import trm.view.game.player.listener.SendStoneListener;
 import trm.view.game.player.listener.StartGameListener;
@@ -170,13 +171,21 @@ public class PlayerPanel extends BGPanel implements Listener {
                     break;
                 case PUT_STONE:
                     if (response.movement.action != Movement.Action.PASS) {
+                        
                             Stone stone = response.movement.stone;
+                            if(stone.getSquareLeft() == stone.getSquareRight()) {
+                                WavPlayer.play("bomb.wav");
+                            }else {
+                                WavPlayer.play("piece.wav");
+                            }
                             Stone inverted = new Stone(stone.getSquareRight(), stone.getSquareLeft());
                             if (containsPiece(stone)) {
                                 removePiece(stone);
                             } else if (containsPiece(inverted)) {
                                 removePiece(inverted);
                             }
+                    }else {
+                        WavPlayer.play("pass.wav");
                     }
             }
         }
