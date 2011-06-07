@@ -138,6 +138,7 @@ public class ServerTask implements Runnable {
             player = playerManager.newPlayer(nickName);
 
             response = new ResponseServer(ResponseType.ACK, RequestType.LOGIN);
+            response.player = player.getInf();
 
         } else {
             response = ResponseServer.createResponseErro(
