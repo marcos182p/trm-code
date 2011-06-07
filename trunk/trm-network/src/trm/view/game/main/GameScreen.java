@@ -49,7 +49,7 @@ public class GameScreen extends JFrame implements Listener {
 
     public GameScreen(ClientTask task, PlayerInf inf, String server, String roomName) throws Exception {
         MidiPlayer.close();
-        MidiPlayer.play("castle.mid");
+        MidiPlayer.play("spring.mid");
         this.player = inf;
         this.task = task;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -160,7 +160,7 @@ public class GameScreen extends JFrame implements Listener {
                     break;
                 case START_GAME:
                     MidiPlayer.close();
-                    MidiPlayer.play("dungeon.mid");
+                    MidiPlayer.play("battle1.mid");
                     task.sendRequest(new RequestClient(RequestType.GET_HAND));
                     break;
                 case END_GAME:
@@ -168,18 +168,23 @@ public class GameScreen extends JFrame implements Listener {
                     task.sendRequest(new RequestClient(RequestType.GET_WINNER));
                     break;
                 case GET_WINNER:
-                    MidiPlayer.close();
-                    MidiPlayer.play("castle.mid");
+                    
                     System.out.println(response.player);
                     if(winner != null) {
                         if (winner.equals(player)) {
+                            MidiPlayer.close();
+                            MidiPlayer.play("fanfare5.mid");
                             JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
                         } else {
-                            JOptionPane.showMessageDialog(null, "Talvez na próxima, O jogador " + winner + " venceu");
+                            MidiPlayer.close();
+                            MidiPlayer.play("gameover2.mid");
+                            JOptionPane.showMessageDialog(null, "Talvez na próxima, O jogador " + winner.getNickName() + " venceu");
                         }
                         board.clear();
                         playerPanel.clear();
                     }
+                    MidiPlayer.close();
+                    MidiPlayer.play("spring.mid");
                     break;
             }
 
