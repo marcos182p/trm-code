@@ -42,6 +42,7 @@ public class LexicalAnalyzer implements ILexical {
         Automaton automaton = AutomatonFactory.createAutomaton();
 
         String fileText = "";
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(
                     new File(this.pathFile)));

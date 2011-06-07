@@ -89,10 +89,10 @@ public enum TokenClass {
     TK_ADD(true),
     /**
      * Classe sub - unívoca
-     *
      */
     TK_SUB(true),
     /**
+     *
      * Classe mult - unívoca
      */
     TK_MULT(true),
