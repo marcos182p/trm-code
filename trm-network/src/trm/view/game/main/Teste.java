@@ -5,6 +5,7 @@
 
 package trm.view.game.main;
 
+import trm.view.game.login.LoginScreen;
 import trm.view.game.utils.ResourceWindow;
 
 /**
@@ -14,10 +15,11 @@ import trm.view.game.utils.ResourceWindow;
 public class Teste {
     public static void main(String[] args) throws Exception {
 
-        ResourceWindow.setBG("glass");
-        ResourceWindow.setPanelImage("board2.png");
-        GameScreen screen = new GameScreen("Rafael", "teste room");
-      
+        String theme = "wood";
+        ResourceWindow.setBG(theme + "bg");
+        ResourceWindow.setPanelImage(theme + "panel");
+        //GameScreen screen = new GameScreen("Rafael", "localhost", "teste room");
+        LoginScreen screen = new LoginScreen();
         screen.open();
         
     }

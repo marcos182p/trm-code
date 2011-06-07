@@ -46,16 +46,18 @@ public class PlayerList extends ListPanel implements Listener {
 
     public void setPlayers(List<String> players) {
         model.clear();
-        model.addElement(players.get(0) + SEPARATOR + currentPlayerComplement);
-        for (int i = 1; i < players.size(); i++) {
-            model.addElement(players.get(i) + SEPARATOR + waitingPlayerComplement);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(PlayerList.class.getName()).log(Level.SEVERE, null, ex);
+        if(!players.isEmpty()) {
+            model.addElement(players.get(0) + SEPARATOR + currentPlayerComplement);
+            for (int i = 1; i < players.size(); i++) {
+                model.addElement(players.get(i) + SEPARATOR + waitingPlayerComplement);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(PlayerList.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            repaint();
         }
-        repaint();
     }
 
     @Override

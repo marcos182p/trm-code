@@ -18,10 +18,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.net.Socket;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import trm.core.SquareNumber;
 import trm.core.Stone;
 import trm.net.client.ClientTask;
@@ -29,6 +27,7 @@ import trm.net.client.Listener;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseType;
+import trm.sound.game.MidiPlayer;
 import trm.view.game.main.listener.GameScreenListener;
 import trm.view.game.player.PlayerList;
 import trm.view.game.utils.ResourceWindow;
@@ -48,19 +47,18 @@ public class GameScreen extends JFrame implements Listener {
     private String playerNickname;
     private String winner;
 
-    public GameScreen(String playerNickname, String roomName) throws Exception {
+    public GameScreen(ClientTask task, String playerNickname, String server, String roomName) throws Exception {
+        MidiPlayer.close();
+        MidiPlayer.play("castle.mid");
         this.playerNickname = playerNickname;
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        task = new ClientTask(null, new Socket("192.168.7.124", 8080));
-
+        this.task = task;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         String bg = ResourceWindow.getResourceName(ResourceWindow.BG_IMAGE);
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
         setSize(800, 800);
-        Color playerColor = Color.GREEN;
+        Color playerColor = Color.ORANGE;
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
@@ -115,12 +113,12 @@ public class GameScreen extends JFrame implements Listener {
         c.weighty = 1;
         panel.add(chatPanel, c);
         c.fill = GridBagConstraints.BOTH;
-        c.insets = new Insets(0, 30, 0, 5);
+        //c.insets = new Insets(0, 30, 0, 5);
         c.gridx = 0;
         c.weightx = 0.4;
         panel.add(playerList, c);
 
-        c.insets = new Insets(10, 10, 0, 10);
+        //c.insets = new Insets(10, 10, 0, 10);
         c.weighty = 0.2;
         c.gridx = 0;
         c.gridy = 2;
@@ -162,6 +160,8 @@ public class GameScreen extends JFrame implements Listener {
                     chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
                     break;
                 case START_GAME:
+                    MidiPlayer.close();
+                    MidiPlayer.play("dungeon.mid");
                     task.sendRequest(new RequestClient(RequestType.GET_HAND));
                     break;
                 case END_GAME:
@@ -169,6 +169,9 @@ public class GameScreen extends JFrame implements Listener {
                     task.sendRequest(new RequestClient(RequestType.GET_WINNER));
                     break;
                 case GET_WINNER:
+                    MidiPlayer.close();
+                    MidiPlayer.play("castle.mid");
+
                     if(winner != null) {
                         if (winner.equals(playerNickname)) {
                             JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");

@@ -64,17 +64,24 @@ public class ChatPanel extends BGPanel implements  Listener{
         GridBagConstraints c = new GridBagConstraints();
 
         c.insets = new Insets(5, 0, 5, 0);
-        c.fill = GridBagConstraints.BOTH;
+        
         c.gridx = 0;
         c.gridy = 0;
+        
+        c.weightx = 0.1;
+        c.weighty = 0.1;
         add(label, c);
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 0;
+        c.weightx = 0.5;
+        c.weighty = 0.5;
         add(chat, c);
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 1;
-
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 1;
         add(pane, c);
     }
 
