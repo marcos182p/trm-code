@@ -48,7 +48,8 @@ public class AutomatonGenerator {
         State initialState = new State(reader.readLine().trim());
         Set<State> finalStates = generateStates(reader.readLine().trim());
 
-        automaton = new Automaton(initialState, new ArrayList<State>(finalStates));
+        automaton = new Automaton(initialState,
+                new ArrayList<State>(finalStates));
 
         Set<Transition> transitions = generateTransitions();
 
@@ -65,7 +66,8 @@ public class AutomatonGenerator {
 //        String temp = " - {\\}";
 //        TransitionGenarator.createRule(temp);
 //        System.out.println(temp.replace("{",  "").replace("}", ""));
-//        AutomatonGenerator generator = new AutomatonGenerator("src/exemplo_definicao_automato");
+//        AutomatonGenerator generator = new AutomatonGenerator
+    //("src/exemplo_definicao_automato");
 //        generator.generate();
 //
 //    }
@@ -92,7 +94,8 @@ public class AutomatonGenerator {
         Set<Transition> result = new HashSet<Transition>();
 
 
-        states.put(automaton.getStartState().getLabel(), automaton.getStartState());
+        states.put(automaton.getStartState().getLabel(),
+                automaton.getStartState());
 
         for (State state : automaton.getFinalStates()) {
             states.put(state.getLabel(), state);

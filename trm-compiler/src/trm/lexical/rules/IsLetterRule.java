@@ -1,6 +1,7 @@
 package trm.lexical.rules;
 
-/** Classe IsLetterRule para execução de regras de verificação de Letras. Implementa a interface IRule
+/** Classe IsLetterRule para execução de regras de verificação de Letras.
+ * Implementa a interface IRule
  * @author TRM
  * @version 0.99
  */

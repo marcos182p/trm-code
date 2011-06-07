@@ -65,7 +65,8 @@ public class Automaton {
      * @param  target State - Estado final (alvo) da transição
      * @param  rule IRule - Regra para transição de estado
      */
-    public void addTransition(String label, State source, State target, IRule rule) {
+    public void addTransition(String label, State source, State target,
+            IRule rule) {
 
         addTransition(new Transition(label, source, target, rule));
     }

@@ -1,6 +1,7 @@
 package trm.lexical.rules;
 
-/** Classe InclusiveRule para execução de regras inclusivas. Implementa a interface IRule
+/** Classe InclusiveRule para execução de regras inclusivas.
+ * Implementa a interface IRule
  * @author TRM
  * @version 0.99
  */
