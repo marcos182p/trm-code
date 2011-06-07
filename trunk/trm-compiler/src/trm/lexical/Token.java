@@ -48,7 +48,8 @@ public class Token {
     }
 
     /** Método que retorna a coluna que o token está na "matriz de tokens"
-     * @return int - Inteiro representando a coluna do token na "matriz de tokens"
+     * @return int - Inteiro representando a coluna do token na
+     * "matriz de tokens"
      */
     public int getcolumn() {
         return column;
@@ -62,7 +63,8 @@ public class Token {
     }
 
     /** Método que retorna a linha que o token está na "matriz de tokens"
-     * @return int - Inteiro representando a linha do token na "matriz de tokens"
+     * @return int - Inteiro representando a linha do token na
+     * "matriz de tokens"
      */
     public int getLine() {
         return line;
@@ -82,6 +84,7 @@ public class Token {
      */
     @Override
     public String toString() {
-        return "[ " + tokenClass + " : " + value + " : " + line + " : " + column + " ]";
+        return "[ " + tokenClass + " : " + value + " : " + line + " : "
+                + column + " ]";
     }
 }

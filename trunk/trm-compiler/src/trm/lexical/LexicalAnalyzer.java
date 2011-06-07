@@ -43,10 +43,12 @@ public class LexicalAnalyzer implements ILexical {
 
         String fileText = "";
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(this.pathFile)));
+            BufferedReader reader = new BufferedReader(new FileReader(
+                    new File(this.pathFile)));
 
             while (reader.ready()) {
-                fileText += reader.readLine() + System.getProperty("line.separator");
+                fileText += reader.readLine()
+                        + System.getProperty("line.separator");
             }
         } catch (Exception e) {
             e.printStackTrace();

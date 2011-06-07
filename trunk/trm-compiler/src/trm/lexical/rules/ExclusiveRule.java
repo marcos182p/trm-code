@@ -1,6 +1,7 @@
 package trm.lexical.rules;
 
-/** Classe ExclusiveRule para execução de regras exclusivas. Implementa a interface IRule
+/** Classe ExclusiveRule para execução de regras exclusivas.
+ * Implementa a interface IRule
  * @author TRM
  * @version 0.99
  */

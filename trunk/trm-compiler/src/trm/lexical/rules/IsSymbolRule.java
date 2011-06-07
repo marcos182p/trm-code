@@ -1,13 +1,15 @@
 package trm.lexical.rules;
 
-/** Classe IsSymbolRule para execução de regras de verificação de Simbolos. Implementa a interface IRule
+/** Classe IsSymbolRule para execução de regras de verificação de Simbolos.
+ * Implementa a interface IRule
  * @author TRM
  * @version 0.99
  */
 public class IsSymbolRule implements IRule {
 
-    char[] simbolos = {'_', '+', '-', '=', '[', ']', '{', '}', '^', '~', '`', '´', ',', '”', '.',
-        ';', ':', '/', '?', '\\', '\'', '¬', '¹', '²', '³', '£', '¢', '§', 'ª', 'º', '°', '·', '!',
+    char[] simbolos = {'_', '+', '-', '=', '[', ']', '{', '}', '^', '~', '`',
+        '´', ',', '”', '.', ';', ':', '/', '?', '\\', '\'', '¬',
+        '¹', '²', '³', '£', '¢', '§', 'ª', 'º', '°', '·', '!',
         '@', '#', '$', '%', '&', '*', '(', ')'};
 
     /** Método de avaliação da regra de simbolos:

@@ -5,7 +5,6 @@ package trm.lexical;
  * @version 0.99
  */
 public enum WordType {
-    //FIXME ver com marcos/rafael se vai ficar assim mesmo ou não vai colocar comentarios JavaDoc nessa enumeração
 
     /**
      *Palavras

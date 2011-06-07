@@ -66,7 +66,8 @@ public class Recognizer {
 
         String value = currentWord.toString();
 
-        Token token = new Token(value, getTokenClass(currentState, value), this.lineGenerate, this.columnGenerate - (value.length() + 1));
+        Token token = new Token(value, getTokenClass(currentState, value),
+                this.lineGenerate, this.columnGenerate - (value.length() + 1));
         tokens.add(token);
         System.out.println(token);
         return token;
@@ -89,7 +90,8 @@ public class Recognizer {
 
                 currentWord.append(tape[indexRead]);
 
-                if (tape[indexRead] == System.getProperty("line.separator").toCharArray()[0]) {
+                if (tape[indexRead] == System.getProperty("line.separator").
+                        toCharArray()[0]) {
                     this.lineGenerate++;
                     this.columnGenerate = 0;
                 }
@@ -250,7 +252,8 @@ public class Recognizer {
 
 
         if (target == null) {
-            throw new TransitionException("Transição para esse valor não " + "encontrada.");
+            throw new TransitionException("Transição para esse valor não "
+                    + "encontrada.");
         }
 
         lastState = currentState;
