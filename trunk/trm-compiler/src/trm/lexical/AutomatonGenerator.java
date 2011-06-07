@@ -42,7 +42,6 @@ public class AutomatonGenerator {
     /** Método que gera o autômato automaticamente
      * @throws  IOException -  se algum erro de entrada
      * e saída ocorrer
-     * @return void
      */
     public void generate() throws IOException {
 

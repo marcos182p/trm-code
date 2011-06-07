@@ -8,7 +8,6 @@ public class Main {
 
     /** Método que inicializa a análise
      * @param  args String[] - Argumentos que forem necessários
-     * @return void
      */
     public static void main(String[] args) {
 

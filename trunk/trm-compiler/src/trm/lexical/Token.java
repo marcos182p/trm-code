@@ -35,7 +35,6 @@ public class Token {
 
     /** Metodo que seta o valor do Token
      * @param  value String - Novo valor do Token
-     * @return void 
      */
     public void setValue(String value) {
         this.value = value;
@@ -57,7 +56,6 @@ public class Token {
 
     /** Metodo que seta a coluna que o token está na "matriz de tokens"
      * @param  column int - Novo valor da coluna
-     * @return void
      */
     public void setcolumn(int column) {
         this.column = column;
@@ -72,14 +70,12 @@ public class Token {
 
     /** Metodo que seta a linha que o token está na "matriz de tokens"
      * @param  line int - Novo valor da linha
-     * @return void
      */
     public void setLine(int line) {
         this.line = line;
     }
 
     /** Metodo que retorna uma String do token
-     * @param  value String - Valor do token
      * @return String - String representando o token,
      * formato:
      * [ classeToken : valorToken : linha : coluna]
