@@ -47,7 +47,6 @@ public class State {
     /** Metodo que seta o descritor do estado do automato
      * @param  description StateDescription - Novo valor do descritor
      * do estado do automato
-     * @return void
      */
     public void setDescription(StateDescription description) {
         this.description = description;

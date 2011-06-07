@@ -29,7 +29,6 @@ public class LexicalAnalyzer implements ILexical {
 
     /** Metodo que seta o pathFile
      * @param  pathFile String - Novo valor do pathFile
-     * @return void 
      */
     public void setPathFile(String pathFile) {
         this.pathFile = pathFile;
