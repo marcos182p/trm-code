@@ -136,6 +136,8 @@ public class AutomatonGenerator {
             states.put(labels[0].trim(), source);
         }
         State target = states.get(labels[1].trim());
+
+
         if (target == null) {
             target = new State(labels[1].trim());
             states.put(labels[1].trim(), target);

@@ -47,6 +47,7 @@ public class Recognizer {
     }
 
     /** Método que prepara a inicialização do reconhecedor.
+     *
      * @return void
      */
     private void reset() {
@@ -145,6 +146,7 @@ public class Recognizer {
     }
 
     /** Método que retorna a classe do Token
+     *
      * @param  state State - Estado que o automato se localiza
      * @param  word String - palavra lida (para o caso de IDs)
      * @return TokenClass - Classe do Token
