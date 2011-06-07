@@ -11,9 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import trm.core.PlayerInf;
 import trm.net.client.Listener;
 import trm.net.model.protocol.ResponseServer;
+import trm.net.model.protocol.ResponseType;
 import trm.view.game.utils.ListPanel;
 
 /**
@@ -51,7 +53,7 @@ public class PlayerList extends ListPanel implements Listener {
             for (int i = 1; i < players.size(); i++) {
                 model.addElement(players.get(i) + SEPARATOR + waitingPlayerComplement);
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(150);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(PlayerList.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -62,12 +64,16 @@ public class PlayerList extends ListPanel implements Listener {
 
     @Override
     public void update(ResponseServer response) {
-        List<PlayerInf> inf = response.playersInGame;
-        List<String> players = new ArrayList<String>();
-        for (PlayerInf i : inf) {
-            players.add(i.getNickName());
+        if(response.getResponseType() != ResponseType.ERRO) {
+            List<PlayerInf> inf = response.playersInGame;
+            List<String> players = new ArrayList<String>();
+            for (PlayerInf i : inf) {
+                players.add(i.getNickName());
+            }
+
+            setPlayers(players);
+        }else {
+            JOptionPane.showMessageDialog(this, response.erroMessage, "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        
-        setPlayers(players);
     }
 }
