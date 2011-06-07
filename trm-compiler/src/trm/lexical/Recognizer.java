@@ -70,7 +70,7 @@ public class Recognizer {
         Token token = new Token(value, getTokenClass(currentState, value),
                 this.lineGenerate, this.columnGenerate - (value.length() + 1));
         tokens.add(token);
-        System.out.println(token);
+        //System.out.println(token);
         return token;
 
     }
