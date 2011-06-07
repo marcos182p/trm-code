@@ -46,7 +46,6 @@ public class PlayerPanel extends BGPanel implements Listener {
     private static final int selectedAlpha = 70;
     private ButtonPanel buttons;
     private BGPanel pieces;
-    private String playerNickname;
 
     public PlayerPanel(String background, ClientTask task, String playerNickname, BoardPanel board, Color playerColor) {
         super(background);
@@ -54,7 +53,6 @@ public class PlayerPanel extends BGPanel implements Listener {
         this.dominos = new HashMap<Stone, JButton>();
         this.playerColor = playerColor;
         this.selectedStone = null;
-        this.playerNickname = playerNickname;
 
         pieces = new BGPanel(background);
         buttons = new ButtonPanel(background, ButtonPanel.VERTICAL, ">>", "pass", "<<", "start");

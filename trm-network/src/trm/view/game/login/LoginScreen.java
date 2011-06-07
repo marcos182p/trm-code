@@ -39,7 +39,11 @@ public class LoginScreen extends JFrame implements Listener {
     private ClientTask task;
 
     public LoginScreen() {
-
+        MidiPlayer.pre_load("icecave.mid");
+        MidiPlayer.pre_load("spring.mid");
+        MidiPlayer.pre_load("endless-fight.mid");
+        MidiPlayer.pre_load("jackpot.mid");
+        MidiPlayer.pre_load("defeat.mid");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

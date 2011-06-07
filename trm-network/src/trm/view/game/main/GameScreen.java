@@ -48,7 +48,7 @@ public class GameScreen extends JFrame implements Listener {
     private PlayerInf winner;
 
     public GameScreen(ClientTask task, PlayerInf inf, String server, String roomName) throws Exception {
-        MidiPlayer.close();
+        MidiPlayer.stop();
         MidiPlayer.play("spring.mid");
         this.player = inf;
         this.task = task;
@@ -58,7 +58,7 @@ public class GameScreen extends JFrame implements Listener {
         String panel = ResourceWindow.getResourceName(ResourceWindow.PANEL_IMAGE);
 
         setSize(800, 800);
-        Color playerColor = Color.GREEN;
+        Color playerColor = Color.ORANGE;
         Color othersColor = Color.BLACK;
 
         content = new BGPanel(bg);
@@ -159,8 +159,8 @@ public class GameScreen extends JFrame implements Listener {
                     chatPanel.appendMessage("System: " + response.player.getNickName() + " desconectado... ");
                     break;
                 case START_GAME:
-                    MidiPlayer.close();
-                    MidiPlayer.play("battle1.mid");
+                    MidiPlayer.stop();
+                    MidiPlayer.play("endless-fight.mid");
                     task.sendRequest(new RequestClient(RequestType.GET_HAND));
                     break;
                 case END_GAME:
@@ -172,18 +172,18 @@ public class GameScreen extends JFrame implements Listener {
                     System.out.println(response.player);
                     if(winner != null) {
                         if (winner.equals(player)) {
-                            MidiPlayer.close();
-                            MidiPlayer.play("fanfare5.mid");
+                            MidiPlayer.stop();
+                            MidiPlayer.play("jackpot.mid");
                             JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
                         } else {
-                            MidiPlayer.close();
-                            MidiPlayer.play("gameover2.mid");
+                            MidiPlayer.stop();
+                            MidiPlayer.play("defeat.mid");
                             JOptionPane.showMessageDialog(null, "Talvez na próxima, O jogador " + winner.getNickName() + " venceu");
                         }
                         board.clear();
                         playerPanel.clear();
                     }
-                    MidiPlayer.close();
+                    MidiPlayer.stop();
                     MidiPlayer.play("spring.mid");
                     break;
             }
