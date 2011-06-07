@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import trm.net.client.ClientTask;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
+import trm.sound.game.MidiPlayer;
 
 /**
  *
@@ -44,6 +45,7 @@ public class GameScreenListener implements WindowListener{
     @Override
     public void windowClosing(WindowEvent arg0) {
         try {
+            MidiPlayer.close();
             task.sendRequest(new RequestClient(RequestType.EXIT_ROOM, nickname, room, null, null));
             
         } catch (Exception ex) {
