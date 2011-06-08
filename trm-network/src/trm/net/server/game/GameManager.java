@@ -208,20 +208,28 @@ public class GameManager {
     }
 
     public void moveStone(Movement movement, ServerTask player) {
-        final RoomGame room = findRoomGameByPlayer(player);
-        
-        if (movement == null) {
-            throw new RuntimeException("movimenteto não especificado.");
-        }
+        RoomGame room = findRoomGameByPlayer(player);
         
         if (room == null) {
             throw new RuntimeException("usario não pode mover a peça, "
                     + "pois não está em nenhuma sala.");
         }
         
+        if (!room.isStarted()) {
+            throw new RuntimeException("jogo não iniciado.");
+        }
+        
+        if (movement == null) {
+            throw new RuntimeException("movimento não especificado.");
+        }
+        
+        if (movement.action == null) {
+            throw new RuntimeException("ação não especificada");
+        }
+        
         ResponseServer movementResponse = new ResponseServer(ResponseType.ACK,
                 RequestType.PUT_STONE);
-
+        
         switch (movement.action) {
             case PUT_LEFT:
                 room.putLeft(movement.stone, player);
