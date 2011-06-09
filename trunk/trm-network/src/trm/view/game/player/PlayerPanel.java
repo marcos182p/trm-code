@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.view.game.player;
 
 import java.util.logging.Level;
@@ -35,8 +31,8 @@ import trm.view.game.utils.BGPanel;
 import trm.view.game.utils.ButtonPanel;
 
 /**
- *
- * @author rafanet
+ * @author TRM
+ * @version 0.99
  */
 public class PlayerPanel extends BGPanel implements Listener {
 

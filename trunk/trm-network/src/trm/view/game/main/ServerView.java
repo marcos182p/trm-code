@@ -21,8 +21,8 @@ import trm.net.server.game.RoomInf;
 import trm.net.server.game.StatePlayer;
 
 /**
- *
- * @author Marcos Paulo
+ * @author TRM
+ * @version 0.99
  */
 public class ServerView extends javax.swing.JFrame implements ActionListener {
     

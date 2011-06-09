@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.net.server.game;
 
 import java.io.IOException;
@@ -13,8 +9,8 @@ import trm.core.Stone;
 import trm.net.server.ServerTask;
 
 /**
- *
- * @author Marcos
+ * @author TRM
+ * @version 0.99
  */
 public class GameActionImpl implements GameAction {
     

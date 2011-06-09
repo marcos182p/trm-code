@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.chat.listener;
 
 import java.awt.event.ActionEvent;
@@ -14,11 +9,10 @@ import javax.swing.JTextField;
 import trm.net.model.Sender;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
-import trm.view.game.chat.ChatPanel;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class ChatListener implements ActionListener{
     

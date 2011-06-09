@@ -1,11 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.board;
 
-import trm.view.game.main.*;
 import trm.view.game.utils.Orientation;
 import trm.view.utils.Drawable;
 import java.awt.Color;
@@ -17,10 +11,10 @@ import java.awt.image.BufferedImage;
 import trm.core.Stone;
 
 /**
- *
- * @author marcos182p
+ * @author TRM
+ * @version 0.99
  */
-public class DominoView implements Drawable{
+public class DominoView implements Drawable {
 
     public static final int SIZE = 32;//peca com 32 pixels
     private static final double ROT_ANGLE = Math.PI/2;

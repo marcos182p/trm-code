@@ -9,7 +9,8 @@ import trm.net.util.GsonParser;
 import trm.net.util.ParserMessage;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class RequestClient {
 

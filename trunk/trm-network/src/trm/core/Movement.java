@@ -1,8 +1,10 @@
 package trm.core;
 
 
-/**
+/** 
  * Classe que representa uma jogado de um jogador
+ * @author TRM
+ * @version 0.99
  */
 public class Movement {
 

@@ -18,7 +18,8 @@ import static java.util.logging.Level.*;
 import static java.util.logging.Logger.*;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class ClientTask implements Runnable {
 

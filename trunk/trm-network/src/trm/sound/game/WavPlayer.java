@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.sound.game;
 
 import java.applet.Applet;
@@ -12,8 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class WavPlayer {
     private static final String PATH = "rsc//";

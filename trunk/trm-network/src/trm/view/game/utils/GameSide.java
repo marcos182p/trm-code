@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.utils;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public enum GameSide {
     LEFT, RIGHT;

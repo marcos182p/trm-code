@@ -8,7 +8,8 @@ import trm.net.model.protocol.ResponseType;
 import trm.net.server.game.GameActionImpl;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class RequestHandlerImpl extends RequestHandler {
     

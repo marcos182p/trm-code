@@ -11,16 +11,14 @@ import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.model.protocol.ResponseType;
-import trm.net.util.MessageFactory;
-import trm.net.util.MessageFactoryImpl;
 import static trm.net.util.SenderFactory.*;
 import static trm.net.util.ReceiverFactory.*;
 import static java.util.logging.Level.*;
 import static java.util.logging.Logger.*;
 
 /**
- *
- * @author Marcos
+ * @author TRM
+ * @version 0.99
  */
 public class ServerTask implements Runnable {
 
@@ -33,9 +31,6 @@ public class ServerTask implements Runnable {
     
     private RequestHandler handler;
     
-    private MessageFactory messageFactoy;
-    
-
     public ServerTask(Socket socket) throws IOException {
         
         this.socket = socket;
@@ -43,7 +38,6 @@ public class ServerTask implements Runnable {
         this.sender = createSenderServer(socket);
         this.receiver = createReceiverClient(socket);
         
-        this.messageFactoy = new MessageFactoryImpl();
     }
 
     public PlayerServer getPlayer() {
@@ -83,7 +77,6 @@ public class ServerTask implements Runnable {
         } finally {
             //TODO notificar sala de jogo casa ele esteja em alguma.
             close();
-            System.out.println(">><<<<");
             GameManager.getPlayerManager().removePlayer(this);
         }
     }
@@ -131,7 +124,11 @@ public class ServerTask implements Runnable {
 
         GameManager playerManager = GameManager.getPlayerManager();
         String nickName = request.nickName;
-
+        
+        if (!request.requestType.equals(RequestType.LOGIN)) {
+            return ResponseServer.createResponseErro("a primeira requisição "
+                    + "tem que ser do tipo login.", RequestType.LOGIN);
+        }
 
         if (isValidNickName(nickName)) {
 

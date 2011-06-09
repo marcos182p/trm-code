@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- *
- * @author Marcos
+/** 
+ * @author TRM
+ * @version 0.99
  */
 public class HandPlayer {
     

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.view.game.login;
 
 import java.awt.GridBagConstraints;
@@ -27,8 +23,8 @@ import trm.view.game.utils.FieldPanel;
 import trm.view.game.utils.ResourceWindow;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class LoginScreen extends JFrame implements Listener {
 
@@ -75,8 +71,7 @@ public class LoginScreen extends JFrame implements Listener {
         return login.getContent();
     }
 
-    public   String
-        getServer() {
+    public String getServer() {
         return server.getContent();
     }
 
@@ -116,7 +111,7 @@ public class LoginScreen extends JFrame implements Listener {
     public void update(ResponseServer response) {
         if (response.getResponseType() != ResponseType.ERRO) {
             try {
-                new GameScreen(task, response.player, getServer(), "teste").open();
+                new GameScreen(task, response.player, getServer(), "novo_teste").open();
                 dispose();
             } catch (Exception ex) {
                 Logger.getLogger(LoginListener.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.view.game.main;
 
 import java.io.IOException;
@@ -33,8 +29,8 @@ import trm.view.game.player.PlayerList;
 import trm.view.game.utils.ResourceWindow;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class GameScreen extends JFrame implements Listener {
 
@@ -80,7 +76,7 @@ public class GameScreen extends JFrame implements Listener {
 
         addWindowListener(new GameScreenListener(task, player.getNickName(), roomName));
         setup();
-        setResizable(false);
+//        setResizable(false);
         repaint();
     }
 

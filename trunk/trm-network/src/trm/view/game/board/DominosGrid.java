@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.view.game.board;
 
 import trm.view.game.utils.GameSide;
@@ -9,8 +5,8 @@ import trm.view.game.utils.Orientation;
 import java.awt.Point;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class DominosGrid {
 

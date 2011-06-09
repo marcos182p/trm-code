@@ -2,6 +2,8 @@ package trm.core;
 
 /**
  * A peça em um jogo de domino
+ * @author TRM
+ * @version 0.99
  */
 public class Stone {
 

@@ -8,7 +8,8 @@ import trm.core.Stone;
 import trm.net.server.game.RoomInf;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class ResponseServer {
 

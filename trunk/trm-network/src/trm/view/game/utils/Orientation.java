@@ -1,19 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.utils;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public enum Orientation {
+
     NORTH, EAST, WEST, SOUTH;
 
     public static Orientation clockwise(Orientation o) {
-        switch(o) {
+        switch (o) {
             case NORTH:
                 return EAST;
             case EAST:
@@ -28,7 +24,7 @@ public enum Orientation {
     }
 
     public static Orientation counterClockwise(Orientation o) {
-        switch(o) {
+        switch (o) {
             case NORTH:
                 return WEST;
             case WEST:

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.player.listener;
 
 import java.awt.event.ActionEvent;
@@ -11,8 +6,8 @@ import trm.core.Stone;
 import trm.view.game.player.PlayerPanel;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class DominoButtonListener implements ActionListener{
 
