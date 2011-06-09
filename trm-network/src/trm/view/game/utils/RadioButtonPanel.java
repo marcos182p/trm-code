@@ -12,17 +12,22 @@ import javax.swing.JRadioButton;
 
 public class RadioButtonPanel extends BGPanel {
 
-    /**Variavel que indica a posicao do campo em relacao ao label
-     * no construtor, coloca o campo ao lado do label*/
+    /**
+     * Variavel que indica a posicao do campo em relacao ao label
+     * no construtor, coloca o campo ao lado do label
+     */
     public static final int HORIZONTAL = 0;
-    /**Variavel que indica a posicao do campo em relacao ao label
-     * no construtor, coloca o campo abaixo do label*/
+    /**
+     * Variavel que indica a posicao do campo em relacao ao label
+     * no construtor, coloca o campo abaixo do label
+     */
     public static final int VERTICAL = 1;
     private JLabel label;
     private List<JRadioButton> buttons;
     private int radioButtonsPosition;
 
-    public RadioButtonPanel(String bg, String label, int radioButtonsPosition, String... radioButtonNames) {
+    public RadioButtonPanel(String bg, String label, int radioButtonsPosition,
+            String... radioButtonNames) {
         super(bg);
         this.radioButtonsPosition = radioButtonsPosition;
         this.buttons = new ArrayList<JRadioButton>();

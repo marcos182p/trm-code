@@ -1,16 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.main;
 
 import trm.view.game.login.LoginScreen;
 import trm.view.game.utils.ResourceWindow;
 
 /**
- *
- * @author rafanet
+ * @author TRM
+ * @version 0.99
  */
 public class Teste {
     public static void main(String[] args) throws Exception {

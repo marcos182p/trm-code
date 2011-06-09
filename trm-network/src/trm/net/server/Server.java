@@ -9,7 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class Server implements Runnable {
 

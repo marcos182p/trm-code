@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.player.listener;
 
 import java.awt.event.ActionEvent;
@@ -15,8 +10,8 @@ import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.RequestType;
 
 /**
- *
- * @author rafanet
+ * @author TRM
+ * @version 0.99
  */
 public class StartGameListener implements ActionListener{
     private ClientTask task;

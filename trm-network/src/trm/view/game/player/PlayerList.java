@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.view.game.player;
 
 import java.awt.Color;
@@ -19,8 +15,8 @@ import trm.net.model.protocol.ResponseType;
 import trm.view.game.utils.ListPanel;
 
 /**
- *
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class PlayerList extends ListPanel implements Listener {
 

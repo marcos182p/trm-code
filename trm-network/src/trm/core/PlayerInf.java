@@ -1,8 +1,8 @@
 package trm.core;
 
 /**
- *
- * @author Marcos
+ * @author TRM
+ * @version 0.99
  */
 public class PlayerInf {
     

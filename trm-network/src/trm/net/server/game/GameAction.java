@@ -7,6 +7,8 @@ import trm.core.Movement;
 
 /**
  * Ações que um jogador pode executar
+ * @author TRM
+ * @version 0.99
  */
 public interface GameAction {
     /**

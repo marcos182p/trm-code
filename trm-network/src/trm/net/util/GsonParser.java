@@ -16,8 +16,8 @@ import trm.net.model.InvalidMessageException;
 import trm.net.model.protocol.RequestType;
 
 /**
- *
- * @author Marcos Paulo
+ * @author TRM
+ * @version 0.99
  */
 public class GsonParser<Message> implements ParserMessage<Message> {
 

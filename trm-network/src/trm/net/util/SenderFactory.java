@@ -9,11 +9,13 @@ import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.ResponseServer;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class SenderFactory {
 
-    public static Sender<RequestClient> createSenderClient(Socket socket) throws IOException {
+    public static Sender<RequestClient> createSenderClient(Socket socket)
+            throws IOException {
 
         PrintWriter writer = new PrintWriter(socket.getOutputStream());
 
@@ -24,7 +26,8 @@ public class SenderFactory {
         return new SenderImpl<RequestClient>(writer, parserMessage);
     }
 
-    public static Sender<ResponseServer> createSenderServer(Socket socket) throws IOException {
+    public static Sender<ResponseServer> createSenderServer(Socket socket) 
+            throws IOException {
 
         PrintWriter writer = new PrintWriter(socket.getOutputStream());
 

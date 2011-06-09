@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- *
+/** 
+ * @author TRM
+ * @version 0.99
  */
 public class Dominoes {
-    
+
     private List<Stone> stones;
     
     private static Dominoes instance = new Dominoes();

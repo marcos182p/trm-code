@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.board;
 
 import java.io.IOException;
@@ -31,9 +26,9 @@ import trm.view.game.utils.BGPanel;
 import trm.view.utils.Drawable;
 
 /**
- * Painel de jogo sobre o qual serão
- * desenhados os dominós
- * @author rafanet
+ * Painel de jogo sobre o qual serão desenhados os dominós
+ * @author TRM
+ * @version 0.99
  */
 public class BoardPanel extends BGPanel implements Listener{
 

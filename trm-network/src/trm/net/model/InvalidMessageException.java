@@ -1,7 +1,8 @@
 package trm.net.model;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class InvalidMessageException extends RuntimeException {
 

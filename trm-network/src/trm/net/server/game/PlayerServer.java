@@ -4,7 +4,8 @@ import trm.core.Player;
 import trm.core.PlayerInf;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class PlayerServer extends Player {
 

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.view.game.player.listener;
 
 import java.awt.event.ActionEvent;
@@ -19,8 +15,8 @@ import trm.view.game.player.PlayerPanel;
 import trm.view.game.utils.GameSide;
 
 /**
- * 
- * @author Rafael
+ * @author TRM
+ * @version 0.99
  */
 public class SendStoneListener implements ActionListener {
 

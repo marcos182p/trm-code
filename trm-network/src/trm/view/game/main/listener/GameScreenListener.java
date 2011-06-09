@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.main.listener;
 
 import java.awt.event.WindowEvent;
@@ -15,8 +10,8 @@ import trm.net.model.protocol.RequestType;
 import trm.sound.game.MidiPlayer;
 
 /**
- *
- * @author rafanet
+ * @author TRM
+ * @version 0.99
  */
 public class GameScreenListener implements WindowListener{
 

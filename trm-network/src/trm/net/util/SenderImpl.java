@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.net.util;
 
 import java.io.IOException;
@@ -9,8 +5,8 @@ import java.io.PrintWriter;
 import trm.net.model.Sender;
 
 /**
- *
- * @author thyago
+ * @author TRM
+ * @version 0.99
  */
 public class SenderImpl<Message> implements Sender<Message> {
 

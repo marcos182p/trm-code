@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.view.game.chat;
 
 import java.awt.Color;
@@ -15,7 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
-import sun.font.Font2D;
 import trm.net.client.Listener;
 import trm.net.model.Sender;
 import trm.net.model.protocol.RequestClient;
@@ -24,8 +19,8 @@ import trm.view.game.chat.listener.ChatListener;
 import trm.view.game.utils.BGPanel;
 
 /**
- *
- * @author rafanet
+ * @author TRM
+ * @version 0.99
  */
 public class ChatPanel extends BGPanel implements  Listener{
 

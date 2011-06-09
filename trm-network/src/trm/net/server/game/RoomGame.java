@@ -15,7 +15,8 @@ import trm.net.model.protocol.ResponseServer;
 import trm.net.server.ServerTask;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public class RoomGame {
 

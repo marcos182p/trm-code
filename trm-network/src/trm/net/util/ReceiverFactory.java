@@ -5,14 +5,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import trm.net.model.InvalidMessageException;
 import trm.net.model.Receiver;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.ResponseServer;
 
 /**
- *
- * @author Marcos Paulo
+ * @author TRM
+ * @version 0.99
  */
 public class ReceiverFactory {
 

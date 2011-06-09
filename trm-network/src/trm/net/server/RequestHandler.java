@@ -4,7 +4,8 @@ import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.ResponseServer;
 
 /**
- *
+ * @author TRM
+ * @version 0.99
  */
 public abstract class RequestHandler {
     

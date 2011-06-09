@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.view.game.board;
 
 import java.awt.Image;
@@ -10,8 +5,8 @@ import javax.swing.ImageIcon;
 import trm.core.SquareNumber;
 
 /**
- *
- * @author marcos182p
+ * @author TRM
+ * @version 0.99
  */
 public class DominoImageLoader {
     
