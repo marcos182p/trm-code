@@ -138,13 +138,10 @@ public class DominoesGame {
         }
 
         for (HandPlayer hand : playersQueue) {
-            System.out.println("\naqui" + hand.getPlayer().getInf().getNickName());
-            System.out.println("stones.size = " + hand.getStones().size() );
             for (Stone stone : hand.getStones()) {
                 if (isValidPut(stone)) {
                     return false;
                 }
-                System.out.print(stone + " ");
             }
         }
 
@@ -230,10 +227,6 @@ public class DominoesGame {
             winner = getHandPlayer(player);
         }
 
-        System.out.println("Estado atual");
-        for(Stone s : gameStones) {
-            System.out.print(s + " ");
-        }
     }
 
     public List<Player> getPlayers() {

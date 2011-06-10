@@ -68,8 +68,8 @@ public class RequestClient {
         String m = messageFactory.buildMessage(message);
         System.out.println(m);
 
-        RequestClient message2 = messageFactory.parseMessage(
-                "{\"user-name\":\"marcos\",\"room-game\":1,\"postion_stone\":\"LEFT\",\"request-type\":\"LOGIN\"}");
+        RequestClient message2 = messageFactory.parseMessage("{\"request_type\":\"GET_ROOMS\",\"nick_name\":\"marcos\",\"room\":\"salaTest\",\"movement\":{\"stone\":{\"square_left\":\"FIVE\",\"square_right\":\"FIVE\"},\"action\":\"PUT_LEFT\"}}");
+                
 
         System.out.println(message2.requestType);
     }
