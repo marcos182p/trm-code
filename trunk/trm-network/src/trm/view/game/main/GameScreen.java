@@ -61,7 +61,7 @@ public class GameScreen extends JFrame implements Listener {
         board = new BoardPanel(panel, task, player.getNickName(), 14, 14, playerColor, othersColor);
         chatPanel = new ChatPanel(panel, task.getSender());
         playerPanel = new PlayerPanel(panel, task, player.getNickName(), board, playerColor);
-        playerList = new PlayerList(panel);
+        playerList = new PlayerList(inf.getNickName(), panel);
 
         task.subscribe(RequestType.PUT_MESSAGE, chatPanel);
         task.subscribe(RequestType.GET_PLAYERS, playerList);
@@ -156,7 +156,7 @@ public class GameScreen extends JFrame implements Listener {
                     break;
                 case START_GAME:
                     MidiPlayer.stop();
-                    MidiPlayer.play("endless-fight.mid");
+                    MidiPlayer.play("battle1.mid");
                     task.sendRequest(new RequestClient(RequestType.GET_HAND));
                     break;
                 case END_GAME:
@@ -169,7 +169,7 @@ public class GameScreen extends JFrame implements Listener {
                     if(winner != null) {
                         if (winner.equals(player)) {
                             MidiPlayer.stop();
-                            MidiPlayer.play("jackpot.mid");
+                            MidiPlayer.play("triumph.mid");
                             JOptionPane.showMessageDialog(null, "Parabéns você venceu!!!!");
                         } else {
                             MidiPlayer.stop();
@@ -180,7 +180,7 @@ public class GameScreen extends JFrame implements Listener {
                         playerPanel.clear();
                     }
                     MidiPlayer.stop();
-                    MidiPlayer.play("spring.mid");
+                    MidiPlayer.play("castle.mid");
                     break;
             }
 

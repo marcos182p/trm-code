@@ -174,7 +174,7 @@ public class RoomGame {
     List<PlayerInf> getPlayers() {
         
         List<PlayerInf> players = new ArrayList<PlayerInf>();
-        if (dominoesGame == null) {
+        if (!isStarted()) {
             for (ServerTask task : tasks) {
                 PlayerInf pi = task.getPlayer().getInf();
                 players.add(new PlayerInf(pi.getId(), pi.getNickName(),

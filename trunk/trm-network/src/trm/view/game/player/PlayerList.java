@@ -24,11 +24,13 @@ public class PlayerList extends ListPanel implements Listener {
     private String currentPlayerComplement;
     private String waitingPlayerComplement;
     private static final String SEPARATOR = " - ";
+    private String playerNickname;
 
-    public PlayerList(String background) {
+    public PlayerList(String playerNickname, String background) {
         super(background, "Players", new DefaultListModel());
         this.model = (DefaultListModel) getModel();
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.playerNickname = playerNickname;
 
         currentPlayerComplement = "pensando";
         waitingPlayerComplement = "esperando";
@@ -66,7 +68,6 @@ public class PlayerList extends ListPanel implements Listener {
             for (PlayerInf i : inf) {
                 players.add(i.getNickName());
             }
-
             setPlayers(players);
         }else {
             JOptionPane.showMessageDialog(this, response.erroMessage, "Erro", JOptionPane.ERROR_MESSAGE);
