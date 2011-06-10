@@ -35,11 +35,7 @@ public class LoginScreen extends JFrame implements Listener {
     private ClientTask task;
 
     public LoginScreen() {
-        MidiPlayer.pre_load("icecave.mid");
-        MidiPlayer.pre_load("spring.mid");
-        MidiPlayer.pre_load("endless-fight.mid");
-        MidiPlayer.pre_load("jackpot.mid");
-        MidiPlayer.pre_load("defeat.mid");
+        MidiPlayer.pre_load("triumph.mid");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -116,7 +112,8 @@ public class LoginScreen extends JFrame implements Listener {
             } catch (Exception ex) {
                 Logger.getLogger(LoginListener.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
+            
         } else {
             JOptionPane.showMessageDialog(null, "Erro", response.erroMessage, JOptionPane.ERROR_MESSAGE);
         }
