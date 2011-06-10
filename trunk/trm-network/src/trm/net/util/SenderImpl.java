@@ -2,6 +2,8 @@ package trm.net.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trm.net.model.Sender;
 
 /**
@@ -9,7 +11,7 @@ import trm.net.model.Sender;
  * @version 0.99
  */
 public class SenderImpl<Message> implements Sender<Message> {
-
+    
     private PrintWriter writer;
     private ParserMessage<Message> parserMessage;
 
@@ -20,7 +22,9 @@ public class SenderImpl<Message> implements Sender<Message> {
 
     @Override
     public void send(Message message) throws IOException {
-        writer.println(parserMessage.buildMessage(message));
+        String msg = parserMessage.buildMessage(message);
+        Logger.getLogger(SenderImpl.class.getName()).log(Level.INFO, "send {0}", msg);
+        writer.println(msg);
         writer.flush();
     }
 

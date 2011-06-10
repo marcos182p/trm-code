@@ -47,7 +47,8 @@ public class ResponseServer {
      */
     public String chatMessage;
     /**
-     * jogador que enviou a mensagem ou jogador que ganhou a partida
+     * jogador que enviou a mensagem ou jogador que ganhou a partida ou jogador
+     * que fez o movimento
      * >> a semantica depende do tipo requisição  <<
      */
     public PlayerInf player;

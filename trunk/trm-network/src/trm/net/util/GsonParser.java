@@ -56,7 +56,9 @@ class GsonUtil<Message> {
     public GsonUtil(TypeToken<Message> typeToken) {
         
   
-        gson = new GsonBuilder().registerTypeAdapter(RequestType.class, new MyEnumTypeAdapter()).setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+        gson = new GsonBuilder().registerTypeAdapter(RequestType.class, 
+                new MyEnumTypeAdapter()).setFieldNamingPolicy(
+                FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
         
         typeClass = typeToken.getType();
     }
@@ -74,12 +76,14 @@ class MyEnumTypeAdapter
         implements JsonSerializer<RequestType>, JsonDeserializer<RequestType> {
 
     @Override
-    public JsonElement serialize(RequestType src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(RequestType src, Type typeOfSrc, 
+    JsonSerializationContext context) {
         return new JsonPrimitive(src.name());
     }
 
     @Override
-    public RequestType deserialize(JsonElement json, Type classOfT, JsonDeserializationContext context)
+    public RequestType deserialize(JsonElement json, Type classOfT, 
+    JsonDeserializationContext context)
             throws JsonParseException {
         return RequestType.valueOf(json.getAsString().toUpperCase());
     }

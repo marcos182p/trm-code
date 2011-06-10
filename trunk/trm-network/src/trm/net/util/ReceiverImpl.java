@@ -2,6 +2,8 @@ package trm.net.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trm.net.model.InvalidMessageException;
 import trm.net.model.Receiver;
 
@@ -23,6 +25,8 @@ public class ReceiverImpl<Message> implements Receiver<Message> {
         if (line == null) {
             throw new IOException("conexão fechada!");
         }
+        
+        Logger.getLogger(ReceiverImpl.class.getName()).log(Level.INFO, "receive {0}", line);
 
         return parserMessage.parseMessage(line);
     }
