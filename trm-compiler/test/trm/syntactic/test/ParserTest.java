@@ -5,16 +5,13 @@
 
 package trm.syntactic.test;
 
-import java.util.ArrayList;
-import java.util.List;
-import trm.lexical.Token;
+import java.util.Set;
 import trm.syntactic.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import trm.lexical.ILexical;
 import trm.lexical.LexicalAnalyzer;
 import trm.lexical.TokenClass;
@@ -97,8 +94,10 @@ public class ParserTest {
 
         lexical = new LexicalAnalyzer("syntactic_test");
 
-        System.out.println("first");
-        for (Terminal t: glc.calculateFirst(E)) {
+        System.out.println("follow");
+        Set<Terminal> follow = glc.calculateFollow(F);
+        System.out.println("<>" + follow.size());
+        for (Terminal t: follow) {
             System.out.println(t.getLabel());
         }
     }

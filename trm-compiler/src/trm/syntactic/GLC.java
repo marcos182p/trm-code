@@ -1,13 +1,14 @@
 package trm.syntactic;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import trm.lexical.Token;
+import trm.lexical.TokenClass;
 
 public class GLC {
     
@@ -51,8 +52,8 @@ public class GLC {
         return derivations.get(var);
     }
 
-    public List<Terminal> calculateFirst(Element var) {
-        List<Terminal> first = new ArrayList<Terminal>();
+    public Set<Terminal> calculateFirst(Element var) {
+        Set<Terminal> first = new HashSet<Terminal>();
 
         if(var instanceof Terminal) {
             first.add((Terminal)var);
@@ -63,7 +64,7 @@ public class GLC {
 
         for(Derivation d : derivations) {
             if(!d.getTargets().isEmpty()) {
-                List<Terminal> terminals = new ArrayList<Terminal>();
+                Set<Terminal> terminals = new HashSet<Terminal>();
                 for(Element e : d.getTargets()) {
                     terminals = calculateFirst(e);
                     if(!terminals.isEmpty()) {
@@ -76,8 +77,44 @@ public class GLC {
         return first;
     }
 
-    public List<Terminal> calculateFolow(Variable var) {
-        throw new UnsupportedOperationException();
+    public Set<Terminal> calculateFollow(Variable var) {
+
+        Set<Terminal> follow = new HashSet<Terminal>();
+        if (var.equals(initialElement)) {
+            follow.add(new Terminal(TokenClass.TK_EOF));
+        }
+
+        for(Derivation derivation : allDerivations) {
+            boolean nextsFollow = false;
+            List<Element> targets = derivation.getTargets();
+            if(targets.contains(var)) {
+                int currentIndex = targets.indexOf(var);
+                Set<Terminal> terminals = new HashSet<Terminal>();
+                int i;
+                for(i = currentIndex+1; i < targets.size(); i++) {
+                    if (targets.get(i) instanceof Terminal) {
+                        terminals.add((Terminal)targets.get(i));
+                        break;
+                    }
+                    Derivation d = new Derivation((Variable)targets.get(i));
+                    
+                    terminals.addAll(calculateFirst(targets.get(i)));
+
+                    if(getDerivations((Variable)targets.get(i)).contains(d)) {
+                        nextsFollow = true;
+                        break;
+                    }
+                }
+                follow.addAll(terminals);
+                if(i == targets.size() || nextsFollow) {
+                    if(!var.equals(derivation.getSource())) {
+                        follow.addAll(calculateFollow(derivation.getSource()));
+                    }
+                }
+            }
+
+        }
+        return follow;
     }
 
 }

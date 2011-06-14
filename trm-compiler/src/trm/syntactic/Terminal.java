@@ -14,5 +14,4 @@ public class Terminal extends Element {
     public String getLabel() {
         return tokenClass.name();
     }
-
 }
