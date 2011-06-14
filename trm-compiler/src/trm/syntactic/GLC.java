@@ -7,11 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import trm.lexical.Token;
 import trm.lexical.TokenClass;
 
 public class GLC {
-    
+
     private Variable initialElement;
     private Map<Variable, Set<Derivation>> derivations;
     private Set<Derivation> allDerivations;
@@ -25,7 +24,7 @@ public class GLC {
     }
 
     public void addDerivation(Derivation derivation) {
-        if(!derivations.containsKey(derivation.getSource())) {
+        if (!derivations.containsKey(derivation.getSource())) {
             derivations.put(derivation.getSource(), new HashSet<Derivation>());
         }
         derivations.get(derivation.getSource()).add(derivation);
@@ -33,7 +32,7 @@ public class GLC {
     }
 
     public void removeDerivation(Derivation derivation) {
-        if(derivations.containsKey(derivation)) {
+        if (derivations.containsKey(derivation)) {
             derivations.get(derivation.getSource()).remove(derivation);
             this.allDerivations.remove(derivation);
         }
@@ -42,7 +41,7 @@ public class GLC {
     public Variable getInitialElement() {
         return initialElement;
     }
-    
+
     public Set<Derivation> getDerivations() {
 
         return Collections.unmodifiableSet(allDerivations);
@@ -55,19 +54,19 @@ public class GLC {
     public Set<Terminal> calculateFirst(Element var) {
         Set<Terminal> first = new HashSet<Terminal>();
 
-        if(var instanceof Terminal) {
-            first.add((Terminal)var);
+        if (var instanceof Terminal) {
+            first.add((Terminal) var);
             return first;
         }
-        
-        Set<Derivation> derivations = getDerivations((Variable)var);
 
-        for(Derivation d : derivations) {
-            if(!d.getTargets().isEmpty()) {
+        Set<Derivation> varDerivations = getDerivations((Variable) var);
+
+        for (Derivation d : varDerivations) {
+            if (!d.getTargets().isEmpty()) {
                 Set<Terminal> terminals = new HashSet<Terminal>();
-                for(Element e : d.getTargets()) {
+                for (Element e : d.getTargets()) {
                     terminals = calculateFirst(e);
-                    if(!terminals.isEmpty()) {
+                    if (!terminals.isEmpty()) {
                         break;
                     }
                 }
@@ -84,37 +83,67 @@ public class GLC {
             follow.add(new Terminal(TokenClass.TK_EOF));
         }
 
-        for(Derivation derivation : allDerivations) {
+        for (Derivation derivation : allDerivations) {
             boolean nextsFollow = false;
             List<Element> targets = derivation.getTargets();
-            if(targets.contains(var)) {
+            if (targets.contains(var)) {
                 int currentIndex = targets.indexOf(var);
                 Set<Terminal> terminals = new HashSet<Terminal>();
                 int i;
-                for(i = currentIndex+1; i < targets.size(); i++) {
+                for (i = currentIndex + 1; i < targets.size(); i++) {
                     if (targets.get(i) instanceof Terminal) {
-                        terminals.add((Terminal)targets.get(i));
+                        terminals.add((Terminal) targets.get(i));
                         break;
                     }
-                    Derivation d = new Derivation((Variable)targets.get(i));
-                    
+                    Derivation d = new Derivation((Variable) targets.get(i));
+
                     terminals.addAll(calculateFirst(targets.get(i)));
 
-                    if(getDerivations((Variable)targets.get(i)).contains(d)) {
+                    if (getDerivations((Variable) targets.get(i)).contains(d)) {
                         nextsFollow = true;
                         break;
                     }
                 }
                 follow.addAll(terminals);
-                if(i == targets.size() || nextsFollow) {
-                    if(!var.equals(derivation.getSource())) {
+                if (i == targets.size() || nextsFollow) {
+                    if (!var.equals(derivation.getSource())) {
                         follow.addAll(calculateFollow(derivation.getSource()));
                     }
                 }
+
             }
+
 
         }
         return follow;
     }
 
+    public static void main(String[] args) {
+        Variable S = new Variable("S");
+        Variable S_ = new Variable("S1");
+        Variable C = new Variable("C");
+
+
+        GLC glc = new GLC(S);
+
+        glc.addDerivation(new Derivation(S, new Terminal(TokenClass.TK_IF), C,
+                new Terminal(TokenClass.TK_ATTRIBUTION), S, S_));
+        glc.addDerivation(new Derivation(S, new Terminal(TokenClass.TK_ID)));
+
+        glc.addDerivation(new Derivation(S_, new Terminal(TokenClass.TK_ELSE), S));
+
+        glc.addDerivation(new Derivation(S_));
+
+        glc.addDerivation(new Derivation(C, new Terminal(TokenClass.TK_ID)));
+
+
+
+        System.out.println("follow");
+        for (Element element : glc.calculateFollow(S_)) {
+            System.out.println(element.getLabel());
+        }
+
+
+
+    }
 }
