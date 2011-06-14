@@ -143,6 +143,7 @@ public class Recognizer {
         this.tokenMap.put("and", TokenClass.TK_AND);
         this.tokenMap.put("or", TokenClass.TK_OR);
         this.tokenMap.put("in", TokenClass.TK_IN);
+        this.tokenMap.put("eof", TokenClass.TK_EOF);
     }
 
     /** Método que retorna a classe do Token

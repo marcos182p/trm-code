@@ -191,7 +191,12 @@ public enum TokenClass {
     /**
      * Classe virgula - unívoca
      */
-    TK_COMMAN(true);
+    TK_COMMAN(true),
+    /**
+     * final de arquivo
+     */
+    TK_EOF(true);
+    
     private boolean univoque;
 
     /** Construtor TokenClass da Enumeração -

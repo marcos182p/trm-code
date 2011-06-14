@@ -1,14 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.syntactic;
 
-/**
- *
- * @author marcos182p
- */
+import trm.lexical.ILexical;
+
 public interface SyntacticAnalyser {
-    public void parse();
+    
+    public void parse(ILexical lexical);
 }

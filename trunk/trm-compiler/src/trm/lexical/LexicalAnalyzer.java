@@ -3,6 +3,7 @@ package trm.lexical;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import sun.management.FileSystemImpl;
 
 /** Classe LexicalAnalyzer - Analisador Lexico da linguagem
  * @author TRM
@@ -54,7 +55,7 @@ public class LexicalAnalyzer implements ILexical {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        fileText += " eof";
         recognizer = new Recognizer(automaton, fileText.toCharArray());
     }
 

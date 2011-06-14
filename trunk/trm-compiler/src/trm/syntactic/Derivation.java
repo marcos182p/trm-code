@@ -1,5 +1,6 @@
 package trm.syntactic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +36,8 @@ public class Derivation {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Derivation(new Variable("E"), new Terminal(TokenClass.TK_ADD)));
+        System.out.println(new Derivation(new Variable("E")));
+        System.out.println(new Derivation(new Variable("E")).getTargets().size());
     }
 
     public Variable getSource() {
@@ -46,13 +48,7 @@ public class Derivation {
         return Collections.unmodifiableList(targets);
     }
 
-    public List<Element> calculateFirst(GLC glc) {
-        throw new UnsupportedOperationException();
-    }
-
-    public List<Element> getFolow(GLC glc) {
-        throw new UnsupportedOperationException();
-    }
+   
 
     @Override
     public boolean equals(Object obj) {
