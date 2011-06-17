@@ -1,7 +1,7 @@
 package trm.syntactic;
 
 public class Variable extends Element {
-
+    
     private String label;
 
     public Variable(String label) {
