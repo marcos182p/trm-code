@@ -11,9 +11,11 @@ import trm.lexical.TokenClass;
 public class GLC {
 
     private Variable initialElement;
+    
     private Map<Variable, Set<Derivation>> derivations;
-    public Map<Variable, Set<Terminal>> follows;
     private Set<Derivation> allDerivations;
+
+    public Map<Variable, Set<Terminal>> follows;
 
     public GLC(Variable initialElement) {
 
@@ -121,9 +123,13 @@ public class GLC {
                     int nextIndex = targets.indexOf(var) + 1;
 
                     if (nextIndex < targets.size()) {
+
                         follow.addAll(first(targets.get(nextIndex)));
+
                         if (targets.get(nextIndex) instanceof Variable) {
+
                             if (hasEmptyDerivation((Variable) targets.get(nextIndex))) {
+
                                 if (follows.get(derivation.getSource()) != null) {
 
                                     follow.addAll(follows.get(derivation.getSource()));

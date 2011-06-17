@@ -38,7 +38,8 @@ public class Parser implements SyntacticAnalyser {
 
                 
 
-                System.out.println(var.getLabel() + ", " + terminal.getLabel() + " = " + derivation);
+                System.out.println(var.getLabel() + ", " + terminal.getLabel()
+                        + " = " + derivation);
 
                 if(derivation == null) {
                     erro(token);
