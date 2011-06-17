@@ -144,6 +144,8 @@ public class Recognizer {
         this.tokenMap.put("or", TokenClass.TK_OR);
         this.tokenMap.put("in", TokenClass.TK_IN);
         this.tokenMap.put("eof", TokenClass.TK_EOF);
+        this.tokenMap.put("return", TokenClass.TK_RETURN);
+
     }
 
     /** Método que retorna a classe do Token
@@ -234,7 +236,7 @@ public class Recognizer {
                 result = TokenClass.TK_ATTRIBUTION;
                 break;
             case COMMAN:
-                result = TokenClass.TK_COMMAN;
+                result = TokenClass.TK_COMMA;
                 break;
             default:
                 result = TokenClass.TK_UNDEFINED;

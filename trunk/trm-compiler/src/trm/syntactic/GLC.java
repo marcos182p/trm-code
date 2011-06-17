@@ -33,6 +33,12 @@ public class GLC {
         calculateFollow();
     }
 
+    public void setInitialElement(Variable initialElement) {
+        this.initialElement = initialElement;
+    }
+
+    
+
     public void addDerivation(Derivation derivation) {
         if (!derivations.containsKey(derivation.getSource())) {
             derivations.put(derivation.getSource(), new HashSet<Derivation>());
@@ -137,7 +143,9 @@ public class GLC {
                             }
                         }
                     } else {
-                        follow.addAll(follows.get(derivation.getSource()));
+                         if (follows.get(derivation.getSource()) != null) {
+                            follow.addAll(follows.get(derivation.getSource()));
+                        }
                     }
 
 

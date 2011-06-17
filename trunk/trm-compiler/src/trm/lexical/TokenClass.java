@@ -191,11 +191,15 @@ public enum TokenClass {
     /**
      * Classe virgula - unívoca
      */
-    TK_COMMAN(true),
+    TK_COMMA(true),
     /**
      * final de arquivo
      */
-    TK_EOF(true);
+    TK_EOF(true),
+    /**
+     * retorno de função
+     */
+    TK_RETURN(true);
     
     private boolean univoque;
 
