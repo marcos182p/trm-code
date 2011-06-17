@@ -95,7 +95,9 @@ public class ParserTest {
         lexical = new LexicalAnalyzer("syntactic_test");
 
         System.out.println("follow");
-        Set<Terminal> follow = glc.calculateFollow(F);
+        glc.initGLC();
+        Set<Terminal> follow = glc.follow(T_);
+        
         System.out.println("<>" + follow.size());
         for (Terminal t: follow) {
             System.out.println(t.getLabel());
