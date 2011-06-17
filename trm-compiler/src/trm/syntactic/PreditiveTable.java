@@ -48,6 +48,16 @@ public class PreditiveTable {
         return null;
     }
 
+    public void printTable() {
+        
+        for (Variable element : preditiveTable.keySet()) {
+
+            for (EntryTable entry: preditiveTable.get(element)) {
+                System.out.println("[ " + entry.variable + " : " + entry.terminal + " ] = " + entry.derivation);
+            }
+        }
+    }
+
     public boolean isAmbiguous() {
         List<Terminal> terminals = new ArrayList<Terminal>();
         for(Variable v : preditiveTable.keySet()) {

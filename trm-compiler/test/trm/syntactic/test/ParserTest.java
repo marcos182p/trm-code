@@ -46,8 +46,8 @@ public class ParserTest {
         initial = E;
         Variable E_ = new Variable("E'");
         Variable T= new Variable("T");
-        Variable T_= new Variable("T'");
-        Variable F= new Variable("F");
+        Variable T_ = new Variable("T'");
+        Variable F = new Variable("F");
 
         Terminal id = new Terminal(TokenClass.TK_ID);
 
@@ -92,12 +92,14 @@ public class ParserTest {
         table.putEntryTable(eof, new Derivation(T_));
         glc.addDerivation(new Derivation(T_));
 
+//        table = TableGenerator.createPreditiveTable(glc);
+//        table.printTable();
         lexical = new LexicalAnalyzer("syntactic_test");
 
         System.out.println("follow");
         glc.initGLC();
         Set<Terminal> follow = glc.follow(T_);
-        
+
         System.out.println("<>" + follow.size());
         for (Terminal t: follow) {
             System.out.println(t.getLabel());
