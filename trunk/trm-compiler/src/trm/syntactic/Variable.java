@@ -12,4 +12,9 @@ public class Variable extends Element {
         return label;
     }
 
+    @Override
+    public String toString() {
+        return label;
+    }
+
 }
