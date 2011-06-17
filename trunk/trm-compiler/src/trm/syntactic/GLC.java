@@ -1,6 +1,5 @@
 package trm.syntactic;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +12,7 @@ public class GLC {
 
     private Variable initialElement;
     private Map<Variable, Set<Derivation>> derivations;
+    public Map<Variable, Set<Terminal>> follows;
     private Set<Derivation> allDerivations;
 
     public GLC(Variable initialElement) {
@@ -21,6 +21,14 @@ public class GLC {
 
         this.derivations = new HashMap<Variable, Set<Derivation>>();
         this.allDerivations = new HashSet<Derivation>();
+
+        this.follows = new HashMap<Variable, Set<Terminal>>();
+    }
+    /**
+     * metodo que deve ser chamado para atualizar os valores do follow
+     */
+    public void initGLC() {
+        calculateFollow();
     }
 
     public void addDerivation(Derivation derivation) {
@@ -32,7 +40,7 @@ public class GLC {
     }
 
     public void removeDerivation(Derivation derivation) {
-        if (derivations.containsKey(derivation)) {
+        if (derivations.containsKey(derivation.getSource())) {
             derivations.get(derivation.getSource()).remove(derivation);
             this.allDerivations.remove(derivation);
         }
@@ -51,7 +59,7 @@ public class GLC {
         return derivations.get(var);
     }
 
-    public Set<Terminal> calculateFirst(Element var) {
+    public Set<Terminal> first(Element var) {
         Set<Terminal> first = new HashSet<Terminal>();
 
         if (var instanceof Terminal) {
@@ -65,7 +73,7 @@ public class GLC {
             if (!d.getTargets().isEmpty()) {
                 Set<Terminal> terminals = new HashSet<Terminal>();
                 for (Element e : d.getTargets()) {
-                    terminals = calculateFirst(e);
+                    terminals = first(e);
                     if (!terminals.isEmpty()) {
                         break;
                     }
@@ -76,46 +84,74 @@ public class GLC {
         return first;
     }
 
-    public Set<Terminal> calculateFollow(Variable var) {
+    public Set<Terminal> follow(Variable var) {
+        return follows.get(var);
+    }
 
-        Set<Terminal> follow = new HashSet<Terminal>();
-        if (var.equals(initialElement)) {
-            follow.add(new Terminal(TokenClass.TK_EOF));
-        }
+    private void calculateFollow() {
 
-        for (Derivation derivation : allDerivations) {
-            boolean nextsFollow = false;
-            List<Element> targets = derivation.getTargets();
-            if (targets.contains(var)) {
-                int currentIndex = targets.indexOf(var);
-                Set<Terminal> terminals = new HashSet<Terminal>();
-                int i;
-                for (i = currentIndex + 1; i < targets.size(); i++) {
-                    if (targets.get(i) instanceof Terminal) {
-                        terminals.add((Terminal) targets.get(i));
-                        break;
+        follows.clear();
+        
+        follows.put(initialElement, new HashSet<Terminal>());
+        follows.get(initialElement).add(new Terminal(TokenClass.TK_EOF));
+        
+        boolean modified = true;
+        while (modified) {
+            modified = false;
+            for (Derivation derivation : allDerivations) {
+
+                List<Element> targets = derivation.getTargets();
+
+                for (Element element : targets) {
+
+                    if (element instanceof Terminal) {
+                        continue;
                     }
-                    Derivation d = new Derivation((Variable) targets.get(i));
 
-                    terminals.addAll(calculateFirst(targets.get(i)));
+                    Variable var = (Variable) element;
 
-                    if (getDerivations((Variable) targets.get(i)).contains(d)) {
-                        nextsFollow = true;
-                        break;
+                    Set<Terminal> follow = follows.get(var);
+
+                    if (follow == null) {
+                        follow = new HashSet<Terminal>();
+                        follows.put(var, follow);
                     }
-                }
-                follow.addAll(terminals);
-                if (i == targets.size() || nextsFollow) {
-                    if (!var.equals(derivation.getSource())) {
-                        follow.addAll(calculateFollow(derivation.getSource()));
+                    int lastSize = follow.size();
+
+                    int nextIndex = targets.indexOf(var) + 1;
+
+                    if (nextIndex < targets.size()) {
+                        follow.addAll(first(targets.get(nextIndex)));
+                        if (targets.get(nextIndex) instanceof Variable) {
+                            if (hasEmptyDerivation((Variable) targets.get(nextIndex))) {
+                                if (follows.get(derivation.getSource()) != null) {
+
+                                    follow.addAll(follows.get(derivation.getSource()));
+                                }
+                            }
+                        }
+                    } else {
+                        follow.addAll(follows.get(derivation.getSource()));
+                    }
+
+
+                    if (follow.size() != lastSize) {
+                        modified = true;
                     }
                 }
 
             }
-
-
         }
-        return follow;
+
+    }
+
+    public boolean hasEmptyDerivation(Variable var) {
+        for(Derivation derivation : getDerivations(var)) {
+            if(derivation.getTargets().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -139,7 +175,8 @@ public class GLC {
 
 
         System.out.println("follow");
-        for (Element element : glc.calculateFollow(S_)) {
+        glc.calculateFollow();
+        for (Element element : glc.follows.get(S_)) {
             System.out.println(element.getLabel());
         }
 
