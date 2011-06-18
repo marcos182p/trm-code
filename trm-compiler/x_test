@@ -1,2 +1,3 @@
-id <- 1 mod not(not 3 > (1));
+id[1] <- id[ik] mod not(not 3 > (id[2]));
 id, novo: integer[1];
+

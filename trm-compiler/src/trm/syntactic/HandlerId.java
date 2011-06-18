@@ -41,7 +41,7 @@ public class HandlerId extends InstructionAnalyser {
         operatorsType.add(TokenClass.TK_MOD);
         
     }
-
+    private boolean declaration = false;
     @Override
     protected void doAnalysis(Token token) {
 
@@ -53,8 +53,14 @@ public class HandlerId extends InstructionAnalyser {
             case TK_COLON:
                 colon();
                 break;
-                
+            case TK_OPEN_SQUARE_BRACKET:
+                declaration = true;
+                dimensionType();
+                if (!nextToken().getTokenClass().equals(TokenClass.TK_ATTRIBUTION)) {
+                    erro();
+                }
             case TK_ATTRIBUTION:
+                declaration = true;
                 attribution();
                 break;
             default:
@@ -64,19 +70,30 @@ public class HandlerId extends InstructionAnalyser {
 
     }
     
-    private void comma() {
+    private void dimensionType() {
         switch (nextToken().getTokenClass()) {
+            case TK_INTEGER_CTE:
             case TK_ID:
-                comma();
+                switch (nextToken().getTokenClass()) {
+                    case TK_CLOSE_SQUARE_BRACKET:
+                        break;
+                    default:
+                        erro();
+                }
                 break;
-            case TK_COLON:
-                colon();
-                break;
-            default :
+            default:
                 erro();
         }
     }
-
+    private void dimensionId() {
+        
+        if (!penultimateToken().getTokenClass().equals(TokenClass.TK_ID)) {
+            erro();
+        }
+        dimensionType();
+        
+    }
+    
     private void colon() {
         switch (nextToken().getTokenClass()) {
             case TK_INTEGER:
@@ -91,7 +108,7 @@ public class HandlerId extends InstructionAnalyser {
     private void typeDeclaration() {
         switch (nextToken().getTokenClass()) {
             case TK_OPEN_SQUARE_BRACKET:
-                openSquareBracket();
+                dimensionType();
             case TK_SEMICOLON:
                 type = InstructionType.DECLARATION;
                 break;
@@ -99,29 +116,11 @@ public class HandlerId extends InstructionAnalyser {
                 erro();
 
         }
-    }
-
-    private void openSquareBracket() {
-        switch (nextToken().getTokenClass()) {
-            case TK_INTEGER_CTE:
-            case TK_ID:
-                switch (nextToken().getTokenClass()) {
-                    case TK_CLOSE_SQUARE_BRACKET:
-                        if (nextToken().getTokenClass() == TokenClass.TK_SEMICOLON) {
-                            type = InstructionType.DECLARATION;
-                        } else {
-                            erro();
-                        }
-                        break;
-                    default:
-                        erro();
-                }
-
-        }
+        type = InstructionType.DECLARATION;
     }
 
     private void attribution() {
-        if (getTokens().size() > 2) {
+        if (!declaration) {
             erro();
         }
 
@@ -136,7 +135,7 @@ public class HandlerId extends InstructionAnalyser {
             case TK_ID:
             case TK_INTEGER_CTE:
             case TK_REAL_CTE:
-                expression();
+                value();
                 break;
             case TK_OPEN_PARENTHESES:
                 openParentheses();
@@ -159,7 +158,8 @@ public class HandlerId extends InstructionAnalyser {
             case TK_SUB:
             case TK_AND:
             case TK_OR:
-                if (!operandsType.contains(penultimateToken().getTokenClass())) {
+                if (!operandsType.contains(penultimateToken().getTokenClass()) &&
+                        !penultimateToken().getTokenClass().equals(TokenClass.TK_CLOSE_SQUARE_BRACKET)) {
                     erro();
                 }
                 expression();
@@ -173,6 +173,10 @@ public class HandlerId extends InstructionAnalyser {
                     erro();
                 }
                 
+                break;
+            case TK_OPEN_SQUARE_BRACKET:
+                dimensionId();
+                expression();
                 break;
             default:
                 
@@ -195,9 +199,14 @@ public class HandlerId extends InstructionAnalyser {
         expression();
     }
     
+    private void value() {
+        expression();
+    }
+    
     private void closeParentheses() {
         if (!operandsType.contains(penultimateToken().getTokenClass()) &&
-                !penultimateToken().getTokenClass().equals(TokenClass.TK_CLOSE_PARENTHESES)) {
+                !penultimateToken().getTokenClass().equals(TokenClass.TK_CLOSE_PARENTHESES)&&
+                !penultimateToken().getTokenClass().equals(TokenClass.TK_CLOSE_SQUARE_BRACKET)) {
 
             erro();
 
