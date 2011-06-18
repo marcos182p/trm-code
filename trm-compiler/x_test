@@ -1,1 +1,2 @@
-id, id: integer[1];
+id <- 1 + (2 - (1));
+id, novo: integer[1];
