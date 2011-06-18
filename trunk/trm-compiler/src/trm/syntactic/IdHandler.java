@@ -10,12 +10,12 @@ import trm.lexical.TokenClass;
 /**
  *  
  */
-public class HandlerId extends InstructionAnalyser {
+public class IdHandler extends InstructionAnalyser {
     
     private Set<TokenClass> operandsType;
     private Set<TokenClass> operatorsType;
     
-    public HandlerId(ILexical lexical) {
+    public IdHandler(ILexical lexical) {
         super(TokenClass.TK_ID, lexical);
         
         operandsType = new HashSet<TokenClass>();
@@ -42,6 +42,7 @@ public class HandlerId extends InstructionAnalyser {
         
     }
     private boolean declaration = false;
+    private boolean functionCall = false;
     @Override
     protected void doAnalysis(Token token) {
 
@@ -63,11 +64,63 @@ public class HandlerId extends InstructionAnalyser {
                 declaration = true;
                 attribution();
                 break;
+                
+            case TK_OPEN_PARENTHESES:
+                functionCall = true;
+                functionCall();
+                break;
             default:
                 erro();
 
         }
 
+    }
+    
+    private void functionCall() {
+        if (!functionCall) {
+            erro();
+        }
+        
+        switch (nextToken().getTokenClass()) {
+            case TK_ID:
+            case TK_INTEGER_CTE:
+            case TK_REAL_CTE:
+            case TK_BOOLEAN_CTE:
+                parameters();
+                
+                break;
+            case TK_CLOSE_PARENTHESES:
+                if (!nextToken().getTokenClass().equals(TokenClass.TK_SEMICOLON)) {
+                    erro();
+                }
+                break;
+                default:
+                    erro();
+        }
+    }
+    
+    private void parameters() {
+        switch (nextToken().getTokenClass()) {
+            case TK_CLOSE_PARENTHESES:
+                if (!nextToken().getTokenClass().equals(TokenClass.TK_SEMICOLON)) {
+                    erro();
+                }
+                break;
+            case TK_COMMA:
+                if (!operandsType.contains(nextToken().getTokenClass())) {
+                    erro();
+                }
+                parameters();
+                break;
+            case TK_OPEN_SQUARE_BRACKET:
+                dimensionId();
+                parameters();
+                break;
+            case TK_SEMICOLON:
+                break;
+            default:
+                erro();
+        }
     }
     
     private void dimensionType() {
@@ -88,6 +141,7 @@ public class HandlerId extends InstructionAnalyser {
     private void dimensionId() {
         
         if (!penultimateToken().getTokenClass().equals(TokenClass.TK_ID)) {
+            System.out.println(penultimateToken());
             erro();
         }
         dimensionType();
@@ -217,7 +271,7 @@ public class HandlerId extends InstructionAnalyser {
 
     public static void main(String[] args) {
         ILexical lexical = new LexicalAnalyzer("x_test");
-        HandlerId parserId = new HandlerId(lexical);
+        IdHandler parserId = new IdHandler(lexical);
         parserId.analyze(lexical.nextToken());
 
         for (Token token : parserId.getTokens()) {
