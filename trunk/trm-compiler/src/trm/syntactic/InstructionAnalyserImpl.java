@@ -6,16 +6,17 @@ import trm.lexical.ILexical;
 import trm.lexical.LexicalAnalyzer;
 import trm.lexical.Token;
 import trm.lexical.TokenClass;
+import trm.syntactic.Instruction.InstructionType;
 
 /**
  *  
  */
-public class IdHandler extends InstructionAnalyser {
+public class InstructionAnalyserImpl extends CommandAnalyser {
     
     private Set<TokenClass> operandsType;
     private Set<TokenClass> operatorsType;
     
-    public IdHandler(ILexical lexical) {
+    public InstructionAnalyserImpl(ILexical lexical) {
         super(TokenClass.TK_ID, lexical);
         
         operandsType = new HashSet<TokenClass>();
@@ -44,7 +45,7 @@ public class IdHandler extends InstructionAnalyser {
     private boolean declaration = false;
     private boolean functionCall = false;
     @Override
-    protected void doAnalysis(Token token) {
+    protected InstructionType doAnalysis(Token token) {
 
         switch (nextToken().getTokenClass()) {
             case TK_COMMA:
@@ -53,7 +54,7 @@ public class IdHandler extends InstructionAnalyser {
             //se ele ler esse token os proximos tokens tem que ser de uma declaração
             case TK_COLON:
                 colon();
-                break;
+                return InstructionType.DECLARATION;
             case TK_OPEN_SQUARE_BRACKET:
                 declaration = true;
                 dimensionType();
@@ -63,16 +64,21 @@ public class IdHandler extends InstructionAnalyser {
             case TK_ATTRIBUTION:
                 declaration = true;
                 attribution();
-                break;
+                
+                
+                return InstructionType.ATTRIBUTION;
                 
             case TK_OPEN_PARENTHESES:
                 functionCall = true;
                 functionCall();
-                break;
+                
+                return InstructionType.FUNCTION_CALL;
             default:
                 erro();
 
         }
+        
+        throw new RuntimeException();
 
     }
     
@@ -164,13 +170,10 @@ public class IdHandler extends InstructionAnalyser {
             case TK_OPEN_SQUARE_BRACKET:
                 dimensionType();
             case TK_SEMICOLON:
-                type = InstructionType.DECLARATION;
                 break;
             default:
                 erro();
-
         }
-        type = InstructionType.DECLARATION;
     }
 
     private void attribution() {
@@ -271,7 +274,7 @@ public class IdHandler extends InstructionAnalyser {
 
     public static void main(String[] args) {
         ILexical lexical = new LexicalAnalyzer("x_test");
-        IdHandler parserId = new IdHandler(lexical);
+        InstructionAnalyserImpl parserId = new InstructionAnalyserImpl(lexical);
         parserId.analyze(lexical.nextToken());
 
         for (Token token : parserId.getTokens()) {
