@@ -8,7 +8,7 @@ import trm.lexical.Token;
 import trm.lexical.TokenClass;
 
 /**
- * 
+ *  
  */
 public class HandlerId extends InstructionAnalyser {
     
@@ -22,6 +22,7 @@ public class HandlerId extends InstructionAnalyser {
         operandsType.add(TokenClass.TK_ID);
         operandsType.add(TokenClass.TK_REAL_CTE);
         operandsType.add(TokenClass.TK_INTEGER_CTE);
+        operandsType.add(TokenClass.TK_BOOLEAN_CTE);
         
         operatorsType = new HashSet<TokenClass>();
         
@@ -29,6 +30,15 @@ public class HandlerId extends InstructionAnalyser {
         operatorsType.add(TokenClass.TK_SUB);
         operatorsType.add(TokenClass.TK_MULT);
         operatorsType.add(TokenClass.TK_DIV);
+        operatorsType.add(TokenClass.TK_AND);
+        operatorsType.add(TokenClass.TK_OR);
+        operatorsType.add(TokenClass.TK_EQUAL);
+        operatorsType.add(TokenClass.TK_GREATER_OR_EQUAL);
+        operatorsType.add(TokenClass.TK_GREATER_THAN);
+        operatorsType.add(TokenClass.TK_LESS_OR_EQUAL);
+        operatorsType.add(TokenClass.TK_LESS_THAN);
+        operatorsType.add(TokenClass.TK_NOT);
+        operatorsType.add(TokenClass.TK_MOD);
         
     }
 
@@ -134,10 +144,21 @@ public class HandlerId extends InstructionAnalyser {
             case TK_CLOSE_PARENTHESES:
                 closeParentheses();
                 break;
+            case TK_NOT:
+                expression();
+                break;
+            case TK_MOD:
+            case TK_EQUAL:
+            case TK_GREATER_OR_EQUAL:
+            case TK_GREATER_THAN:
+            case TK_LESS_OR_EQUAL:
+            case TK_LESS_THAN:
             case TK_ADD:
             case TK_MULT:
             case TK_DIV:
             case TK_SUB:
+            case TK_AND:
+            case TK_OR:
                 if (!operandsType.contains(penultimateToken().getTokenClass())) {
                     erro();
                 }
