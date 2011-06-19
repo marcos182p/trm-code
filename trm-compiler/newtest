@@ -1,2 +1,4 @@
-i[1] <- (1 > id[1]) and (3);sdsd dfdffgfg
+i[1] <- (1 > id[1]) and (3);
+i <- a;
+j <- a + 2 ;
 i, e : integer[1];

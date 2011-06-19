@@ -46,8 +46,9 @@ public class InstructionAnalyserImpl extends CommandAnalyser {
     private boolean functionCall = false;
     @Override
     protected InstructionType doAnalysis(Token token) {
+        Token temp = nextToken();
 
-        switch (nextToken().getTokenClass()) {
+        switch (temp.getTokenClass()) {
             case TK_COMMA:
                 doAnalysis(nextToken());
                 break;

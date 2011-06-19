@@ -3,11 +3,14 @@ package trm.syntactic;
 import java.util.List;
 import java.util.Stack;
 import trm.lexical.ILexical;
+import trm.lexical.LexicalAnalyzer;
 import trm.lexical.Token;
 import trm.lexical.TokenClass;
 
 public class Parser implements SyntacticAnalyser {
 
+    private GLC glc;
+    
     private PreditiveTable table;
     private Stack<Element> variables;
     
@@ -15,24 +18,26 @@ public class Parser implements SyntacticAnalyser {
 
     public Parser(GLC glc) {
         this.table = TableGenerator.createPreditiveTable(glc);
-        variables = new Stack<Element>();
-        variables.push(new Terminal(TokenClass.TK_EOF));
-        variables.push(glc.getInitialElement());
+        this.glc = glc;
     }
+
     /**
      * passando o final token, vc estara definido um ponto de saida antes de ler
      * todos tokens
      */
     public Parser(GLC glc, TokenClass finalToken) {
-        this.table = TableGenerator.createPreditiveTable(glc);
-        variables = new Stack<Element>();
-        variables.push(new Terminal(TokenClass.TK_EOF));
-        variables.push(glc.getInitialElement());
+        this(glc);
         this.finalToken = finalToken;
     }
 
+    private void initParser() {
+        variables = new Stack<Element>();
+        variables.push(new Terminal(TokenClass.TK_EOF));
+        variables.push(glc.getInitialElement());
+    }
     @Override
     public void parse(ILexical lexical) {
+        initParser();
         Token token = null;
         
         boolean parser = true;
@@ -77,6 +82,10 @@ public class Parser implements SyntacticAnalyser {
             if (!top.equals(terminal)) {
                 erro(token);
             }
+        }
+        
+        if (!parser) {
+            ((LexicalAnalyzer)lexical).putToken(token);
         }
     }
 
