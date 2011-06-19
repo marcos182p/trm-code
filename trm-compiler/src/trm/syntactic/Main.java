@@ -325,9 +325,9 @@ public class Main {
 
         LexicalAnalyzer lexical = new LexicalAnalyzer("x_test");
 
-        Parser instance = new Parser(glc);
+        GLCAnalyser instance = new GLCAnalyser(glc);
         System.out.println(table.isAmbiguous());
-        instance.parse(lexical);
+        instance.analysis(lexical);
 
     }
 }

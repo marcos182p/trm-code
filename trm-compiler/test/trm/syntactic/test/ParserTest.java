@@ -116,8 +116,8 @@ public class ParserTest {
     @Test
     public void testParse() {
         System.out.println("parse");
-        Parser instance = new Parser(glc);
-        instance.parse(lexical);
+        GLCAnalyser instance = new GLCAnalyser(glc);
+        instance.analysis(lexical);
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }

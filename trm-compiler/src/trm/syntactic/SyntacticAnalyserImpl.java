@@ -38,6 +38,7 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
         }};
     }
     
+    @Override
     public void parse(ILexical lexical) {
         //primeira chamada de tem que ser a declaração de uma função
         Token token = null;
