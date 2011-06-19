@@ -1,4 +1,4 @@
-package trm.lexical.rules;
+package trm.syntactic;
 
 import trm.lexical.LexicalAnalyzer;
 import trm.lexical.TokenClass;
@@ -239,6 +239,8 @@ public class GLCFacotory {
 //        lexical.putToken(token);
 
         Parser instance = new Parser(glc, TokenClass.TK_SEMICOLON);
+        instance.parse(lexical);
+        instance.parse(lexical);
         instance.parse(lexical);
 
     }
