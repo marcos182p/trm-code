@@ -3,6 +3,8 @@ package trm.lexical;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 /** Classe LexicalAnalyzer - Analisador Lexico da linguagem
  * @author TRM
@@ -57,13 +59,35 @@ public class LexicalAnalyzer implements ILexical {
         fileText += " eof";
         recognizer = new Recognizer(automaton, fileText.toCharArray());
     }
-
+    
+    private Queue<Token> tokensQueue = new ArrayDeque<Token>();
+    
+    public static void main(String[] args) {
+        Queue<Integer> tokensQueue = new ArrayDeque<Integer>();
+        tokensQueue.offer(2);
+        tokensQueue.add(3);
+        System.out.println(tokensQueue);
+        tokensQueue.poll();
+        tokensQueue.poll();
+        
+        System.out.println(tokensQueue.poll());
+        
+        
+    }
+    public void putToken(Token token) {
+        tokensQueue.offer(token);
+    }
+    
     /** Método que analisa o arquivo de entrada (programa)
      * @return Token - Proximo token Gerado
      * depois da análise lexica
      */
     public Token nextToken() {
-        Token token = recognizer.run();
+        Token token = tokensQueue.poll();
+        if (token == null) {
+            token = recognizer.run();
+        }
+        
         return token;
     }
 }
