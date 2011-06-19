@@ -1,12 +1,13 @@
 package trm.syntactic;
 
+import java.util.AbstractQueue;
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Queue;
+import trm.lexical.ILexical;
 import trm.lexical.LexicalAnalyzer;
+import trm.lexical.Token;
 import trm.lexical.TokenClass;
-import trm.syntactic.Derivation;
-import trm.syntactic.GLC;
-import trm.syntactic.Parser;
-import trm.syntactic.Terminal;
-import trm.syntactic.Variable;
 
 /**
  *
@@ -238,10 +239,35 @@ public class GLCFacotory {
 //        Token token = lexical.nextToken();
 //        lexical.putToken(token);
 
-        Parser instance = new Parser(glc, TokenClass.TK_SEMICOLON);
-        instance.parse(lexical);
-        instance.parse(lexical);
-        instance.parse(lexical);
+        GLCAnalyser instance = new GLCAnalyser(glc);
+        try {
+            instance.analysis(lexical);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        
+        
+        final List<Token> tokens = instance.getReadTokens();
+        tokens.remove(tokens.size() - 1);
+        System.out.println("analisando novamente");
+        instance.analysis(new ILexical() {
+            
+            Queue<Token> tokensQueue = new ArrayDeque<Token>(tokens);
+
+            public Token nextToken() {
+                return tokensQueue.poll();
+            }
+        });
+           
+//        instance.analysis(lexical);
+//        System.out.println("tokens lidos");
+//        
+//        for (Token token: tokens) {
+//            System.out.println(token);
+//        }
+        
+//        instance.parse(lexical);
+//        instance.parse(lexical);
 
     }
 }
