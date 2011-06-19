@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import trm.lexical.ILexical;
+import trm.lexical.LexicalAnalyzer;
 import trm.lexical.Token;
 import trm.lexical.TokenClass;
 import trm.syntactic.Instruction.InstructionType;
@@ -119,6 +120,9 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
                 case TK_CLOSE_CURLY_BRACKET:
                     //verificar a quem ele pertecence
                     popBlock();
+                    if (blocks.isEmpty()) {
+                        break here;
+                    }
                     break;
                 default:
                     throw new RuntimeException("");
@@ -128,50 +132,110 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
         
     }
     public static void main(String[] args) {
-        here :while (true) {
-            int i = 1;
-            switch (i)  {
-                case 1:
-                    break here;
-                        
-            }
+//        here :while (true) {
+//            int i = 1;
+//            switch (i)  {
+//                case 1:
+//                    break here;
+//                        
+//            }
+//        }
+        
+        ILexical lexical = new LexicalAnalyzer("x_test");
+        FuncitionAnalayser parserId = new FuncitionAnalayser(lexical);
+        parserId.analyze(lexical.nextToken());
+
+        for (Token token : parserId.getTokens()) {
+            System.out.println(token.getTokenClass());
+
         }
     }
     
-    
-    
-    
-    /**
+       /**
      * analisa o protipo de uma função
      */
-    private class FuncitionAnalayser extends CommandAnalyser {
+    private static class FuncitionAnalayser extends CommandAnalyser {
+        
+        private Set<TokenClass> types;
 
         public FuncitionAnalayser(ILexical lexical) {
             super(TokenClass.TK_ID, lexical);
+            types = new HashSet<TokenClass>() {{
+                add(TokenClass.TK_INTEGER);
+                add(TokenClass.TK_REAL);
+                add(TokenClass.TK_BOOLEAN);
+                add(TokenClass.TK_STRING);
+                add(TokenClass.TK_CHARACTER);
+            }};
         }
 
         @Override
         protected InstructionType doAnalysis(Token token) {
-            
+
             switch (nextToken().getTokenClass()) {
-            case TK_OPEN_PARENTHESES:
-                functionParameters();
-                break;
-            default:
-                erro();
-        }
-            
+                case TK_OPEN_PARENTHESES:
+                    functionParameters();
+                    break;
+                default:
+                    erro();
+            }
+
             return InstructionType.FUNCTION;
         }
-        
+
         private void functionParameters() {
-        switch (nextToken().getTokenClass()) {
-            case TK_CLOSE_PARENTHESES:
-                
-                break;
+
+            switch (nextToken().getTokenClass()) {
+                case TK_CLOSE_PARENTHESES:
+                    if (!nextToken().getTokenClass().equals(TokenClass.TK_OPEN_CURLY_BRACKET)) {
+                        erro();
+                    }
+                    break;
+                case TK_ID:
+                     declaration();
+                    break;
+                case TK_COMMA:
+                    functionParameters();
+                    break;
+                default:
+                    erro();
+            }
+
+        }
+
+        private void declaration() {
+            switch (nextToken().getTokenClass()) {
+                case TK_OPEN_SQUARE_BRACKET:
+                    if (!types.contains(penultimateToken().getTokenClass())) {
+                        erro();
+                    }
+                    dimensionType();
+                    break;
+                case TK_INTEGER:
+                case TK_REAL:
+                case TK_STRING:
+                case TK_CHARACTER:
+                case TK_BOOLEAN:
+                    
+            }
+        }
+
+        private void dimensionType() {
+
+            switch (nextToken().getTokenClass()) {
+                case TK_INTEGER_CTE:
+                case TK_ID:
+                    switch (nextToken().getTokenClass()) {
+                        case TK_CLOSE_SQUARE_BRACKET:
+                            break;
+                        default:
+                            erro();
+                    }
+                    break;
+                default:
+                    erro();
+            }
         }
     }
-    }
-
     
 }

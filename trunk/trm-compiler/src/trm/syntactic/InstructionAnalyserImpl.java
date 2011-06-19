@@ -53,11 +53,13 @@ public class InstructionAnalyserImpl extends CommandAnalyser {
                 break;
             //se ele ler esse token os proximos tokens tem que ser de uma declaração
             case TK_COLON:
-                colon();
+                declaration();
                 return InstructionType.DECLARATION;
             case TK_OPEN_SQUARE_BRACKET:
                 declaration = true;
+                
                 dimensionType();
+                
                 if (!nextToken().getTokenClass().equals(TokenClass.TK_ATTRIBUTION)) {
                     erro();
                 }
@@ -154,7 +156,8 @@ public class InstructionAnalyserImpl extends CommandAnalyser {
         
     }
     
-    private void colon() {
+    private void declaration() {
+        
         switch (nextToken().getTokenClass()) {
             case TK_INTEGER:
             case TK_REAL:
