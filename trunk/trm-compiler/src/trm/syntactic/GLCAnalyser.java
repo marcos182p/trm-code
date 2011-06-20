@@ -81,6 +81,7 @@ public class GLCAnalyser {
     }
 
     private void erro(Token token) {
+        System.out.println(token);
         throw new RuntimeException("erro de sintaxe em: " + token.getLine()
                 + ", " + token.getcolumn());
     }

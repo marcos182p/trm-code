@@ -282,9 +282,23 @@ public class GLCFacotory {
 
         return glc;
     }
+    
+    public static GLC createGLCFor() {
+        GLC glc = createGLCExpression();
+        glc.setInitialElement(REPEAT_ITER);
+        
+        glc.addDerivation(new Derivation(REPEAT_ITER, FOR, OPEN_PARENTHESES, 
+                ID, IN, E, COLON, E, OPTIONAL_JUMP, CLOSE_PARENTHESES,
+                OPEN_CURLY_BRACKET));
+
+        glc.addDerivation(new Derivation(OPTIONAL_JUMP, COLON, E));
+        glc.addDerivation(new Derivation(OPTIONAL_JUMP));
+        
+        return glc;
+    } 
 
     public static void main(String[] args) {
-        GLC glc = createGLCFuntionDeclaration();
+        GLC glc = createGLCFor();
         
         LexicalAnalyzer lexical = new LexicalAnalyzer("newtest");
         
@@ -292,30 +306,33 @@ public class GLCFacotory {
 //        lexical.putToken(token);
 
         GLCAnalyser instance = new GLCAnalyser(glc);
-        instance.analysis(new ILexical() {
-            
-            Queue<Token> tokens = new ArrayDeque<Token>() {{
-                add(new Token(null, TokenClass.TK_ID, 1, 1));
-                add(new Token(null, TokenClass.TK_OPEN_PARENTHESES, 1, 2));
-                add(new Token(null, TokenClass.TK_ID, 1, 2));
-                add(new Token(null, TokenClass.TK_COLON, 1, 2));
-                add(new Token(null, TokenClass.TK_INTEGER, 1, 2));
-                add(new Token(null, TokenClass.TK_COMMA, 1, 2));
-                add(new Token(null, TokenClass.TK_ID, 1, 2));
-                add(new Token(null, TokenClass.TK_COLON, 1, 2));
-                add(new Token(null, TokenClass.TK_INTEGER, 1, 2));
-                add(new Token(null, TokenClass.TK_CLOSE_PARENTHESES, 1, 3));
-                add(new Token(null, TokenClass.TK_COLON, 1, 4));
-                add(new Token(null, TokenClass.TK_VOID, 1, 5));
-                add(new Token(null, TokenClass.TK_OPEN_CURLY_BRACKET, 1, 6));
-                add(new Token(null, TokenClass.TK_EOF, -1, 7));
-            }};
-            
-
-            public Token nextToken() {
-                return tokens.poll();
-            }
-        });
+//        instance.analysis(new ILexical() {
+//            
+//            Queue<Token> tokens = new ArrayDeque<Token>() {{
+//                add(new Token(null, TokenClass.TK_ID, 1, 1));
+//                add(new Token(null, TokenClass.TK_OPEN_PARENTHESES, 1, 2));
+//                add(new Token(null, TokenClass.TK_ID, 1, 2));
+//                add(new Token(null, TokenClass.TK_COLON, 1, 2));
+//                add(new Token(null, TokenClass.TK_INTEGER, 1, 2));
+//                add(new Token(null, TokenClass.TK_COMMA, 1, 2));
+//                add(new Token(null, TokenClass.TK_ID, 1, 2));
+//                add(new Token(null, TokenClass.TK_COLON, 1, 2));
+//                add(new Token(null, TokenClass.TK_INTEGER, 1, 2));
+//                add(new Token(null, TokenClass.TK_CLOSE_PARENTHESES, 1, 3));
+//                add(new Token(null, TokenClass.TK_COLON, 1, 4));
+//                add(new Token(null, TokenClass.TK_VOID, 1, 5));
+//                add(new Token(null, TokenClass.TK_OPEN_CURLY_BRACKET, 1, 6));
+//                add(new Token(null, TokenClass.TK_EOF, -1, 7));
+//            }};
+//            
+//
+//            public Token nextToken() {
+//                return tokens.poll();
+//            }
+//        });
+        
+        instance.analysis(lexical);
+        
         System.out.println("tokens lidos");
         for (Token token: instance.getReadTokens()) {
             System.out.println(token);

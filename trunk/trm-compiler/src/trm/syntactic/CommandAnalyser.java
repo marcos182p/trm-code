@@ -89,6 +89,7 @@ public abstract class CommandAnalyser {
                     }
                 });
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 erro();
             }
             
