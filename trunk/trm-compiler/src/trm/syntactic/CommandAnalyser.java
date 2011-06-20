@@ -48,27 +48,36 @@ public abstract class CommandAnalyser {
             throw new RuntimeException();
 
         } catch (Exception e) {
-
+            
             final List<Token> tks = analyser.getReadTokens();
             int lastToken = tks.size() - 1;
+            
             Token semiColon = tks.get(lastToken);
             
             tokens.addAll(tks);
 
             tks.remove(lastToken);
-
+            
+            tks.add(new Token(null, TokenClass.TK_EOF, semiColon.getLine(),
+                    semiColon.getcolumn()));
+            
             if (!semiColon.getTokenClass().equals(TokenClass.TK_SEMICOLON)) {
                 erro();
             }
+            try {
 
-            analyser.analysis(new ILexical() {
+                analyser.analysis(new ILexical() {
 
-                Queue<Token> tokensQueue = new ArrayDeque<Token>(tks);
+                    Queue<Token> tokensQueue = new ArrayDeque<Token>(tks);
 
-                public Token nextToken() {
-                    return tokensQueue.poll();
-                }
-            });
+                    public Token nextToken() {
+                        return tokensQueue.poll();
+                    }
+                });
+            } catch (Exception ex) {
+                erro();
+            }
+            
         }
     }
     

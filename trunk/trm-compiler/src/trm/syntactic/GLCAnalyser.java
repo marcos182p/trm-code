@@ -32,9 +32,10 @@ public class GLCAnalyser {
         initParser();
         
         Token token = null;
+        Token lastToken = null;
         
         while ((token = lexical.nextToken()) != null) {
-            
+
             readTokens.add(token);
 
             if (variables.isEmpty()) {
@@ -51,8 +52,8 @@ public class GLCAnalyser {
                 Derivation derivation = table.getDerivation(var, terminal);
 
 
-                System.out.println(var.getLabel() + ", " + terminal.getLabel()
-                        + " = " + derivation);
+//                System.out.println(var.getLabel() + ", " + terminal.getLabel()
+//                        + " = " + derivation);
 
                 if(derivation == null) {
                     erro(token);
@@ -66,6 +67,11 @@ public class GLCAnalyser {
             if (!top.equals(terminal)) {
                 erro(token);
             }
+            lastToken = token;
+        }
+        //FIXME isso está certo aqui?
+        if (!variables.isEmpty()) {
+            erro(lastToken);
         }
         
     }
