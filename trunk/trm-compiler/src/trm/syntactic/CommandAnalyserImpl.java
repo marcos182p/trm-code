@@ -41,6 +41,8 @@ public class CommandAnalyserImpl extends CommandAnalyser {
             //se ele ler esse token a instrução possivelmente sera uma chamada
             //de função
             case TK_OPEN_PARENTHESES:
+                //gambiarra!
+                lexical.nextToken();//tirando token id dos que vão ser analisado
                 //implementar a GLC para chamada de função
                 GLC functionCall = GLCFacotory.createGLCFunctionCall();
                 analysiInstruction(functionCall);
