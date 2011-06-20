@@ -240,24 +240,34 @@ public class GLCFacotory {
 //        lexical.putToken(token);
 
         GLCAnalyser instance = new GLCAnalyser(glc);
-        try {
-            instance.analysis(lexical);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-        
-        
-        final List<Token> tokens = instance.getReadTokens();
-        tokens.remove(tokens.size() - 1);
-        System.out.println("analisando novamente");
         instance.analysis(new ILexical() {
             
-            Queue<Token> tokensQueue = new ArrayDeque<Token>(tokens);
+            Queue<Token> tokens = new ArrayDeque<Token>() {{
+                add(new Token(null, TokenClass.TK_ID, -1, -1));
+                add(new Token(null, TokenClass.TK_ATTRIBUTION, -1, -1));
+                add(new Token(null, TokenClass.TK_ID, -1, -1));
+                add(new Token(null, TokenClass.TK_EOF, -1, -1));
+            }};
+            
 
             public Token nextToken() {
-                return tokensQueue.poll();
+                return tokens.poll();
             }
         });
+//        }
+        
+        
+//        final List<Token> tokens = instance.getReadTokens();
+//        tokens.remove(tokens.size() - 1);
+//        System.out.println("analisando novamente");
+//        instance.analysis(new ILexical() {
+//            
+//            Queue<Token> tokensQueue = new ArrayDeque<Token>(tokens);
+//
+//            public Token nextToken() {
+//                return tokensQueue.poll();
+//            }
+//        });
            
 //        instance.analysis(lexical);
 //        System.out.println("tokens lidos");

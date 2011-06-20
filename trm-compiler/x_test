@@ -1,2 +1,2 @@
-id <- 1
-id : integer;
+id, id2 : integer[1];
+id[1] <- 1 + a[2]*a;
