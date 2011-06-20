@@ -42,6 +42,8 @@ public class CommandAnalyserImpl extends CommandAnalyser {
             //de função
             case TK_OPEN_PARENTHESES:
                 //implementar a GLC para chamada de função
+                GLC functionCall = GLCFacotory.createGLCFunctionCall();
+                analysiInstruction(functionCall);
                 return InstructionType.FUNCTION_CALL;
             default:
                 erro();
