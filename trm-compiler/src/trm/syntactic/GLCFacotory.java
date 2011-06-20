@@ -288,7 +288,7 @@ public class GLCFacotory {
         glc.setInitialElement(REPEAT_ITER);
         
         glc.addDerivation(new Derivation(REPEAT_ITER, FOR, OPEN_PARENTHESES, 
-                ID, IN, E, COLON, E, OPTIONAL_JUMP, CLOSE_PARENTHESES,
+                ID, IN, E, OPTIONAL_JUMP, CLOSE_PARENTHESES,
                 OPEN_CURLY_BRACKET));
 
         glc.addDerivation(new Derivation(OPTIONAL_JUMP, COLON, E));
@@ -296,6 +296,38 @@ public class GLCFacotory {
         
         return glc;
     } 
+    
+    public static GLC createGLCWhile() {
+        GLC glc = createGLCExpression();
+        glc.setInitialElement(REPEAT_COND);
+        
+        glc.addDerivation(new Derivation(REPEAT_COND, WHILE, OPEN_PARENTHESES, 
+                E, CLOSE_PARENTHESES, OPEN_CURLY_BRACKET));
+        
+        return glc;
+    }
+    
+    public static GLC createGLCIf() {
+        GLC glc = createGLCExpression();
+        
+        glc.setInitialElement(INSTR_COND);
+        
+        glc.addDerivation(new Derivation(INSTR_COND, IF, OPEN_PARENTHESES, E, 
+                CLOSE_PARENTHESES, OPEN_CURLY_BRACKET));
+        
+        return glc;
+    }
+    
+    public static GLC createGLCElse() {
+        
+        GLC glc = createGLCExpression();
+        
+        glc.setInitialElement(INSTR_ELSE);
+        
+        glc.addDerivation(new Derivation(INSTR_ELSE, ELSE, OPEN_CURLY_BRACKET));
+        
+        return glc;
+    }
 
     public static void main(String[] args) {
         GLC glc = createGLCFor();

@@ -88,18 +88,17 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
     private void popBlock() {
         
         //ultima instrução do bloco
-        int end = instructions.size();
+        int end = instructions.size() - 1;
         
         //instrução do inicio do bloco
         Instruction startBlock = blocks.pop();
-        
+
         if (startBlock == null) {
             //TODO colocar informação sobre o erro
             throw new RuntimeException("erro no bloco de codigo");
         }
         
         startBlock.setEnd(end);
-        
     }
     
     private void saveInstruction(Instruction instruction) {
@@ -127,19 +126,25 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
                     saveInstruction(new ForAnalayser(lexical).analyze(token));
 //                    saveInstruction(null);
                     break;
+                    
+                case TK_WHILE:
+                    //analisar se o 'while' é valido, marcar seu inicio
+                    saveInstruction(new WhileAnalayser(lexical).analyze(token));
+                    break;
                 case TK_IF:
                     //analisar se o 'if' é valido, marcar seu inicio
-                    saveInstruction(null);
+                    saveInstruction(new IfAnalayser(lexical).analyze(token));
+                    break;
                 case TK_ELSE:
                     //analisar se o 'else' é valido, marcar seu inicio
-                    saveInstruction(null);
+                    saveInstruction(new ElseAnalayser(lexical).analyze(token));
                     break;
                 case TK_CLOSE_CURLY_BRACKET:
                     //verificar a quem ele pertecence
-                    popBlock();
                     final Token temp = token;
                     saveInstruction(new Instruction(InstructionType.END_BLOCK,
                             new ArrayList<Token>(){{add(temp);}}));
+                    popBlock();
                     
                     if (blocks.isEmpty()) {
                         break here;
@@ -234,5 +239,64 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
         }
 
     }
+     
+    private static class WhileAnalayser extends CommandAnalyser {
+
+        public WhileAnalayser(ILexical lexical) {
+            super(TokenClass.TK_WHILE, lexical);
+        }
+
+        @Override
+        protected InstructionType doAnalysis(Token token) {
+
+            ((LexicalAnalyzer) lexical).putToken(token);
+            
+            
+            GLC glcFuntionDeclaration = GLCFacotory.createGLCWhile();
+            analysi(glcFuntionDeclaration, null, true, true);
+
+            return InstructionType.WHILE;
+        }
+
+    }
     
+      private static class IfAnalayser extends CommandAnalyser {
+
+        public IfAnalayser(ILexical lexical) {
+            super(TokenClass.TK_IF, lexical);
+        }
+
+        @Override
+        protected InstructionType doAnalysis(Token token) {
+
+            ((LexicalAnalyzer) lexical).putToken(token);
+            
+            
+            GLC glcFuntionDeclaration = GLCFacotory.createGLCIf();
+            analysi(glcFuntionDeclaration, null, true, true);
+
+            return InstructionType.IF;
+        }
+
+    }
+      
+    private static class ElseAnalayser extends CommandAnalyser {
+
+        public ElseAnalayser(ILexical lexical) {
+            super(TokenClass.TK_ELSE, lexical);
+        }
+
+        @Override
+        protected InstructionType doAnalysis(Token token) {
+
+            ((LexicalAnalyzer) lexical).putToken(token);
+
+
+            GLC glcFuntionDeclaration = GLCFacotory.createGLCElse();
+            analysi(glcFuntionDeclaration, null, true, true);
+
+            return InstructionType.ELSE;
+        }
+    }
+
 }
