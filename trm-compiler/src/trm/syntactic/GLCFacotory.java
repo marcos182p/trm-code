@@ -1,8 +1,6 @@
 package trm.syntactic;
 
-import java.util.AbstractQueue;
 import java.util.ArrayDeque;
-import java.util.List;
 import java.util.Queue;
 import trm.lexical.ILexical;
 import trm.lexical.LexicalAnalyzer;
@@ -111,7 +109,7 @@ public class GLCFacotory {
      * logicas
      */
     public static GLC createGLCExpression() {
-        GLC glc = new GLC(null);
+        GLC glc = createGLCValue();
         
         
         glc.addDerivation(new Derivation(E, T, E_));
@@ -150,23 +148,23 @@ public class GLCFacotory {
         glc.addDerivation(new Derivation(F, VALUE));
         
         
-        glc.addDerivation(new Derivation(CTE, REAL_CTE));
-        glc.addDerivation(new Derivation(CTE, INTEGER_CTE));
-        glc.addDerivation(new Derivation(CTE, CHARACTER_CTE));
-        glc.addDerivation(new Derivation(CTE, BOOLEAN_CTE));
-        glc.addDerivation(new Derivation(CTE, STRING_CTE));
-        
-        glc.addDerivation(new Derivation(VALUE, CTE));
-        glc.addDerivation(new Derivation(VALUE, ID, OPT_INDEX));
+//        glc.addDerivation(new Derivation(CTE, REAL_CTE));
+//        glc.addDerivation(new Derivation(CTE, INTEGER_CTE));
+//        glc.addDerivation(new Derivation(CTE, CHARACTER_CTE));
+//        glc.addDerivation(new Derivation(CTE, BOOLEAN_CTE));
+//        glc.addDerivation(new Derivation(CTE, STRING_CTE));
+//        
+//        glc.addDerivation(new Derivation(VALUE, CTE));
+//        glc.addDerivation(new Derivation(VALUE, ID, OPT_INDEX));
 //        glc.addDerivation(new Derivation(VALUE, FUNCTION_CALL));
-        
-        //index
-        glc.addDerivation(new Derivation(INDEX, OPEN_SQUARE_BRACKET, INDEX_VAL, CLOSE_SQUARE_BRACKET));
-        glc.addDerivation(new Derivation(OPT_INDEX, INDEX));
-        glc.addDerivation(new Derivation(OPT_INDEX));
-        glc.addDerivation(new Derivation(INDEX_VAL, INTEGER_CTE));
-        glc.addDerivation(new Derivation(INDEX_VAL, ID));
-        glc.addDerivation(new Derivation(INDEX_VAL, E));
+//        
+//        //index
+//        glc.addDerivation(new Derivation(INDEX, OPEN_SQUARE_BRACKET, INDEX_VAL, CLOSE_SQUARE_BRACKET));
+//        glc.addDerivation(new Derivation(OPT_INDEX, INDEX));
+//        glc.addDerivation(new Derivation(OPT_INDEX));
+//        glc.addDerivation(new Derivation(INDEX_VAL, INTEGER_CTE));
+//        glc.addDerivation(new Derivation(INDEX_VAL, ID));
+//        glc.addDerivation(new Derivation(INDEX_VAL, E));
         
 
         
@@ -218,32 +216,38 @@ public class GLCFacotory {
 
         glc.addDerivation(new Derivation(VALUE, CTE));
         glc.addDerivation(new Derivation(VALUE, ID, OPT_INDEX));
+        
 //        glc.addDerivation(new Derivation(VALUE, FUNCTION_CALL)); //FIXME isso tem que ser ajeitado
+        //chamada de função-----------------------------------------------------
+         
+        glc.addDerivation(new Derivation(OPT_INDEX, FUNCTION_CALL));
+        
+        glc.addDerivation(new Derivation(FUNCTION_CALL, OPEN_PARENTHESES,
+                OPTIONAL_PARAM, CLOSE_PARENTHESES));
+        Variable temp = new Variable("optional_paran'");
+
+        glc.addDerivation(new Derivation(OPTIONAL_PARAM, E, temp));
+        glc.addDerivation(new Derivation(OPTIONAL_PARAM));
+
+        glc.addDerivation(new Derivation(temp, COMMA, OPTIONAL_PARAM));
+        glc.addDerivation(new Derivation(temp));
+        //----------------------------------------------------------------------
 
         //index
         glc.addDerivation(new Derivation(INDEX, OPEN_SQUARE_BRACKET, INDEX_VAL, CLOSE_SQUARE_BRACKET));
         glc.addDerivation(new Derivation(OPT_INDEX, INDEX));
         glc.addDerivation(new Derivation(OPT_INDEX));
-        glc.addDerivation(new Derivation(INDEX_VAL, INTEGER_CTE));
-        glc.addDerivation(new Derivation(INDEX_VAL, ID));
-//        glc.addDerivation(new Derivation(INDEX_VAL, E)); considerando que não tem uma expressão aritimetica
+//        glc.addDerivation(new Derivation(INDEX_VAL, INTEGER_CTE));
+//        glc.addDerivation(new Derivation(INDEX_VAL, ID));
+        glc.addDerivation(new Derivation(INDEX_VAL, E)); //considerando que não tem uma expressão aritimetica
         return glc;
     }
-    
+    /**
+     * considera que o token id ja foi lido! FIXME conserta isso
+     */
     public static GLC createGLCFunctionCall() {
-        GLC glc = createGLCValue();
+        GLC glc = createGLCExpression();
         glc.setInitialElement(FUNCTION_CALL);
-
-        glc.addDerivation(new Derivation(FUNCTION_CALL, ID, OPEN_PARENTHESES,
-                OPTIONAL_PARAM, CLOSE_PARENTHESES));
-
-        Variable temp = new Variable("optional_paran'");
-
-        glc.addDerivation(new Derivation(OPTIONAL_PARAM, VALUE, temp));
-        glc.addDerivation(new Derivation(OPTIONAL_PARAM));
-
-        glc.addDerivation(new Derivation(temp, COMMA, OPTIONAL_PARAM));
-        glc.addDerivation(new Derivation(temp));
 
         return glc;
 
