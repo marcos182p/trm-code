@@ -105,7 +105,7 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
             switch (token.getTokenClass()) {
                 case TK_ID:
                     saveInstruction(
-                            new InstructionAnalyserImpl(lexical).analyze(token));
+                            new CommandAnalyserImpl(lexical).analyze(token));
                     break;
                 case TK_FOR:
                     //analisar se o 'for' é valido, marcar seu inicio
@@ -151,92 +151,23 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
 
         }
     }
-    
-       /**
+
+    /**
      * analisa o protipo de uma função
      */
     private static class FuncitionAnalayser extends CommandAnalyser {
-        
-        private Set<TokenClass> types;
 
         public FuncitionAnalayser(ILexical lexical) {
             super(TokenClass.TK_ID, lexical);
-            types = new HashSet<TokenClass>() {{
-                add(TokenClass.TK_INTEGER);
-                add(TokenClass.TK_REAL);
-                add(TokenClass.TK_BOOLEAN);
-                add(TokenClass.TK_STRING);
-                add(TokenClass.TK_CHARACTER);
-            }};
         }
 
         @Override
         protected InstructionType doAnalysis(Token token) {
-
-            switch (nextToken().getTokenClass()) {
-                case TK_OPEN_PARENTHESES:
-                    functionParameters();
-                    break;
-                default:
-                    erro();
-            }
-
+            //TODO implementar! esse metodo ira analisar se o prototipo da 
+            //função é valida
             return InstructionType.FUNCTION;
         }
 
-        private void functionParameters() {
-
-            switch (nextToken().getTokenClass()) {
-                case TK_CLOSE_PARENTHESES:
-                    if (!nextToken().getTokenClass().equals(TokenClass.TK_OPEN_CURLY_BRACKET)) {
-                        erro();
-                    }
-                    break;
-                case TK_ID:
-                     declaration();
-                    break;
-                case TK_COMMA:
-                    functionParameters();
-                    break;
-                default:
-                    erro();
-            }
-
-        }
-
-        private void declaration() {
-            switch (nextToken().getTokenClass()) {
-                case TK_OPEN_SQUARE_BRACKET:
-                    if (!types.contains(penultimateToken().getTokenClass())) {
-                        erro();
-                    }
-                    dimensionType();
-                    break;
-                case TK_INTEGER:
-                case TK_REAL:
-                case TK_STRING:
-                case TK_CHARACTER:
-                case TK_BOOLEAN:
-                    
-            }
-        }
-
-        private void dimensionType() {
-
-            switch (nextToken().getTokenClass()) {
-                case TK_INTEGER_CTE:
-                case TK_ID:
-                    switch (nextToken().getTokenClass()) {
-                        case TK_CLOSE_SQUARE_BRACKET:
-                            break;
-                        default:
-                            erro();
-                    }
-                    break;
-                default:
-                    erro();
-            }
-        }
     }
     
 }
