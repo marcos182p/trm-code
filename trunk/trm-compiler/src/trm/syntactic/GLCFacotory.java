@@ -229,6 +229,25 @@ public class GLCFacotory {
 //        glc.addDerivation(new Derivation(INDEX_VAL, E)); considerando que não tem uma expressão aritimetica
         return glc;
     }
+    
+    public static GLC createGLCFunctionCall() {
+        GLC glc = createGLCValue();
+        glc.setInitialElement(FUNCTION_CALL);
+
+        glc.addDerivation(new Derivation(FUNCTION_CALL, ID, OPEN_PARENTHESES,
+                OPTIONAL_PARAM, CLOSE_PARENTHESES));
+
+        Variable temp = new Variable("optional_paran'");
+
+        glc.addDerivation(new Derivation(OPTIONAL_PARAM, VALUE, temp));
+        glc.addDerivation(new Derivation(OPTIONAL_PARAM));
+
+        glc.addDerivation(new Derivation(temp, COMMA, OPTIONAL_PARAM));
+        glc.addDerivation(new Derivation(temp));
+
+        return glc;
+
+    }
 
     public static void main(String[] args) {
         
