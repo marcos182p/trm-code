@@ -3,4 +3,7 @@ id(id, ia:integer[1], i:integer) : real {
     id(id[k+1],i[1], 2+3);
     id, id2 : integer[1];
     id[1] <- 1 + a[2]*a;
+    for( id in 1+2 : n+1 ) {
+        id <- a;
+    }
 }

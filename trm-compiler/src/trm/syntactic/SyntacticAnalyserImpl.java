@@ -88,7 +88,7 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
     private void popBlock() {
         
         //ultima instrução do bloco
-        int end = instructions.size() - 1;
+        int end = instructions.size();
         
         //instrução do inicio do bloco
         Instruction startBlock = blocks.pop();
@@ -122,9 +122,10 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
                             new CommandAnalyserImpl(lexical).analyze(token));
                     break;
                 case TK_FOR:
-                    ((LexicalAnalyzer) lexical).putToken(token);
+//                    ((LexicalAnalyzer) lexical).putToken(token);
                     //analisar se o 'for' é valido, marcar seu inicio
-                    saveInstruction(null);
+                    saveInstruction(new ForAnalayser(lexical).analyze(token));
+//                    saveInstruction(null);
                     break;
                 case TK_IF:
                     //analisar se o 'if' é valido, marcar seu inicio
@@ -173,13 +174,15 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
 //        parserId.analyze(lexical.nextToken());
         syntacticAnalyser.parse(lexical);
         
-        for (Instruction intruction: syntacticAnalyser.getInstructions()) {
-            System.out.println("instruction type : " + intruction.getType());
+        for (Instruction instruction: syntacticAnalyser.getInstructions()) {
+            System.out.println("instruction type : " + instruction.getType());
+            System.out.println("end = " + instruction.getEnd());
+//            System.out.println("end = " + );
             
-            for (Token token: intruction.getTokens()) {
-                System.out.print(" " + token);
-            }
-            System.out.println("");
+//            for (Token token: intruction.getTokens()) {
+//                System.out.print(" " + token);
+//            }
+//            System.out.println("");
             
         }
 //
@@ -208,6 +211,26 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
             analysi(glcFuntionDeclaration, null, true, true);
 
             return InstructionType.FUNCTION;
+        }
+
+    }
+    
+     private static class ForAnalayser extends CommandAnalyser {
+
+        public ForAnalayser(ILexical lexical) {
+            super(TokenClass.TK_FOR, lexical);
+        }
+
+        @Override
+        protected InstructionType doAnalysis(Token token) {
+
+            ((LexicalAnalyzer) lexical).putToken(token);
+            
+            
+            GLC glcFuntionDeclaration = GLCFacotory.createGLCFor();
+            analysi(glcFuntionDeclaration, null, true, true);
+
+            return InstructionType.FOR;
         }
 
     }
