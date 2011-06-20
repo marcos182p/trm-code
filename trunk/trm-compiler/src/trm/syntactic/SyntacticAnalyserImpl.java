@@ -1,6 +1,7 @@
 package trm.syntactic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,11 +55,17 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
                     
                     instruction(lexical);
                     break;
+                case TK_EOF:
+                    break;
                 default:
-                    throw new RuntimeException("");
+                    erro(token);
             }
         }
         
+    }
+    
+    public List<Instruction> getInstructions() {
+        return Collections.unmodifiableList(instructions);
     }
     
     private void pushBlock() {
@@ -86,6 +93,11 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
         //instrução do inicio do bloco
         Instruction startBlock = blocks.pop();
         
+        if (startBlock == null) {
+            //TODO colocar informação sobre o erro
+            throw new RuntimeException("erro no bloco de codigo");
+        }
+        
         startBlock.setEnd(end);
         
     }
@@ -99,15 +111,18 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
     }
     
     private void instruction(ILexical lexical) {
-        Token token = lexical.nextToken();
+        Token token = null;
         
         here : while ((token = lexical.nextToken()) != null) {
+            
+            
             switch (token.getTokenClass()) {
                 case TK_ID:
                     saveInstruction(
                             new CommandAnalyserImpl(lexical).analyze(token));
                     break;
                 case TK_FOR:
+                    ((LexicalAnalyzer) lexical).putToken(token);
                     //analisar se o 'for' é valido, marcar seu inicio
                     saveInstruction(null);
                     break;
@@ -121,15 +136,24 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
                 case TK_CLOSE_CURLY_BRACKET:
                     //verificar a quem ele pertecence
                     popBlock();
+                    final Token temp = token;
+                    saveInstruction(new Instruction(InstructionType.END_BLOCK,
+                            new ArrayList<Token>(){{add(temp);}}));
+                    
                     if (blocks.isEmpty()) {
                         break here;
                     }
                     break;
                 default:
-                    throw new RuntimeException("");
+                    erro(token);
             }
         }
         //fazer analise do codigo dentro da função
+        
+    }
+    
+    private void erro(Token token) {
+        throw new RuntimeException("erro no token " + token);
         
     }
     public static void main(String[] args) {
@@ -141,19 +165,32 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
 //                        
 //            }
 //        }
+        SyntacticAnalyserImpl syntacticAnalyser = new SyntacticAnalyserImpl();
         
-        ILexical lexical = new LexicalAnalyzer("x_test");
-        FuncitionAnalayser parserId = new FuncitionAnalayser(lexical);
-        parserId.analyze(lexical.nextToken());
-
-        for (Token token : parserId.getTokens()) {
-            System.out.println(token.getTokenClass());
-
+        
+        LexicalAnalyzer lexical = new LexicalAnalyzer("x_test");
+//        FuncitionAnalayser parserId = new FuncitionAnalayser(lexical);
+//        parserId.analyze(lexical.nextToken());
+        syntacticAnalyser.parse(lexical);
+        
+        for (Instruction intruction: syntacticAnalyser.getInstructions()) {
+            System.out.println("instruction type : " + intruction.getType());
+            
+            for (Token token: intruction.getTokens()) {
+                System.out.print(" " + token);
+            }
+            System.out.println("");
+            
         }
+//
+//        for (Token token : parserId.getTokens()) {
+//            System.out.println(token.getTokenClass());
+//
+//        }
     }
 
     /**
-     * analisa o protipo de uma função
+     * analisa a declaração de uma função
      */
     private static class FuncitionAnalayser extends CommandAnalyser {
 
@@ -163,8 +200,13 @@ public class SyntacticAnalyserImpl implements SyntacticAnalyser {
 
         @Override
         protected InstructionType doAnalysis(Token token) {
-            //TODO implementar! esse metodo ira analisar se o prototipo da 
-            //função é valida
+
+            ((LexicalAnalyzer) lexical).putToken(token);
+            
+            
+            GLC glcFuntionDeclaration = GLCFacotory.createGLCFuntionDeclaration();
+            analysi(glcFuntionDeclaration, null, true, true);
+
             return InstructionType.FUNCTION;
         }
 

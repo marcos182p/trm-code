@@ -1,6 +1,5 @@
 package trm.syntactic;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import trm.lexical.Token;
@@ -12,7 +11,8 @@ public class Instruction {
     
     public enum InstructionType {
 
-        DECLARATION, ATTRIBUTION, FOR, WHILE, FUNCTION, FUNCTION_CALL, IF, ELSE
+        DECLARATION, ATTRIBUTION, FOR, WHILE, FUNCTION, FUNCTION_CALL, IF, ELSE, 
+        END_BLOCK
     }
     
     private List<Token> tokens;

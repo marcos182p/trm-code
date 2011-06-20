@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import trm.lexical.ILexical;
+import trm.lexical.LexicalAnalyzer;
 import trm.lexical.Token;
 import trm.lexical.TokenClass;
 import trm.syntactic.Instruction.InstructionType;
@@ -40,6 +41,12 @@ public abstract class CommandAnalyser {
      */
     protected void analysiInstruction(GLC glc) {
 
+        analysi(glc, TokenClass.TK_SEMICOLON, true, false);
+    }
+    
+    
+    protected void analysi(GLC glc, TokenClass last, boolean remove, boolean relocate) {
+        
         GLCAnalyser analyser = new GLCAnalyser(glc);
 
         try {
@@ -50,18 +57,25 @@ public abstract class CommandAnalyser {
         } catch (Exception e) {
             
             final List<Token> tks = analyser.getReadTokens();
-            int lastToken = tks.size() - 1;
             
-            Token semiColon = tks.get(lastToken);
+            Token lastToken = tks.get(tks.size() - 1);
+            
+            //verifica se o ultimo token precisa ser removido
+            if (remove) {
+                tks.remove(tks.size() - 1);
+            }
+            
+            if (relocate) {
+                ((LexicalAnalyzer) lexical).putToken(lastToken);
+            }
             
             tokens.addAll(tks);
-
-            tks.remove(lastToken);
             
-            tks.add(new Token(null, TokenClass.TK_EOF, semiColon.getLine(),
-                    semiColon.getcolumn()));
+            tks.add(new Token(null, TokenClass.TK_EOF, lastToken.getLine(),
+                    lastToken.getcolumn()));
             
-            if (!semiColon.getTokenClass().equals(TokenClass.TK_SEMICOLON)) {
+            if (!lastToken.getTokenClass().equals(last) && last != null) {
+                System.out.println(lastToken);
                 erro();
             }
             try {
