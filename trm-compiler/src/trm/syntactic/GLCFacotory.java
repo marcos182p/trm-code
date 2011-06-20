@@ -79,6 +79,8 @@ public class GLCFacotory {
     
     public static final Variable PARAM = new Variable("param");
     public static final Variable OPTIONAL_PARAM = new Variable("[param]");
+    public static final Variable OPTIONAL_DECLAR = new Variable("[declaration]");
+    public static final Variable OPTIONAL_DECLAR_RETURN = new Variable("optional_declaration_return");
     public static final Variable OPTIONAL_RETURN = new Variable("[return]");
     
     public static final Variable VALUE = new Variable("value");
@@ -252,10 +254,37 @@ public class GLCFacotory {
         return glc;
 
     }
+     
+    public static GLC createGLCFuntionDeclaration() {
+        
+        GLC glc = createGLCDeclaration();
+        glc.setInitialElement(FUNC);
+        //Func
+        glc.addDerivation(new Derivation(FUNC, ID, OPEN_PARENTHESES,
+                OPTIONAL_DECLAR, CLOSE_PARENTHESES, OPTIONAL_DECLAR_RETURN,
+                OPEN_CURLY_BRACKET));
+
+        Variable VARS = new Variable("vars");
+        
+        glc.addDerivation(new Derivation(OPTIONAL_DECLAR));
+        glc.addDerivation(new Derivation(OPTIONAL_DECLAR, PARAM));
+
+        glc.addDerivation(new Derivation(PARAM, VAR, VARS));
+
+        glc.addDerivation(new Derivation(VARS));
+        
+        glc.addDerivation(new Derivation(VARS, COMMA, PARAM));
+        
+        glc.addDerivation(new Derivation(TIPO, VOID));
+        glc.addDerivation(new Derivation(OPTIONAL_DECLAR_RETURN, COLON, TIPO));
+        //TODO ele pode não ter retorno?
+        glc.addDerivation(new Derivation(OPTIONAL_DECLAR_RETURN));
+
+        return glc;
+    }
 
     public static void main(String[] args) {
-        
-        GLC glc = createGLCAtribuition();
+        GLC glc = createGLCFuntionDeclaration();
         
         LexicalAnalyzer lexical = new LexicalAnalyzer("newtest");
         
@@ -266,10 +295,20 @@ public class GLCFacotory {
         instance.analysis(new ILexical() {
             
             Queue<Token> tokens = new ArrayDeque<Token>() {{
-                add(new Token(null, TokenClass.TK_ID, -1, -1));
-                add(new Token(null, TokenClass.TK_ATTRIBUTION, -1, -1));
-                add(new Token(null, TokenClass.TK_ID, -1, -1));
-                add(new Token(null, TokenClass.TK_EOF, -1, -1));
+                add(new Token(null, TokenClass.TK_ID, 1, 1));
+                add(new Token(null, TokenClass.TK_OPEN_PARENTHESES, 1, 2));
+                add(new Token(null, TokenClass.TK_ID, 1, 2));
+                add(new Token(null, TokenClass.TK_COLON, 1, 2));
+                add(new Token(null, TokenClass.TK_INTEGER, 1, 2));
+                add(new Token(null, TokenClass.TK_COMMA, 1, 2));
+                add(new Token(null, TokenClass.TK_ID, 1, 2));
+                add(new Token(null, TokenClass.TK_COLON, 1, 2));
+                add(new Token(null, TokenClass.TK_INTEGER, 1, 2));
+                add(new Token(null, TokenClass.TK_CLOSE_PARENTHESES, 1, 3));
+                add(new Token(null, TokenClass.TK_COLON, 1, 4));
+                add(new Token(null, TokenClass.TK_VOID, 1, 5));
+                add(new Token(null, TokenClass.TK_OPEN_CURLY_BRACKET, 1, 6));
+                add(new Token(null, TokenClass.TK_EOF, -1, 7));
             }};
             
 
@@ -277,6 +316,33 @@ public class GLCFacotory {
                 return tokens.poll();
             }
         });
+        System.out.println("tokens lidos");
+        for (Token token: instance.getReadTokens()) {
+            System.out.println(token);
+        }
+//        
+//        GLC glc = createGLCAtribuition();
+//        
+//        LexicalAnalyzer lexical = new LexicalAnalyzer("newtest");
+//        
+////        Token token = lexical.nextToken();
+////        lexical.putToken(token);
+//
+//        GLCAnalyser instance = new GLCAnalyser(glc);
+//        instance.analysis(new ILexical() {
+//            
+//            Queue<Token> tokens = new ArrayDeque<Token>() {{
+//                add(new Token(null, TokenClass.TK_ID, -1, -1));
+//                add(new Token(null, TokenClass.TK_ATTRIBUTION, -1, -1));
+//                add(new Token(null, TokenClass.TK_ID, -1, -1));
+//                add(new Token(null, TokenClass.TK_EOF, -1, -1));
+//            }};
+//            
+//
+//            public Token nextToken() {
+//                return tokens.poll();
+//            }
+//        });
 //        }
         
         
