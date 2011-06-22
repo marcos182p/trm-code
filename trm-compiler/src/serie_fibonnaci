@@ -8,7 +8,7 @@
  */
 
 fibonnaci ( n : integer ) : void {
-    f : integer[n+1];
+    f : integer[n + 1];
     i : integer;
     f[0] <- 0;
     f[1] <- 1;

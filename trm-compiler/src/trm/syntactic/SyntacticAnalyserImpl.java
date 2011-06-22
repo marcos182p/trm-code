@@ -52,8 +52,7 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
                     Instruction functionInstruction =
                             new FuncitionAnalayser(lexical).analyze(token);
 
-                    instructions.add(functionInstruction);
-                    pushBlock();
+                    saveInstruction(functionInstruction);
 
                     instruction(lexical);
                     break;
@@ -79,8 +78,6 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
             throw new RuntimeException("essa instrução não é de bloco");
         }
 
-        instruction.setStart(start);
-
         blocks.push(instruction);
     }
 
@@ -90,7 +87,7 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
     private void popBlock() {
 
         //ultima instrução do bloco
-        int end = instructions.size() - 1;
+        int end = instructions.size();
 
         //instrução do inicio do bloco
         Instruction startBlock = blocks.pop();
@@ -100,11 +97,14 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
             throw new RuntimeException("erro no bloco de codigo");
         }
 
+        instructions.get(end - 1).setStart(startBlock.getStart());
         startBlock.setEnd(end);
     }
 
     private void saveInstruction(Instruction instruction) {
         instructions.add(instruction);
+        instruction.setStart(instructions.size());
+        instruction.setEnd(instructions.size());
         if (blocksType.contains(instruction.getType())) {
             pushBlock();
         }
@@ -180,13 +180,14 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
         SyntacticAnalyserImpl syntacticAnalyser = new SyntacticAnalyserImpl();
 
 
-        LexicalAnalyzer lexical = new LexicalAnalyzer("src/teste.x");
+        LexicalAnalyzer lexical = new LexicalAnalyzer("src/shellsort");
 
         syntacticAnalyser.parse(lexical);
 
         for (Instruction instruction : syntacticAnalyser.getInstructions()) {
             System.out.println("instruction type : " + instruction.getType());
-            System.out.println("end = " + instruction.getEnd());
+            System.out.println("Start -> " + instruction.getStart());
+            System.out.println("End -> " + instruction.getEnd());
         }
 
     }
