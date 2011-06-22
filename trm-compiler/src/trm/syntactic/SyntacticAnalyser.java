@@ -176,7 +176,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
     }
 
     public static void main(String[] args) {
-
+    
         SyntacticAnalyser syntacticAnalyser = new SyntacticAnalyser();
 
 
