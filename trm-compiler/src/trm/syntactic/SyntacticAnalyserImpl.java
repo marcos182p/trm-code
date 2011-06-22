@@ -119,6 +119,9 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
 
 
             switch (token.getTokenClass()) {
+                case TK_RETURN:
+                    saveInstruction(new ReturnAnalayser(lexical).analyze(token));
+                    break;
                 case TK_ID:
                     saveInstruction(
                             new CommandAnalyserImpl(lexical).analyze(token));
@@ -178,26 +181,14 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
 
 
         LexicalAnalyzer lexical = new LexicalAnalyzer("src/teste.x");
-//        FuncitionAnalayser parserId = new FuncitionAnalayser(lexical);
-//        parserId.analyze(lexical.nextToken());
+
         syntacticAnalyser.parse(lexical);
 
         for (Instruction instruction : syntacticAnalyser.getInstructions()) {
             System.out.println("instruction type : " + instruction.getType());
             System.out.println("end = " + instruction.getEnd());
-//            System.out.println("end = " + );
-
-//            for (Token token: intruction.getTokens()) {
-//                System.out.print(" " + token);
-//            }
-//            System.out.println("");
-
         }
-//
-//        for (Token token : parserId.getTokens()) {
-//            System.out.println(token.getTokenClass());
-//
-//        }
+
     }
 
     /**
@@ -234,8 +225,8 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcFuntionDeclaration = GLCFacotory.createGLCFor();
-            analysi(glcFuntionDeclaration, null, true, true);
+            GLC glcForDeclaration = GLCFacotory.createGLCFor();
+            analysi(glcForDeclaration, null, true, true);
 
             return InstructionType.FOR;
         }
@@ -253,8 +244,8 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcFuntionDeclaration = GLCFacotory.createGLCWhile();
-            analysi(glcFuntionDeclaration, null, true, true);
+            GLC glcWhileDeclaration = GLCFacotory.createGLCWhile();
+            analysi(glcWhileDeclaration, null, true, true);
 
             return InstructionType.WHILE;
         }
@@ -272,8 +263,8 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcFuntionDeclaration = GLCFacotory.createGLCIf();
-            analysi(glcFuntionDeclaration, null, true, true);
+            GLC glcIfDeclaration = GLCFacotory.createGLCIf();
+            analysi(glcIfDeclaration, null, true, true);
 
             return InstructionType.IF;
         }
@@ -291,10 +282,29 @@ public class SyntacticAnalyserImpl implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcFuntionDeclaration = GLCFacotory.createGLCElse();
-            analysi(glcFuntionDeclaration, null, true, true);
+            GLC glcElseDeclaration = GLCFacotory.createGLCElse();
+            analysi(glcElseDeclaration, null, true, true);
 
             return InstructionType.ELSE;
+        }
+    }
+
+    private static class ReturnAnalayser extends CommandAnalyser {
+
+        public ReturnAnalayser(ILexical lexical) {
+            super(TokenClass.TK_RETURN, lexical);
+        }
+
+        @Override
+        protected InstructionType doAnalysis(Token token) {
+
+            ((LexicalAnalyzer) lexical).putToken(token);
+
+
+            GLC glcReturnDeclaration = GLCFacotory.createGLCReturn();
+            analysiInstruction(glcReturnDeclaration);
+
+            return InstructionType.RETURN;
         }
     }
 }

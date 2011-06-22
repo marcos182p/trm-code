@@ -52,9 +52,6 @@ public class GLCAnalyser {
                 Derivation derivation = table.getDerivation(var, terminal);
 
 
-//                System.out.println(var.getLabel() + ", " + terminal.getLabel()
-//                        + " = " + derivation);
-
                 if(derivation == null) {
                     erro(token);
                 }
@@ -81,7 +78,6 @@ public class GLCAnalyser {
     }
 
     private void erro(Token token) {
-        System.out.println(token);
         throw new RuntimeException("erro de sintaxe em: " + token.getLine()
                 + ", " + token.getcolumn());
     }

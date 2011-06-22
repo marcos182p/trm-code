@@ -14,6 +14,7 @@ id(id, ia:integer[1], i:integer) : real {
     }
     while (id and b)  {
     }
+    return 12;
 }
 
 
