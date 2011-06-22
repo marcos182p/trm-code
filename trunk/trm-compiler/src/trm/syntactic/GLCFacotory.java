@@ -195,11 +195,13 @@ public class GLCFacotory {
     }
     
     public static GLC createGLCDeclaration() {
-        GLC glc = new GLC(VAR);
+        GLC glc = createGLCExpression();
+        glc.setInitialElement(VAR);
 
         glc.addDerivation(new Derivation(DIM, OPEN_SQUARE_BRACKET, DIM_TYPE, CLOSE_SQUARE_BRACKET));
-        glc.addDerivation(new Derivation(DIM_TYPE, ID));
-        glc.addDerivation(new Derivation(DIM_TYPE, INT_CTE));
+        glc.addDerivation(new Derivation(DIM_TYPE, EXPR));
+        glc.addDerivation(new Derivation(DIM_TYPE));
+//        glc.addDerivation(new Derivation(DIM_TYPE, INT_CTE));
         
         glc.addDerivation(new Derivation(TIPO, REAL));
         glc.addDerivation(new Derivation(TIPO, INTEGER));
