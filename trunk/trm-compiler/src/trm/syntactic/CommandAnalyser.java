@@ -75,7 +75,6 @@ public abstract class CommandAnalyser {
                     lastToken.getcolumn()));
             
             if (!lastToken.getTokenClass().equals(last) && last != null) {
-                System.out.println(lastToken);
                 erro();
             }
             try {
@@ -89,7 +88,6 @@ public abstract class CommandAnalyser {
                     }
                 });
             } catch (Exception ex) {
-                System.out.println(ex.getMessage());
                 erro();
             }
             

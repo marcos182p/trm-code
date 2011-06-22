@@ -12,7 +12,7 @@ public class Instruction {
     public enum InstructionType {
 
         DECLARATION, ATTRIBUTION, FOR, WHILE, FUNCTION, FUNCTION_CALL, IF, ELSE, 
-        END_BLOCK
+        END_BLOCK, RETURN
     }
     
     private List<Token> tokens;

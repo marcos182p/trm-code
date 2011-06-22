@@ -34,21 +34,6 @@ public class Derivation {
 
     }
 
-    public static void main(String[] args) {
-//        System.out.println(new Derivation(new Variable("E")));
-//        System.out.println(new Derivation(new Variable("E")).getTargets().size());
-
-        List<Element> t1 = new ArrayList<Element>();
-        t1.add(new Variable("E"));
-        t1.add(new Variable("F"));
-
-
-        List<Element> t2 = new ArrayList<Element>();
-        t2.add(new Variable("F"));
-        t2.add(new Variable("E"));
-        System.out.println(t1.equals(t2));
-    }
-
     public Variable getSource() {
         return source;
     }

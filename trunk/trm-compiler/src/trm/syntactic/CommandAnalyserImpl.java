@@ -51,21 +51,10 @@ public class CommandAnalyserImpl extends CommandAnalyser {
                 analysiInstruction(functionCall);
                 return InstructionType.FUNCTION_CALL;
             default:
-                System.out.println(temp);
                 erro();
         }
         //nunca vai chegar aqui!
         throw new RuntimeException("erro desconhecido");
     }
 
-    public static void main(String[] args) {
-        ILexical lexical = new LexicalAnalyzer("x_test");
-        CommandAnalyserImpl parserId = new CommandAnalyserImpl(lexical);
-        parserId.analyze(lexical.nextToken());
-        System.out.println("tokens>>>");
-        for (Token token : parserId.getTokens()) {
-            System.out.println(token.getTokenClass());
-
-        }
-    }
 }

@@ -168,33 +168,4 @@ public class GLC {
         return false;
     }
 
-    public static void main(String[] args) {
-        Variable S = new Variable("S");
-        Variable S_ = new Variable("S1");
-        Variable C = new Variable("C");
-
-
-        GLC glc = new GLC(S);
-
-        glc.addDerivation(new Derivation(S, new Terminal(TokenClass.TK_IF), C,
-                new Terminal(TokenClass.TK_ATTRIBUTION), S, S_));
-        glc.addDerivation(new Derivation(S, new Terminal(TokenClass.TK_ID)));
-
-        glc.addDerivation(new Derivation(S_, new Terminal(TokenClass.TK_ELSE), S));
-
-        glc.addDerivation(new Derivation(S_));
-
-        glc.addDerivation(new Derivation(C, new Terminal(TokenClass.TK_ID)));
-
-
-
-        System.out.println("follow");
-        glc.calculateFollow();
-        for (Element element : glc.follows.get(S_)) {
-            System.out.println(element.getLabel());
-        }
-
-
-
-    }
 }

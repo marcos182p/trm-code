@@ -62,18 +62,6 @@ public class LexicalAnalyzer implements ILexical {
     
     private Queue<Token> tokensQueue = new ArrayDeque<Token>();
     
-    public static void main(String[] args) {
-        Queue<Integer> tokensQueue = new ArrayDeque<Integer>();
-        tokensQueue.offer(2);
-        tokensQueue.add(3);
-        System.out.println(tokensQueue);
-        tokensQueue.poll();
-        tokensQueue.poll();
-        
-        System.out.println(tokensQueue.poll());
-        
-        
-    }
     public void putToken(Token token) {
         tokensQueue.offer(token);
     }
