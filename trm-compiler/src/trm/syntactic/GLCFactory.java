@@ -4,7 +4,7 @@ import trm.lexical.TokenClass;
 
 /** Classe GLCFactory - Classe responsável por
  * criar uma GLC que reconhecerá a linguagem
- * @author TRM
+ * @author TRM 
  * @version 0.99
  */
 public class GLCFactory {

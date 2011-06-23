@@ -10,7 +10,6 @@ import trm.lexical.ILexical;
 import trm.lexical.LexicalAnalyzer;
 import trm.lexical.Token;
 import trm.lexical.TokenClass;
-import trm.syntactic.Instruction.InstructionType;
 
 /**
  *
@@ -207,7 +206,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcFuntionDeclaration = GLCFacotory.createGLCFuntionDeclaration();
+            GLC glcFuntionDeclaration = GLCFactory.createGLCFuntionDeclaration();
             analysi(glcFuntionDeclaration, null, true, true);
 
             return InstructionType.FUNCTION;
@@ -226,7 +225,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcForDeclaration = GLCFacotory.createGLCFor();
+            GLC glcForDeclaration = GLCFactory.createGLCFor();
             analysi(glcForDeclaration, null, true, true);
 
             return InstructionType.FOR;
@@ -245,7 +244,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcWhileDeclaration = GLCFacotory.createGLCWhile();
+            GLC glcWhileDeclaration = GLCFactory.createGLCWhile();
             analysi(glcWhileDeclaration, null, true, true);
 
             return InstructionType.WHILE;
@@ -264,7 +263,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcIfDeclaration = GLCFacotory.createGLCIf();
+            GLC glcIfDeclaration = GLCFactory.createGLCIf();
             analysi(glcIfDeclaration, null, true, true);
 
             return InstructionType.IF;
@@ -283,7 +282,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcElseDeclaration = GLCFacotory.createGLCElse();
+            GLC glcElseDeclaration = GLCFactory.createGLCElse();
             analysi(glcElseDeclaration, null, true, true);
 
             return InstructionType.ELSE;
@@ -302,7 +301,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcReturnDeclaration = GLCFacotory.createGLCReturn();
+            GLC glcReturnDeclaration = GLCFactory.createGLCReturn();
             analysiInstruction(glcReturnDeclaration);
 
             return InstructionType.RETURN;

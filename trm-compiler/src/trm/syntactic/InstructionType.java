@@ -1,7 +1,7 @@
 package trm.syntactic;
 
 /** Enumeração InstructionType - Define os tipos de instruções possíveis
- * @author TRM
+ * @author TRM 
  * @version 0.99
  */
 public enum InstructionType {
