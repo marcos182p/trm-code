@@ -225,7 +225,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
         SyntacticAnalyser syntacticAnalyser = new SyntacticAnalyser();
 
         //Instância o analizador léxico
-        LexicalAnalyzer lexical = new LexicalAnalyzer("src/shellsort");
+        LexicalAnalyzer lexical = new LexicalAnalyzer("src/serie_fibonnaci");
 
         //Chama o analizador sintático para iniciar a análise
         syntacticAnalyser.parse(lexical);
