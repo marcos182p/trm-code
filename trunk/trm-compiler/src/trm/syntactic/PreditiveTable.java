@@ -65,7 +65,8 @@ public class PreditiveTable {
         for (Variable element : preditiveTable.keySet()) {
 
             for (EntryTable entry : preditiveTable.get(element)) {
-                System.out.println("[ " + entry.variable + " : " + entry.terminal + " ] = " + entry.derivation);
+                System.out.println("[ " + entry.variable + " : "
+                        + entry.terminal + " ] = " + entry.derivation);
             }
         }
     }
@@ -106,11 +107,13 @@ public class PreditiveTable {
          * @param  terminal Terminal - Simbolo terminal destino ex.: -> a
          * @param  derivation Derivation - Derivação
          */
-        public EntryTable(Variable variable, Terminal terminal, Derivation derivation) {
+        public EntryTable(Variable variable, Terminal terminal,
+                Derivation derivation) {
 
             //Se a origem da derivação não foi igual a variável
             if (!derivation.getSource().equals(variable)) {
-                throw new IllegalArgumentException("A variável deve ser a fonte da derivacão!");
+                throw new IllegalArgumentException("A variável deve ser "
+                        + "a fonte da derivacão!");
             }
             this.variable = variable;
             this.terminal = terminal;
