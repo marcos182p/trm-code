@@ -42,6 +42,8 @@ public class LexicalAnalyzer implements ILexical {
      * @return void
      */
     private void initLexicalAnalyzer() {
+
+
         Automaton automaton = AutomatonFactory.createAutomaton();
 
         String fileText = "";
