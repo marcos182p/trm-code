@@ -10,31 +10,24 @@ import trm.lexical.ILexical;
 import trm.lexical.LexicalAnalyzer;
 import trm.lexical.Token;
 import trm.lexical.TokenClass;
+import trm.syntactic.Instruction.InstructionType;
 
-/** Classe SyntacticAnalyser - Analisador Sintático da linguagem
- * @author TRM
- * @version 0.99
+/**
+ *
  */
 public class SyntacticAnalyser implements ISyntacticAnalyser {
 
     private Set<InstructionType> blocksType;
     private List<Instruction> instructions;
     /**
-     * Usado para registrar os blocos de código, com a finalidade de sabee
-     * o inicio e o final de cada um deles
+     * usado para registrar os blocos de código, sabe onde eles começão e
+     * terminam
      */
     private Stack<Instruction> blocks;
 
-    /** Construtor SyntacticAnalyser da Classe -
-     * Inicializa os atributos da classe com os valores necessários
-     */
     public SyntacticAnalyser() {
         instructions = new ArrayList<Instruction>();
 
-        /*
-         * Inicializa o blocks e adiciona os tipos de instruções de bloco
-         * existentes no Set
-         */
         blocks = new Stack<Instruction>();
         blocksType = new HashSet<InstructionType>() {
 
@@ -49,34 +42,22 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
     }
 
     @Override
-    /** Método que analisa determinada entidade.
-     * @param lexical ILexical - Analizador léxico
-     */
     public void parse(ILexical lexical) {
-
-        //Primeira chamada tem que ser a declaração de uma função
+        //primeira chamada de tem que ser a declaração de uma função
         Token token = null;
-
-        //Percorrer a lista de tokens até que não exista mais
         while ((token = lexical.nextToken()) != null) {
-            //Escolha do tokens
             switch (token.getTokenClass()) {
 
-                //Caso o token id
                 case TK_ID:
                     Instruction functionInstruction =
-                            new FunctionAnalyser(lexical).analyze(token);
+                            new FuncitionAnalayser(lexical).analyze(token);
 
                     saveInstruction(functionInstruction);
 
                     instruction(lexical);
                     break;
-
-                //Caso o token fim de arquivo
                 case TK_EOF:
                     break;
-
-                //Nenhum deles - Erro
                 default:
                     erro(token);
             }
@@ -84,50 +65,42 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
 
     }
 
-    /** Método que retorna a lista de instruções
-     * @return List<Instruction> - Lista de instruções
-     */
     public List<Instruction> getInstructions() {
         return Collections.unmodifiableList(instructions);
     }
 
-    /**
-     * Método que adiciona o bloco na pilha
-     */
     private void pushBlock() {
 
         int start = instructions.size() - 1;
 
         Instruction instruction = instructions.get(start);
         if (!blocksType.contains(instruction.getType())) {
-            throw new RuntimeException("Essa instrução não é de bloco!");
+            throw new RuntimeException("essa instrução não é de bloco");
         }
 
         blocks.push(instruction);
     }
 
     /**
-     * Metódo que marca o fim de um bloco de código
+     * metodo que marca o fim de um bloco de código
      */
     private void popBlock() {
 
-        //Ultima instrução do bloco
+        //ultima instrução do bloco
         int end = instructions.size();
 
-        //Instrução do inicio do bloco
+        //instrução do inicio do bloco
         Instruction startBlock = blocks.pop();
 
         if (startBlock == null) {
-            throw new RuntimeException("Erro no bloco de código!");
+            //TODO colocar informação sobre o erro
+            throw new RuntimeException("erro no bloco de codigo");
         }
 
         instructions.get(end - 1).setStart(startBlock.getStart());
         startBlock.setEnd(end);
     }
 
-    /** Método que salva uma instrução
-     * @param instruction Instruction - Instrução a ser salva
-     */
     private void saveInstruction(Instruction instruction) {
         instructions.add(instruction);
         instruction.setStart(instructions.size());
@@ -138,51 +111,42 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
 
     }
 
-    /** Método que pega a instrução e salva
-     * @param lexical ILexical - Analizador léxico
-     */
     private void instruction(ILexical lexical) {
         Token token = null;
 
         here:
         while ((token = lexical.nextToken()) != null) {
 
-            //Escolha da nova instrução
-            switch (token.getTokenClass()) {
 
-                //Caso return
+            switch (token.getTokenClass()) {
                 case TK_RETURN:
                     saveInstruction(new ReturnAnalayser(lexical).analyze(token));
                     break;
-
-                //Caso id
                 case TK_ID:
                     saveInstruction(
                             new CommandAnalyserImpl(lexical).analyze(token));
                     break;
-
-                //Caso for
                 case TK_FOR:
+//                    ((LexicalAnalyzer) lexical).putToken(token);
+                    //analisar se o 'for' é valido, marcar seu inicio
                     saveInstruction(new ForAnalayser(lexical).analyze(token));
+//                    saveInstruction(null);
                     break;
 
-                //Caso while
                 case TK_WHILE:
+                    //analisar se o 'while' é valido, marcar seu inicio
                     saveInstruction(new WhileAnalayser(lexical).analyze(token));
                     break;
-
-                //Caso if
                 case TK_IF:
+                    //analisar se o 'if' é valido, marcar seu inicio
                     saveInstruction(new IfAnalayser(lexical).analyze(token));
                     break;
-
-                //Caso else
                 case TK_ELSE:
+                    //analisar se o 'else' é valido, marcar seu inicio
                     saveInstruction(new ElseAnalayser(lexical).analyze(token));
                     break;
-
-                //Caso fecha chaves
                 case TK_CLOSE_CURLY_BRACKET:
+                    //verificar a quem ele pertecence
                     final Token temp = token;
                     saveInstruction(new Instruction(InstructionType.END_BLOCK,
                             new ArrayList<Token>() {
@@ -198,42 +162,29 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
                         break here;
                     }
                     break;
-
-                //Caso nenhum - Erro!
                 default:
                     erro(token);
             }
         }
+    //fazer analise do codigo dentro da função
+
     }
 
-    /** Método de erro
-     * @param token Token - Token que causou o erro
-     * @throws RuntimeException - Contendo a mensagem de erro
-     */
     private void erro(Token token) {
         throw new RuntimeException("erro no token " + token);
 
     }
 
-    /** Ponto de entrada do analizador sintático
-     * @param  args String[] - Argumentos que forem necessários (endereço do
-     * arquivo a ser compilado)
-     */
     public static void main(String[] args) {
-
-        //Instância o analizador sintático
+    
         SyntacticAnalyser syntacticAnalyser = new SyntacticAnalyser();
 
         //Instância o analizador léxico
-        LexicalAnalyzer lexical = new LexicalAnalyzer("src/serie_fibonnaci");
+        LexicalAnalyzer lexical = new LexicalAnalyzer("src/shellsort");
 
-        //Chama o analizador sintático para iniciar a análise
         syntacticAnalyser.parse(lexical);
 
-        //Percorrer a lista de instruções gerados e imprimi-las na tela
         for (Instruction instruction : syntacticAnalyser.getInstructions()) {
-
-            //Impressão na tela
             System.out.println("instruction type : " + instruction.getType());
             System.out.println("Start -> " + instruction.getStart());
             System.out.println("End -> " + instruction.getEnd());
@@ -241,203 +192,117 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
 
     }
 
-    /** Classe FunctionAnalyser - Implementação da classe CommandAnalyser -
-     * Responsável por analisar as funções da linguagem X
-     * @author TRM
-     * @version 0.99
+    /**
+     * analisa a declaração de uma função
      */
-    private static class FunctionAnalyser extends CommandAnalyser {
+    private static class FuncitionAnalayser extends CommandAnalyser {
 
-        /** Construtor FunctionAnalyser da Classe - Padrão
-         * Chama o construtor da superclasse e passa como parâmetro os valores
-         * recebidos como parâmetro e a classe do Token
-         * @param  lexical ILexical - Instância de um analisador léxico
-         */
-        public FunctionAnalyser(ILexical lexical) {
+        public FuncitionAnalayser(ILexical lexical) {
             super(TokenClass.TK_ID, lexical);
         }
 
         @Override
-        /** Método que analisa um token e retorna o tipo de instrução no qual ele
-         * pertence
-         * @param  token Token - Token a ser analisado
-         * @return InstructionType - Tipo de instrução do token
-         */
         protected InstructionType doAnalysis(Token token) {
 
             ((LexicalAnalyzer) lexical).putToken(token);
 
-            GLC glcFuntionDeclaration = GLCFactory.createGLCFuntionDeclaration();
+
+            GLC glcFuntionDeclaration = GLCFacotory.createGLCFuntionDeclaration();
             analysi(glcFuntionDeclaration, null, true, true);
 
             return InstructionType.FUNCTION;
         }
     }
 
-    /** Classe ForAnalayser - Implementação da classe CommandAnalyser -
-     * Responsável por analisar o comando for da linguagem X
-     * @author TRM
-     * @version 0.99
-     */
     private static class ForAnalayser extends CommandAnalyser {
 
-        /** Construtor ForAnalayser da Classe - Padrão
-         * Chama o construtor da superclasse e passa como parâmetro os valores
-         * recebidos como parâmetro e a classe do Token
-         * @param  lexical ILexical - Instância de um analisador léxico
-         */
         public ForAnalayser(ILexical lexical) {
             super(TokenClass.TK_FOR, lexical);
         }
 
         @Override
-        /** Método que analisa um token e retorna o tipo de instrução no qual ele
-         * pertence
-         * @param  token Token - Token a ser analisado
-         * @return InstructionType - Tipo de instrução do token
-         */
         protected InstructionType doAnalysis(Token token) {
 
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcForDeclaration = GLCFactory.createGLCFor();
+            GLC glcForDeclaration = GLCFacotory.createGLCFor();
             analysi(glcForDeclaration, null, true, true);
 
             return InstructionType.FOR;
         }
     }
 
-    /** Classe WhileAnalayser - Implementação da classe CommandAnalyser -
-     * Responsável por analisar o comando while da linguagem X
-     * @author TRM
-     * @version 0.99
-     */
     private static class WhileAnalayser extends CommandAnalyser {
 
-        /** Construtor WhileAnalayser da Classe - Padrão
-         * Chama o construtor da superclasse e passa como parâmetro os valores
-         * recebidos como parâmetro e a classe do Token
-         * @param  lexical ILexical - Instância de um analisador léxico
-         */
         public WhileAnalayser(ILexical lexical) {
             super(TokenClass.TK_WHILE, lexical);
         }
 
         @Override
-        /** Método que analisa um token e retorna o tipo de instrução no qual ele
-         * pertence
-         * @param  token Token - Token a ser analisado
-         * @return InstructionType - Tipo de instrução do token
-         */
         protected InstructionType doAnalysis(Token token) {
 
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcWhileDeclaration = GLCFactory.createGLCWhile();
+            GLC glcWhileDeclaration = GLCFacotory.createGLCWhile();
             analysi(glcWhileDeclaration, null, true, true);
 
             return InstructionType.WHILE;
         }
     }
 
-    /** Classe IfAnalayser - Implementação da classe CommandAnalyser -
-     * Responsável por analisar o comando if da linguagem X
-     * @author TRM
-     * @version 0.99
-     */
     private static class IfAnalayser extends CommandAnalyser {
 
-        /** Construtor IfAnalayser da Classe - Padrão
-         * Chama o construtor da superclasse e passa como parâmetro os valores
-         * recebidos como parâmetro e a classe do Token
-         * @param  lexical ILexical - Instância de um analisador léxico
-         */
         public IfAnalayser(ILexical lexical) {
             super(TokenClass.TK_IF, lexical);
         }
 
         @Override
-        /** Método que analisa um token e retorna o tipo de instrução no qual ele
-         * pertence
-         * @param  token Token - Token a ser analisado
-         * @return InstructionType - Tipo de instrução do token
-         */
         protected InstructionType doAnalysis(Token token) {
 
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcIfDeclaration = GLCFactory.createGLCIf();
+            GLC glcIfDeclaration = GLCFacotory.createGLCIf();
             analysi(glcIfDeclaration, null, true, true);
 
             return InstructionType.IF;
         }
     }
 
-    /** Classe ElseAnalayser - Implementação da classe CommandAnalyser -
-     * Responsável por analisar o comando else da linguagem X
-     * @author TRM
-     * @version 0.99
-     */
     private static class ElseAnalayser extends CommandAnalyser {
 
-        /** Construtor ElseAnalayser da Classe - Padrão
-         * Chama o construtor da superclasse e passa como parâmetro os valores
-         * recebidos como parâmetro e a classe do Token
-         * @param  lexical ILexical - Instância de um analisador léxico
-         */
         public ElseAnalayser(ILexical lexical) {
             super(TokenClass.TK_ELSE, lexical);
         }
 
         @Override
-        /** Método que analisa um token e retorna o tipo de instrução no qual ele
-         * pertence
-         * @param  token Token - Token a ser analisado
-         * @return InstructionType - Tipo de instrução do token
-         */
         protected InstructionType doAnalysis(Token token) {
 
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcElseDeclaration = GLCFactory.createGLCElse();
+            GLC glcElseDeclaration = GLCFacotory.createGLCElse();
             analysi(glcElseDeclaration, null, true, true);
 
             return InstructionType.ELSE;
         }
     }
 
-    /** Classe ReturnAnalayser - Implementação da classe CommandAnalyser -
-     * Responsável por analisar o comando return da linguagem X
-     * @author TRM
-     * @version 0.99
-     */
     private static class ReturnAnalayser extends CommandAnalyser {
 
-        /** Construtor ReturnAnalayser da Classe - Padrão
-         * Chama o construtor da superclasse e passa como parâmetro os valores
-         * recebidos como parâmetro e a classe do Token
-         * @param  lexical ILexical - Instância de um analisador léxico
-         */
         public ReturnAnalayser(ILexical lexical) {
             super(TokenClass.TK_RETURN, lexical);
         }
 
         @Override
-        /** Método que analisa um token e retorna o tipo de instrução no qual ele
-         * pertence
-         * @param  token Token - Token a ser analisado
-         * @return InstructionType - Tipo de instrução do token
-         */
         protected InstructionType doAnalysis(Token token) {
 
             ((LexicalAnalyzer) lexical).putToken(token);
 
 
-            GLC glcReturnDeclaration = GLCFactory.createGLCReturn();
+            GLC glcReturnDeclaration = GLCFacotory.createGLCReturn();
             analysiInstruction(glcReturnDeclaration);
 
             return InstructionType.RETURN;

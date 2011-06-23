@@ -14,7 +14,6 @@ public class LexicalAnalyzer implements ILexical {
 
     private String pathFile;
     private Recognizer recognizer;
-    private Queue<Token> tokensQueue = new ArrayDeque<Token>();
 
     /** Construtor LexicalAnalyzer da Classe -
      * Inicializa os atributos da classe com os valores recebidos
@@ -60,14 +59,13 @@ public class LexicalAnalyzer implements ILexical {
         fileText += " eof";
         recognizer = new Recognizer(automaton, fileText.toCharArray());
     }
-
-    /** Metodo que coloca um token na fila
-     * @param token Token - Token a ser inserido na fila
-     */
+    
+    private Queue<Token> tokensQueue = new ArrayDeque<Token>();
+    
     public void putToken(Token token) {
         tokensQueue.offer(token);
     }
-
+    
     /** Método que analisa o arquivo de entrada (programa)
      * @return Token - Proximo token Gerado
      * depois da análise lexica
@@ -77,7 +75,7 @@ public class LexicalAnalyzer implements ILexical {
         if (token == null) {
             token = recognizer.run();
         }
-
+        
         return token;
     }
 }
