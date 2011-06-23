@@ -8,8 +8,8 @@ import trm.lexical.TokenClass;
  *
  * @author Marcos
  */
-public class GLCFacotory {
-    
+public class GLCFactory {
+
     public static final Terminal OPEN_SQUARE_BRACKET = new Terminal(TokenClass.TK_OPEN_SQUARE_BRACKET);
     public static final Terminal CLOSE_SQUARE_BRACKET = new Terminal(TokenClass.TK_CLOSE_SQUARE_BRACKET);
     public static final Terminal OPEN_CURLY_BRACKET = new Terminal(TokenClass.TK_OPEN_CURLY_BRACKET);
@@ -39,7 +39,7 @@ public class GLCFacotory {
     public static final Terminal FOR = new Terminal(TokenClass.TK_FOR);
     public static final Terminal IN = new Terminal(TokenClass.TK_IN);
 
-    
+
     //operadores aritméticos----------------------------------------------------
     public static final Terminal OP_ADD = new Terminal(TokenClass.TK_ADD);
     public static final Terminal OP_SUB = new Terminal(TokenClass.TK_SUB);
@@ -56,30 +56,30 @@ public class GLCFacotory {
     public static final Terminal OP_MINOR_OR_EQUAL = new Terminal(TokenClass.TK_LESS_OR_EQUAL);
     public static final Terminal OP_MAJOR = new Terminal(TokenClass.TK_GREATER_THAN);
     public static final Terminal OP_MAJOR_OR_EQUAL = new Terminal(TokenClass.TK_GREATER_OR_EQUAL);
-    
+
     //operadoers logicos--------------------------------------------------------
     public static final Terminal OP_AND = new Terminal(TokenClass.TK_AND);
     public static final Terminal OP_OR = new Terminal(TokenClass.TK_OR);
     public static final Terminal OP_NOT = new Terminal(TokenClass.TK_NOT);
-    
+
     //variaveis-----------------------------------------------------------------
     public static final Variable CMD = new Variable("CMD");
     public static final Variable CTE = new Variable("cte");
     public static final Variable TIPO = new Variable("tipo");
-    
+
     public static final Variable DIM = new Variable("dim");
     public static final Variable DIM_TYPE = new Variable("dim_type");
     public static final Variable OPTIONAL_DIM = new Variable("[dim]");
     public static final Variable VAR = new Variable("var");
     public static final Variable VAR_IDS = new Variable("[,ids]");
     public static final Variable FUNC = new Variable("func");
-    
+
     public static final Variable PARAM = new Variable("param");
     public static final Variable OPTIONAL_PARAM = new Variable("[param]");
     public static final Variable OPTIONAL_DECLAR = new Variable("[declaration]");
     public static final Variable OPTIONAL_DECLAR_RETURN = new Variable("optional_declaration_return");
     public static final Variable OPTIONAL_RETURN = new Variable("[return]");
-    
+
     public static final Variable VALUE = new Variable("value");
     public static final Variable INDEX = new Variable("Index");
     public static final Variable INDEX_VAL = new Variable("Index_val");
@@ -88,14 +88,14 @@ public class GLCFacotory {
     public static final Variable FUNCTION_CALL = new Variable("func_call");
     public static final Variable INSTRUCTION = new Variable("instruction");
     public static final Variable INSTRUCTION_ = new Variable("instruction'");
-    
+
     public static final Variable INSTR_COND = new Variable("if");
     public static final Variable INSTR_ELSE = new Variable("else");
     public static final Variable OPTIONAL_ELSE = new Variable("[else]");
     public static final Variable REPEAT_ITER = new Variable("for");
     public static final Variable OPTIONAL_JUMP = new Variable("[jump]");
     public static final Variable REPEAT_COND = new Variable("while");
-    
+
     public static final Variable EXPR_LOG = new Variable("expr_log");
     public static final Variable MAIOR_PREC_LOG = new Variable("maior_prec_log");
     public static final Variable MENOR_PREC_LOG = new Variable("menor_prec_log");
@@ -104,12 +104,12 @@ public class GLCFacotory {
     public static final Variable OPTIONAL_MAIOR_PREC_OP_LOG = new Variable("[maior_prec_op_log]");
     public static final Variable MAIOR_PREC_UN_LOG = new Variable("maior_prec_un_log");
     public static final Variable AUX_EXPR_LOG = new Variable("(expr_log|expr_rel)");
-    
+
     public static final Variable EXPR_REL = new Variable("expr_rel");
     public static final Variable FIRST_ELEM = new Variable("first_elem");
     public static final Variable OPERATION = new Variable("operation");
     public static final Variable OPERATION_OPERATORS = new Variable("operators");
-    
+
     public static final Variable EXPR_ARIT = new Variable("expr_arit");
     public static final Variable MAIOR_PREC_ARIT = new Variable("maior_prec_arit");
     public static final Variable MENOR_PREC_ARIT = new Variable("menor_prec_arit");
@@ -120,9 +120,9 @@ public class GLCFacotory {
     public static final Variable OPTIONAL_MAIOR_PREC_OP_ARIT = new Variable("[maior_prec_op_arit]");
     public static final Variable MAIOR_PREC_UN_ARIT = new Variable("maior_prec_un_arit");
     public static final Variable MAIOR_PREC_UN_ARIT_OPERATORS = new Variable("maior_prec_un_arit_op");
-    
+
     public static final Variable EXPR = new Variable("expr");
-    
+
     public static final Variable ID_ = new Variable("id");
     /**
      * Gera uma gramatica que reconhece expressões aritimeticas, relacionais e
@@ -132,7 +132,7 @@ public class GLCFacotory {
         GLC glc = createGLCValue();
         glc.setInitialElement(EXPR);
         glc.addDerivation(new Derivation(EXPR, EXPR_LOG));
-        
+
         glc.addDerivation(new Derivation(EXPR_LOG, MAIOR_PREC_LOG, OPTIONAL_MENOR_PREC_LOG));
         glc.addDerivation(new Derivation(EXPR_LOG, BOOLEAN_CTE));
         glc.addDerivation(new Derivation(MENOR_PREC_LOG, OP_OR, MAIOR_PREC_LOG, OPTIONAL_MENOR_PREC_LOG));
@@ -141,8 +141,8 @@ public class GLCFacotory {
         glc.addDerivation(new Derivation(MAIOR_PREC_UN_LOG, OP_NOT, MAIOR_PREC_UN_LOG));
         glc.addDerivation(new Derivation(MAIOR_PREC_UN_LOG, EXPR_REL));
         glc.addDerivation(new Derivation(MAIOR_PREC_UN_LOG, BOOLEAN_CTE));
-        
-        
+
+
         glc.removeDerivation(new Derivation(CTE, BOOLEAN_CTE));
 
         glc.addDerivation(new Derivation(OPTIONAL_MENOR_PREC_LOG, MENOR_PREC_LOG));
@@ -151,9 +151,9 @@ public class GLCFacotory {
         glc.addDerivation(new Derivation(OPTIONAL_MAIOR_PREC_OP_LOG));
 //        glc.addDerivation(new Derivation(AUX_EXPR_LOG, EXPR_LOG));
 //        glc.addDerivation(new Derivation(AUX_EXPR_LOG, EXPR_REL));
-        
-        
-        
+
+
+
         glc.addDerivation(new Derivation(EXPR_REL, FIRST_ELEM, OPERATION));
         glc.addDerivation(new Derivation(OPERATION, OPERATION_OPERATORS, FIRST_ELEM));
         glc.addDerivation(new Derivation(OPERATION));
@@ -165,11 +165,11 @@ public class GLCFacotory {
         glc.addDerivation(new Derivation(OPERATION_OPERATORS, OP_MAJOR_OR_EQUAL));
         glc.addDerivation(new Derivation(OPERATION_OPERATORS, OP_EQUAL));
         glc.addDerivation(new Derivation(OPERATION_OPERATORS, OP_NOT_EQUAL));
-        
-        
+
+
         glc.addDerivation(new Derivation(EXPR_ARIT, MAIOR_PREC_ARIT, OPTIONAL_MENOR_PREC_ARIT));
         glc.addDerivation(new Derivation(MENOR_PREC_ARIT, MENOR_PREC_ARIT_OPERATORS, MAIOR_PREC_ARIT, OPTIONAL_MENOR_PREC_ARIT));
-        
+
         glc.addDerivation(new Derivation(MAIOR_PREC_ARIT, MAIOR_PREC_UN_ARIT, OPTIONAL_MAIOR_PREC_OP_ARIT));
         glc.addDerivation(new Derivation(MAIOR_PREC_OP_ARIT, MAIOR_PREC_OP_ARIT_OPERATORS, MAIOR_PREC_UN_ARIT, OPTIONAL_MAIOR_PREC_OP_ARIT));
 //        glc.addDerivation(new Derivation(MAIOR_PREC_UN_ARIT, MAIOR_PREC_UN_ARIT_OPERATORS, MAIOR_PREC_UN_ARIT));
@@ -188,12 +188,12 @@ public class GLCFacotory {
         glc.addDerivation(new Derivation(MAIOR_PREC_OP_ARIT_OPERATORS, OP_MOD));
 //        glc.addDerivation(new Derivation(MAIOR_PREC_UN_ARIT_OPERATORS, OP_POS));
 //        glc.addDerivation(new Derivation(MAIOR_PREC_UN_ARIT_OPERATORS, OP_NEG));
-        
+
 //        glc.setInitialElement(E);
-        
+
         return glc;
     }
-    
+
     public static GLC createGLCDeclaration() {
         GLC glc = createGLCExpression();
         glc.setInitialElement(VAR);
@@ -202,35 +202,35 @@ public class GLCFacotory {
         glc.addDerivation(new Derivation(DIM_TYPE, EXPR));
         glc.addDerivation(new Derivation(DIM_TYPE));
 //        glc.addDerivation(new Derivation(DIM_TYPE, INT_CTE));
-        
+
         glc.addDerivation(new Derivation(TIPO, REAL));
         glc.addDerivation(new Derivation(TIPO, INTEGER));
         glc.addDerivation(new Derivation(TIPO, CHARACTER));
         glc.addDerivation(new Derivation(TIPO, BOOLEAN));
-        
+
         glc.addDerivation(new Derivation(VAR, ID, VAR_IDS, COLON, TIPO, OPTIONAL_DIM));
         glc.addDerivation(new Derivation(VAR_IDS, COMMA, ID, VAR_IDS));
         glc.addDerivation(new Derivation(VAR_IDS));
         glc.addDerivation(new Derivation(OPTIONAL_DIM, DIM));
         glc.addDerivation(new Derivation(OPTIONAL_DIM));
-        
+
         return glc;
     }
-    
+
     public static GLC createGLCAtribuition() {
         GLC glc = createGLCExpression();
-        
+
         glc.addDerivation(new Derivation(ID_, ID, OPT_INDEX, ATTRIBUTION,
                 glc.getInitialElement()));
-        
-        
+
+
         glc.setInitialElement(ID_);
         return glc;
     }
-    
+
     public static GLC createGLCValue() {
         GLC glc = new GLC(VALUE);
-        
+
         glc.addDerivation(new Derivation(CTE, REAL_CTE));
         glc.addDerivation(new Derivation(CTE, INTEGER_CTE));
         glc.addDerivation(new Derivation(CTE, CHARACTER_CTE));
@@ -239,13 +239,13 @@ public class GLCFacotory {
 
         glc.addDerivation(new Derivation(VALUE, CTE));
         glc.addDerivation(new Derivation(VALUE, ID, OPT_INDEX));
-        
+
 //        glc.addDerivation(new Derivation(VALUE, FUNCTION_CALL)); //FIXME isso tem que ser ajeitado
         //chamada de função-----------------------------------------------------
-         
+
         glc.addDerivation(new Derivation(OPT_INDEX, FUNCTION_CALL));
 //        glc.addDerivation(new Derivation(OPT_INDEX, ));
-        
+
         glc.addDerivation(new Derivation(FUNCTION_CALL, OPEN_PARENTHESES,
                 OPTIONAL_PARAM, CLOSE_PARENTHESES));
         Variable temp = new Variable("optional_paran'");
@@ -276,9 +276,9 @@ public class GLCFacotory {
         return glc;
 
     }
-     
+
     public static GLC createGLCFuntionDeclaration() {
-        
+
         GLC glc = createGLCDeclaration();
         glc.setInitialElement(FUNC);
         //Func
@@ -287,16 +287,16 @@ public class GLCFacotory {
                 OPEN_CURLY_BRACKET));
 
         Variable VARS = new Variable("vars");
-        
+
         glc.addDerivation(new Derivation(OPTIONAL_DECLAR));
         glc.addDerivation(new Derivation(OPTIONAL_DECLAR, PARAM));
 
         glc.addDerivation(new Derivation(PARAM, VAR, VARS));
 
         glc.addDerivation(new Derivation(VARS));
-        
+
         glc.addDerivation(new Derivation(VARS, COMMA, PARAM));
-        
+
         glc.addDerivation(new Derivation(TIPO, VOID));
         glc.addDerivation(new Derivation(OPTIONAL_DECLAR_RETURN, COLON, TIPO));
         //TODO ele pode não ter retorno?
@@ -304,56 +304,56 @@ public class GLCFacotory {
 
         return glc;
     }
-    
+
     public static GLC createGLCFor() {
         GLC glc = createGLCExpression();
         glc.setInitialElement(REPEAT_ITER);
-        
-        glc.addDerivation(new Derivation(REPEAT_ITER, FOR, OPEN_PARENTHESES, 
+
+        glc.addDerivation(new Derivation(REPEAT_ITER, FOR, OPEN_PARENTHESES,
                 ID, IN, EXPR, OPTIONAL_JUMP, CLOSE_PARENTHESES,
                 OPEN_CURLY_BRACKET));
 
         glc.addDerivation(new Derivation(OPTIONAL_JUMP, COLON, EXPR));
         glc.addDerivation(new Derivation(OPTIONAL_JUMP));
-        
+
         return glc;
-    } 
-    
+    }
+
     public static GLC createGLCWhile() {
         GLC glc = createGLCExpression();
         glc.setInitialElement(REPEAT_COND);
-        
-        glc.addDerivation(new Derivation(REPEAT_COND, WHILE, OPEN_PARENTHESES, 
+
+        glc.addDerivation(new Derivation(REPEAT_COND, WHILE, OPEN_PARENTHESES,
                 EXPR, CLOSE_PARENTHESES, OPEN_CURLY_BRACKET));
-        
+
         return glc;
     }
-    
+
     public static GLC createGLCIf() {
         GLC glc = createGLCExpression();
-        
+
         glc.setInitialElement(INSTR_COND);
-        
-        glc.addDerivation(new Derivation(INSTR_COND, IF, OPEN_PARENTHESES, EXPR, 
+
+        glc.addDerivation(new Derivation(INSTR_COND, IF, OPEN_PARENTHESES, EXPR,
                 CLOSE_PARENTHESES, OPEN_CURLY_BRACKET));
-        
+
         return glc;
     }
-    
+
     public static GLC createGLCElse() {
-        
+
         GLC glc = createGLCExpression();
-        
+
         glc.setInitialElement(INSTR_ELSE);
-        
+
         glc.addDerivation(new Derivation(INSTR_ELSE, ELSE, OPEN_CURLY_BRACKET));
-        
+
         return glc;
     }
 
     public static GLC createGLCReturn() {
         GLC glc = createGLCExpression();
-        
+
         glc.setInitialElement(OPTIONAL_RETURN);
         Variable temp = new Variable("optional_expression");
 
@@ -362,7 +362,7 @@ public class GLCFacotory {
 
         glc.addDerivation(new Derivation(temp, EXPR));
         glc.addDerivation(new Derivation(temp));
-        
+
 
         return glc;
 
