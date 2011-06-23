@@ -193,13 +193,14 @@ public enum TokenClass {
      */
     TK_COMMA(true),
     /**
-     * Classe final de arquivo - unívoca
+     * final de arquivo
      */
     TK_EOF(true),
     /**
-     * Classe retorno de função - - unívoca
+     * retorno de função
      */
     TK_RETURN(true);
+    
     private boolean univoque;
 
     /** Construtor TokenClass da Enumeração -
