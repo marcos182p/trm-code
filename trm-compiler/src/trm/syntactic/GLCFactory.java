@@ -132,7 +132,7 @@ public class GLCFactory {
         glc.addDerivation(new Derivation(MAIOR_PREC_UN_LOG, OP_NOT, MAIOR_PREC_UN_LOG));
         glc.addDerivation(new Derivation(MAIOR_PREC_UN_LOG, EXPR_REL));
         glc.addDerivation(new Derivation(MAIOR_PREC_UN_LOG, BOOLEAN_CTE));
-        glc.addDerivation(new Derivation(CTE, BOOLEAN_CTE));
+        glc.removeDerivation(new Derivation(CTE, BOOLEAN_CTE));
         glc.addDerivation(new Derivation(OPTIONAL_MENOR_PREC_LOG, MENOR_PREC_LOG));
         glc.addDerivation(new Derivation(OPTIONAL_MENOR_PREC_LOG));
         glc.addDerivation(new Derivation(OPTIONAL_MAIOR_PREC_OP_LOG, MAIOR_PREC_OP_LOG));
