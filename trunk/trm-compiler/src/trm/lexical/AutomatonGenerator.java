@@ -58,19 +58,6 @@ public class AutomatonGenerator {
         }
     }
 
-//    public static void main(String[] args) throws IOException {
-//        String temp = " A -> A, white ".trim();
-//        for(String string:temp.split(",")) {
-//            System.out.println(string);
-//        }
-//        String temp = " - {\\}";
-//        TransitionGenarator.createRule(temp);
-//        System.out.println(temp.replace("{",  "").replace("}", ""));
-//        AutomatonGenerator generator = new AutomatonGenerator
-    //("src/exemplo_definicao_automato");
-//        generator.generate();
-//
-//    }
     /** Método que gera estados para o autômato automaticamente
      * @param  line String - Linha do arquivo de definição do
      * autõmato
