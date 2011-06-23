@@ -1,12 +1,11 @@
 package trm.syntactic;
 
-import trm.lexical.LexicalAnalyzer;
-import trm.lexical.Token;
 import trm.lexical.TokenClass;
 
-/**
- *
- * @author Marcos
+/** Classe GLCFactory - Classe responsável por
+ * criar a GLC que reconhecerá a linguagem
+ * @author TRM
+ * @version 0.99
  */
 public class GLCFactory {
 
@@ -38,8 +37,6 @@ public class GLCFactory {
     public static final Terminal WHILE = new Terminal(TokenClass.TK_WHILE);
     public static final Terminal FOR = new Terminal(TokenClass.TK_FOR);
     public static final Terminal IN = new Terminal(TokenClass.TK_IN);
-
-
     //operadores aritméticos----------------------------------------------------
     public static final Terminal OP_ADD = new Terminal(TokenClass.TK_ADD);
     public static final Terminal OP_SUB = new Terminal(TokenClass.TK_SUB);
@@ -48,7 +45,6 @@ public class GLCFactory {
     public static final Terminal OP_MOD = new Terminal(TokenClass.TK_MOD);
 //  Terminal OP_POS = new Terminal(TokenClass.TK_POSITIVE);
 //  Terminal OP_NEG = new Terminal(TokenClass.TK_NEGATIVE);
-
     //operadores relacionais----------------------------------------------------
     public static final Terminal OP_EQUAL = new Terminal(TokenClass.TK_EQUAL);
     public static final Terminal OP_NOT_EQUAL = new Terminal(TokenClass.TK_NOT_EQUAL);
@@ -56,30 +52,25 @@ public class GLCFactory {
     public static final Terminal OP_MINOR_OR_EQUAL = new Terminal(TokenClass.TK_LESS_OR_EQUAL);
     public static final Terminal OP_MAJOR = new Terminal(TokenClass.TK_GREATER_THAN);
     public static final Terminal OP_MAJOR_OR_EQUAL = new Terminal(TokenClass.TK_GREATER_OR_EQUAL);
-
     //operadoers logicos--------------------------------------------------------
     public static final Terminal OP_AND = new Terminal(TokenClass.TK_AND);
     public static final Terminal OP_OR = new Terminal(TokenClass.TK_OR);
     public static final Terminal OP_NOT = new Terminal(TokenClass.TK_NOT);
-
     //variaveis-----------------------------------------------------------------
     public static final Variable CMD = new Variable("CMD");
     public static final Variable CTE = new Variable("cte");
     public static final Variable TIPO = new Variable("tipo");
-
     public static final Variable DIM = new Variable("dim");
     public static final Variable DIM_TYPE = new Variable("dim_type");
     public static final Variable OPTIONAL_DIM = new Variable("[dim]");
     public static final Variable VAR = new Variable("var");
     public static final Variable VAR_IDS = new Variable("[,ids]");
     public static final Variable FUNC = new Variable("func");
-
     public static final Variable PARAM = new Variable("param");
     public static final Variable OPTIONAL_PARAM = new Variable("[param]");
     public static final Variable OPTIONAL_DECLAR = new Variable("[declaration]");
     public static final Variable OPTIONAL_DECLAR_RETURN = new Variable("optional_declaration_return");
     public static final Variable OPTIONAL_RETURN = new Variable("[return]");
-
     public static final Variable VALUE = new Variable("value");
     public static final Variable INDEX = new Variable("Index");
     public static final Variable INDEX_VAL = new Variable("Index_val");
@@ -88,14 +79,12 @@ public class GLCFactory {
     public static final Variable FUNCTION_CALL = new Variable("func_call");
     public static final Variable INSTRUCTION = new Variable("instruction");
     public static final Variable INSTRUCTION_ = new Variable("instruction'");
-
     public static final Variable INSTR_COND = new Variable("if");
     public static final Variable INSTR_ELSE = new Variable("else");
     public static final Variable OPTIONAL_ELSE = new Variable("[else]");
     public static final Variable REPEAT_ITER = new Variable("for");
     public static final Variable OPTIONAL_JUMP = new Variable("[jump]");
     public static final Variable REPEAT_COND = new Variable("while");
-
     public static final Variable EXPR_LOG = new Variable("expr_log");
     public static final Variable MAIOR_PREC_LOG = new Variable("maior_prec_log");
     public static final Variable MENOR_PREC_LOG = new Variable("menor_prec_log");
@@ -104,12 +93,10 @@ public class GLCFactory {
     public static final Variable OPTIONAL_MAIOR_PREC_OP_LOG = new Variable("[maior_prec_op_log]");
     public static final Variable MAIOR_PREC_UN_LOG = new Variable("maior_prec_un_log");
     public static final Variable AUX_EXPR_LOG = new Variable("(expr_log|expr_rel)");
-
     public static final Variable EXPR_REL = new Variable("expr_rel");
     public static final Variable FIRST_ELEM = new Variable("first_elem");
     public static final Variable OPERATION = new Variable("operation");
     public static final Variable OPERATION_OPERATORS = new Variable("operators");
-
     public static final Variable EXPR_ARIT = new Variable("expr_arit");
     public static final Variable MAIOR_PREC_ARIT = new Variable("maior_prec_arit");
     public static final Variable MENOR_PREC_ARIT = new Variable("menor_prec_arit");
@@ -120,13 +107,12 @@ public class GLCFactory {
     public static final Variable OPTIONAL_MAIOR_PREC_OP_ARIT = new Variable("[maior_prec_op_arit]");
     public static final Variable MAIOR_PREC_UN_ARIT = new Variable("maior_prec_un_arit");
     public static final Variable MAIOR_PREC_UN_ARIT_OPERATORS = new Variable("maior_prec_un_arit_op");
-
     public static final Variable EXPR = new Variable("expr");
-
     public static final Variable ID_ = new Variable("id");
-    /**
-     * Gera uma gramatica que reconhece expressões aritimeticas, relacionais e
-     * logicas
+
+    /** Método que gera uma GLC que reconhece expressões aritiméticas,
+     * relacionais e lógicas
+     * @return GLC - Instância da gramática
      */
     public static GLC createGLCExpression() {
         GLC glc = createGLCValue();
@@ -194,6 +180,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece declarações
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCDeclaration() {
         GLC glc = createGLCExpression();
         glc.setInitialElement(VAR);
@@ -217,6 +206,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece atribuições
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCAtribuition() {
         GLC glc = createGLCExpression();
 
@@ -228,6 +220,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece valores
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCValue() {
         GLC glc = new GLC(VALUE);
 
@@ -266,8 +261,9 @@ public class GLCFactory {
         glc.addDerivation(new Derivation(INDEX_VAL, EXPR)); //considerando que não tem uma expressão aritimetica
         return glc;
     }
-    /**
-     * considera que o token id ja foi lido! FIXME conserta isso
+
+    /** Método que gera uma GLC que reconhece chamada de funções
+     * @return GLC - Instância da gramática
      */
     public static GLC createGLCFunctionCall() {
         GLC glc = createGLCExpression();
@@ -277,6 +273,9 @@ public class GLCFactory {
 
     }
 
+    /** Método que gera uma GLC que reconhece declarações de funções
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCFuntionDeclaration() {
 
         GLC glc = createGLCDeclaration();
@@ -305,6 +304,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece o comando for
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCFor() {
         GLC glc = createGLCExpression();
         glc.setInitialElement(REPEAT_ITER);
@@ -319,6 +321,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece o comando while
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCWhile() {
         GLC glc = createGLCExpression();
         glc.setInitialElement(REPEAT_COND);
@@ -329,6 +334,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece o comando if
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCIf() {
         GLC glc = createGLCExpression();
 
@@ -340,6 +348,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece o comando else
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCElse() {
 
         GLC glc = createGLCExpression();
@@ -351,6 +362,9 @@ public class GLCFactory {
         return glc;
     }
 
+    /** Método que gera uma GLC que reconhece o return
+     * @return GLC - Instância da gramática
+     */
     public static GLC createGLCReturn() {
         GLC glc = createGLCExpression();
 
@@ -367,5 +381,4 @@ public class GLCFactory {
         return glc;
 
     }
-
 }
