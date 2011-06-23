@@ -1,3 +1,10 @@
+//Arquivo teste.x
+/** Teste - Arquivo para teste do analisador sintático
+ * @author TRM
+ * @version 0.1 Beta
+ *
+ */
+
 id(id, ia:integer[1], i:integer) : real { 
     if(i) {
     }
