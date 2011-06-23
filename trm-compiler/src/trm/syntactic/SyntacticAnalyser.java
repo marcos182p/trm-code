@@ -215,32 +215,6 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
 
     }
 
-    /** Ponto de entrada do analizador sintático
-     * @param  args String[] - Argumentos que forem necessários (endereço do
-     * arquivo a ser compilado)
-     */
-    public static void main(String[] args) {
-
-        //Instância o analizador sintático
-        SyntacticAnalyser syntacticAnalyser = new SyntacticAnalyser();
-
-        //Instância o analizador léxico
-        LexicalAnalyzer lexical = new LexicalAnalyzer("src/teste.x");
-
-        //Chama o analizador sintático para iniciar a análise
-        syntacticAnalyser.parse(lexical);
-
-        //Percorrer a lista de instruções gerados e imprimi-las na tela
-        for (Instruction instruction : syntacticAnalyser.getInstructions()) {
-
-            //Impressão na tela
-            System.out.println("instruction type : " + instruction.getType());
-            System.out.println("Start -> " + instruction.getStart());
-            System.out.println("End -> " + instruction.getEnd());
-        }
-
-    }
-
     /** Classe FunctionAnalyser - Implementação da classe CommandAnalyser -
      * Responsável por analisar as funções da linguagem X
      * @author TRM

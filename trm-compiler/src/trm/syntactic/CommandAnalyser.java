@@ -41,7 +41,8 @@ public abstract class CommandAnalyser {
 
         //Caso em que o token não pode ser avaliado
         if (!initial.equals(token.getTokenClass())) {
-            throw new RuntimeException("Metódo não responsável por analisar esse token!");
+            throw new RuntimeException("Metódo não responsável por analisar "
+                    + "esse token!");
         }
         tokens = new ArrayList<Token>();
 
