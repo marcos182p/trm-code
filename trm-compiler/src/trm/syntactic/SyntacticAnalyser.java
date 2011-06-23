@@ -166,7 +166,7 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
                     erro(token);
             }
         }
-    //fazer analise do codigo dentro da função
+        //fazer analise do codigo dentro da função
 
     }
 
@@ -176,19 +176,34 @@ public class SyntacticAnalyser implements ISyntacticAnalyser {
     }
 
     public static void main(String[] args) {
-    
+
         SyntacticAnalyser syntacticAnalyser = new SyntacticAnalyser();
 
         //Instância o analizador léxico
-        LexicalAnalyzer lexical = new LexicalAnalyzer("src/shellsort");
 
-        syntacticAnalyser.parse(lexical);
+        try {
+            LexicalAnalyzer lexical = new LexicalAnalyzer("src/shellsort");
+            syntacticAnalyser.parse(lexical);
 
-        for (Instruction instruction : syntacticAnalyser.getInstructions()) {
-            System.out.println("instruction type : " + instruction.getType());
-            System.out.println("Start -> " + instruction.getStart());
-            System.out.println("End -> " + instruction.getEnd());
+            LexicalAnalyzer lexical2 = new LexicalAnalyzer("src/alo_mundo");
+            syntacticAnalyser.parse(lexical2);
+
+            LexicalAnalyzer lexical3 = new LexicalAnalyzer("src/teste.x");
+            syntacticAnalyser.parse(lexical3);
+
+            LexicalAnalyzer lexical4 = new LexicalAnalyzer("src/serie_fibonnaci");
+            syntacticAnalyser.parse(lexical4);
+
+            System.out.println("ok");
+        } catch (Exception e) {
+            System.out.println("erro");
         }
+
+//        for (Instruction instruction : syntacticAnalyser.getInstructions()) {
+//            System.out.println("instruction type : " + instruction.getType());
+//            System.out.println("Start -> " + instruction.getStart());
+//            System.out.println("End -> " + instruction.getEnd());
+//        }
 
     }
 
