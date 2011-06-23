@@ -76,6 +76,6 @@ public class CommandAnalyserImpl extends CommandAnalyser {
                 erro();
         }
 
-        throw new RuntimeException("erro desconhecido");
+        throw new RuntimeException("Erro desconhecido!");
     }
 }
