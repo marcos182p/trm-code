@@ -5,7 +5,7 @@ package trm.core;
  * @author TRM
  * @version 0.99
  */
-public class Stone {
+public class Stone extends GameEntity {
 
     private SquareNumber squareLeft;
     private SquareNumber squareRight;
@@ -20,10 +20,14 @@ public class Stone {
     }
     
     public SquareNumber getSquareLeft() {
+        notifyObservers(findMethod(this, "getSquareLeft"));
+        
         return squareLeft;
     }
     
     public SquareNumber getSquareRight() {
+        notifyObservers(findMethod(this, "getSquareRight"));
+        
         return squareRight;
     }
     

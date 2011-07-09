@@ -10,12 +10,13 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import trm.core.lps.Observer;
 
 /** 
  * @author TRM
  * @version 0.99
  */
-public class DominoesGame {
+public class DominoesGame extends GameEntity {
     
     private enum Position {
 
@@ -31,7 +32,8 @@ public class DominoesGame {
     
     private HandPlayer winner;
     
-    public DominoesGame(List<Player> players) {
+    public DominoesGame(List<Player> players, Observer... observers) {
+        register(observers);
         
         if (players.size() > MAX_PLAYER || players.size() < MIN_PLAYER) {
             throw new RuntimeException("Numero de jogadores não permitidos.");
@@ -42,6 +44,11 @@ public class DominoesGame {
         
         for (Player player: players) {
             HandPlayer hand = createHandPlayer(player);
+            
+            hand.register(observers);
+            player.register(observers);
+            player.getInf().register(observers);
+            
             playersQueue.add(hand);
             playersMap.put(player, hand);
         }
@@ -51,7 +58,8 @@ public class DominoesGame {
     }
     //TODO olhar se estar valido
     public PlayerInf getWinner() {
-
+        notifyObservers(findMethod(this, "getWinner"));
+        
         if (!isLocked()) {
             return null;
         }
@@ -75,12 +83,16 @@ public class DominoesGame {
     }
 
     public List<Stone> getBoardStones() {
+        notifyObservers(findMethod(this, "getBoardStones"));
+        
         return Collections.unmodifiableList(gameStones);
     }
     /**
      * remove um jogador do jogo
      */
     public void removePlayer(Player player) {
+        notifyObservers(findMethod(this, "getBoardStones", Player.class));
+        
         HandPlayer hand = null;
         for (HandPlayer h: playersQueue) {
             if (player.equals(h.getPlayer())) {
@@ -95,11 +107,12 @@ public class DominoesGame {
     
     //TODO refatorar!
     public void putLeft(Stone stone, Player player) {
+        notifyObservers(findMethod(this, "putLeft", Stone.class, Player.class));
         
-         if (!isPlaying(player)) {
+        if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
         }
-        
+
         if (!isValidPlayed(stone.getSquareRight(), Position.LEFT)) {
             if (!isValidPlayed(stone.getSquareLeft(), Position.LEFT)) {
                 throw new RuntimeException("Impossivel colocar peça");
@@ -150,7 +163,8 @@ public class DominoesGame {
 
     //TODO refatorar!
     public void putRight(Stone stone, Player player) {
-
+        notifyObservers(findMethod(this, "putRight", Stone.class, Player.class));
+        
          if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
         }
@@ -167,7 +181,8 @@ public class DominoesGame {
     }
     
     public void putPass(Player player) {
-
+        notifyObservers(findMethod(this, "putPass", Player.class));
+        
         if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
         }
@@ -201,6 +216,8 @@ public class DominoesGame {
     }
     
     public HandPlayer getHandPlayer(Player player) {
+        notifyObservers(findMethod(this, "getHandPlayer", Player.class));
+        
         return playersMap.get(player);
     }
 
@@ -230,6 +247,8 @@ public class DominoesGame {
     }
 
     public List<Player> getPlayers() {
+        notifyObservers(findMethod(this, "getPlayers"));
+        
         List<Player> players = new ArrayList<Player>();
 
         for (HandPlayer hand: playersQueue) {
@@ -262,6 +281,9 @@ public class DominoesGame {
             if (!stonesUseds.contains(stone) && !stonesUseds.contains(inverseStone)) {
                 if (!stones.contains(stone) && !stones.contains(inverseStone)) {
                     stones.add(stone);
+                    
+                    stone.register(observers);
+                    
                     stonesUseds.add(stone);
                 }
             }
