@@ -4,7 +4,7 @@ package trm.core;
  * @author TRM
  * @version 0.99
  */
-public class PlayerInf {
+public class PlayerInf extends GameEntity {
     
     private Long id;
     private String nickName;
@@ -25,17 +25,20 @@ public class PlayerInf {
     }
     
     public Long getId() {
+        notifyObservers(findMethod(this, "getId"));
         return id;
     }
     
     public String getNickName() {
+        notifyObservers(findMethod(this, "getNickName"));
         return nickName;
     }
 
     public boolean isOwner() {
+        notifyObservers(findMethod(this, "isOwner"));
         return owner;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
