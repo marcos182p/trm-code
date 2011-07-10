@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import trm.core.DominoesGame;
-import trm.core.GameEntity;
 import trm.core.Movement;
 import trm.core.Player;
 import trm.core.PlayerInf;
 import trm.core.Stone;
+import trm.core.lps.StackUtil;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.server.ServerTask;
 
@@ -20,7 +20,7 @@ import trm.net.server.ServerTask;
  * @author TRM
  * @version 0.99
  */
-public class RoomGame extends GameEntity {
+public class RoomGame {
 
     private String roomName;
     private DominoesGame dominoesGame;
@@ -34,20 +34,14 @@ public class RoomGame extends GameEntity {
     }
     
     public RoomInf getRoomInf() {
-        notifyObservers(findMethod(this, "getRoomInf"));
-        
         return new RoomInf(roomName, tasks.size(), started);
     }
 
-
     public String getRoomGame() {
-        notifyObservers(findMethod(this, "getRoomGame"));
-        
         return roomName;
     }
 
     public List<Stone> getHandPlayer(Player player) {
-        notifyObservers(findMethod(this, "getHandPlayer", Player.class));
         
         if (!isStarted()) {
             throw new RuntimeException("Jogo não iniciado");
@@ -57,7 +51,6 @@ public class RoomGame extends GameEntity {
     }
     
     public List<Stone> getBoardStones() {
-        notifyObservers(findMethod(this, "getBoardStones"));
         
         if (!isStarted()) {
             throw new RuntimeException("Jogo não iniciado");
@@ -67,21 +60,16 @@ public class RoomGame extends GameEntity {
     }
     
     void putLeft(Stone stone, ServerTask player) {
-        notifyObservers(findDeclaredMethod(this, "putLeft", Stone.class, 
-                ServerTask.class));
         
         runMovement(new Movement(stone, Movement.Action.PUT_LEFT), player);
     }
     
     void putRight(Stone stone, ServerTask player) {
-        notifyObservers(findDeclaredMethod(this, "putRight", Stone.class, 
-                ServerTask.class));
         
         runMovement(new Movement(stone, Movement.Action.PUT_RIGHT), player);
     }
     
     void putPass(ServerTask player) {
-        notifyObservers(findDeclaredMethod(this, "putPass", ServerTask.class));
         
         runMovement(new Movement(null, Movement.Action.PASS), player);
     }
@@ -114,7 +102,6 @@ public class RoomGame extends GameEntity {
     }
     
     void startGame(ServerTask owner) {
-        notifyObservers(findDeclaredMethod(this, "startGame", ServerTask.class));
 
         if (started) {
             throw new RuntimeException("jogo na sala : " + roomName +
@@ -144,7 +131,8 @@ public class RoomGame extends GameEntity {
     
     //TODO nem todos os usarios podem dar o stopGame
     void stopGame() {
-        notifyObservers(findDeclaredMethod(this, "stopGame"));
+        
+        StackUtil.printStack();
         
         if (!started) return;
         resetPlayers();
@@ -154,7 +142,6 @@ public class RoomGame extends GameEntity {
 
 
     public PlayerInf getWinner() {
-        notifyObservers(findMethod(this, "getWinner"));
         
         return dominoesGame.getWinner();
     }
@@ -166,13 +153,11 @@ public class RoomGame extends GameEntity {
     }
 
     public boolean isStarted() {
-        notifyObservers(findMethod(this, "isStarted"));
         
         return started;
     }
 
     void removeServerTask(ServerTask task) {
-        notifyObservers(findDeclaredMethod(this, "removeServerTask", ServerTask.class));
         
         if (!tasks.contains(task)) {
             throw new RuntimeException("task não pertecente a essa sala");
@@ -180,6 +165,9 @@ public class RoomGame extends GameEntity {
         if (dominoesGame != null) {
             dominoesGame.removePlayer(task.getPlayer());
         }
+        
+        StackUtil.printStack() ;
+        
         tasks.remove(task);
     }
     public static void main(String[] args) throws NoSuchMethodException {
@@ -194,7 +182,6 @@ public class RoomGame extends GameEntity {
     }
     
      void putServerTask(ServerTask task) {
-        notifyObservers(findDeclaredMethod(this, "putServerTask", ServerTask.class));
         
         if (tasks.size() >= DominoesGame.MAX_PLAYER) {
             throw new RuntimeException("Numero maximo de jogadores atigindos");
@@ -204,11 +191,12 @@ public class RoomGame extends GameEntity {
             throw new RuntimeException("jogo já esta em execução");
         }
 
+        StackUtil.printStack() ;
+        
         tasks.add(task);
     }
     //TODO refatorar
     List<PlayerInf> getPlayers() {
-        notifyObservers(findDeclaredMethod(this, "getPlayers"));
         
         List<PlayerInf> players = new ArrayList<PlayerInf>();
         if (!isStarted()) {
@@ -232,9 +220,7 @@ public class RoomGame extends GameEntity {
 
     void broadcast(ResponseServer message, ServerTask... excluded) {
         //TODO isso funciona??
-        notifyObservers(findDeclaredMethod(this, "broadcast", ResponseServer.class, 
-                excluded.getClass()));
-        
+
         List<ServerTask> excludedList = Arrays.asList(excluded);
         try {
             for (ServerTask user : tasks) {
@@ -247,6 +233,8 @@ public class RoomGame extends GameEntity {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        
+        StackUtil.printStack() ;
     }
 
     @Override

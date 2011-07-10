@@ -26,7 +26,7 @@ public class ReceiverImpl<Message> implements Receiver<Message> {
             throw new IOException("conexão fechada!");
         }
         
-        Logger.getLogger(ReceiverImpl.class.getName()).log(Level.INFO, "receive {0}", line);
+//        Logger.getLogger(ReceiverImpl.class.getName()).log(Level.INFO, "receive {0}", line);
 
         return parserMessage.parseMessage(line);
     }

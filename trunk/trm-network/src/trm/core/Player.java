@@ -4,7 +4,7 @@ package trm.core;
  * @author TRM
  * @version 0.99
  */
-public class Player extends GameEntity {
+public class Player  {
 
     private PlayerInf inf;
 
@@ -17,7 +17,6 @@ public class Player extends GameEntity {
     }
 
     public PlayerInf getInf() {
-        notifyObservers(findMethod(this, "getInf"));
         
         return inf;
     }
