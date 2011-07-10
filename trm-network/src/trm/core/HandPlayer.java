@@ -10,7 +10,7 @@ import java.util.Set;
  * @author TRM
  * @version 0.99
  */
-public class HandPlayer extends GameEntity {
+public class HandPlayer {
     
     public static final int INITIAL_STONES = 7;
     
@@ -51,21 +51,18 @@ public class HandPlayer extends GameEntity {
     }
     
     public List<Stone> getStones() {
-        notifyObservers(findMethod(this, "getStones"));
         
         return Collections.unmodifiableList(new ArrayList<Stone>(stones));
     }
 
     public int getScore() {
-        notifyObservers(findMethod(this, "getScore"));
         
         return score;
     }
     
     // TODO Fazer verificação de uma forma melhor.
     public boolean containsStone(Stone stone) {
-        notifyObservers(findMethod(this, "containsStone", Stone.class));
-        
+
         for (Stone s : stones) {
             if (s.equals(stone)) {
                 return true;
@@ -80,8 +77,7 @@ public class HandPlayer extends GameEntity {
     }
     
     public Player getPlayer() {
-        notifyObservers(findMethod(this, "getPlayer"));
-        
+
         return player;
     }
     

@@ -64,7 +64,7 @@ public class ServerTask implements Runnable {
             
 
             handler = new RequestHandlerImpl(this);
-            
+
             while (!socket.isClosed() && !response.isCloseConnection()) {
                 request = receiveRequest();
                 response = handler.handle(request);

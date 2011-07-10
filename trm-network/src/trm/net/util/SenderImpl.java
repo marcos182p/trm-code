@@ -23,7 +23,7 @@ public class SenderImpl<Message> implements Sender<Message> {
     @Override
     public void send(Message message) throws IOException {
         String msg = parserMessage.buildMessage(message);
-        Logger.getLogger(SenderImpl.class.getName()).log(Level.INFO, "send {0}", msg);
+//        Logger.getLogger(SenderImpl.class.getName()).log(Level.INFO, "send {0}", msg);
         writer.println(msg);
         writer.flush();
     }

@@ -7,16 +7,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
-import trm.core.lps.Observer;
+import trm.core.lps.StackUtil;
 
 /** 
  * @author TRM
  * @version 0.99
  */
-public class DominoesGame extends GameEntity {
+public class DominoesGame {
     
     private enum Position {
 
@@ -33,7 +34,6 @@ public class DominoesGame extends GameEntity {
     private HandPlayer winner;
     
     public DominoesGame(List<Player> players, Observer... observers) {
-        register(observers);
         
         if (players.size() > MAX_PLAYER || players.size() < MIN_PLAYER) {
             throw new RuntimeException("Numero de jogadores não permitidos.");
@@ -45,20 +45,17 @@ public class DominoesGame extends GameEntity {
         for (Player player: players) {
             HandPlayer hand = createHandPlayer(player);
             
-            hand.register(observers);
-            player.register(observers);
-            player.getInf().register(observers);
-            
             playersQueue.add(hand);
             playersMap.put(player, hand);
         }
         
         this.gameStones = new ArrayList<Stone>();
         this.winner = null;
+        
+        StackUtil.printStack() ;
     }
     //TODO olhar se estar valido
     public PlayerInf getWinner() {
-        notifyObservers(findMethod(this, "getWinner"));
         
         if (!isLocked()) {
             return null;
@@ -78,21 +75,21 @@ public class DominoesGame extends GameEntity {
             }
         }
 
-
+        StackUtil.printStack();
+        
         return winner.getPlayer().getInf();
     }
 
     public List<Stone> getBoardStones() {
-        notifyObservers(findMethod(this, "getBoardStones"));
-        
+
+        StackUtil.printStack();
         return Collections.unmodifiableList(gameStones);
     }
     /**
      * remove um jogador do jogo
      */
     public void removePlayer(Player player) {
-        notifyObservers(findMethod(this, "getBoardStones", Player.class));
-        
+
         HandPlayer hand = null;
         for (HandPlayer h: playersQueue) {
             if (player.equals(h.getPlayer())) {
@@ -102,12 +99,13 @@ public class DominoesGame extends GameEntity {
                 
         }
         playersQueue.remove(hand);
+        
+        StackUtil.printStack();
     }
     
     
     //TODO refatorar!
     public void putLeft(Stone stone, Player player) {
-        notifyObservers(findMethod(this, "putLeft", Stone.class, Player.class));
         
         if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
@@ -163,7 +161,6 @@ public class DominoesGame extends GameEntity {
 
     //TODO refatorar!
     public void putRight(Stone stone, Player player) {
-        notifyObservers(findMethod(this, "putRight", Stone.class, Player.class));
         
          if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
@@ -181,7 +178,6 @@ public class DominoesGame extends GameEntity {
     }
     
     public void putPass(Player player) {
-        notifyObservers(findMethod(this, "putPass", Player.class));
         
         if (!isPlaying(player)) {
             throw new RuntimeException("Não é a vez desse jogador");
@@ -216,7 +212,8 @@ public class DominoesGame extends GameEntity {
     }
     
     public HandPlayer getHandPlayer(Player player) {
-        notifyObservers(findMethod(this, "getHandPlayer", Player.class));
+
+        StackUtil.printStack();
         
         return playersMap.get(player);
     }
@@ -243,17 +240,20 @@ public class DominoesGame extends GameEntity {
         if (getHandPlayer(player).getStones().isEmpty()) {
             winner = getHandPlayer(player);
         }
+        
+        StackUtil.printStack();
 
     }
 
     public List<Player> getPlayers() {
-        notifyObservers(findMethod(this, "getPlayers"));
-        
+
         List<Player> players = new ArrayList<Player>();
 
         for (HandPlayer hand: playersQueue) {
             players.add(hand.getPlayer());
         }
+        
+        StackUtil.printStack() ;
         return players;
     }
 
@@ -281,8 +281,6 @@ public class DominoesGame extends GameEntity {
             if (!stonesUseds.contains(stone) && !stonesUseds.contains(inverseStone)) {
                 if (!stones.contains(stone) && !stones.contains(inverseStone)) {
                     stones.add(stone);
-                    
-                    stone.register(observers);
                     
                     stonesUseds.add(stone);
                 }
