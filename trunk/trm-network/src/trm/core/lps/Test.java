@@ -1,7 +1,7 @@
 package trm.core.lps;
 
 import java.lang.reflect.Method;
-import trm.net.server.game.PlayerServer;
+import trm.core.Player;
 
 /**
  *
@@ -10,12 +10,14 @@ import trm.net.server.game.PlayerServer;
 public class Test {
     public static void main(String[] args) throws Exception {
 //        
-        Class c = PlayerServer.class;
+        Class c = Player.class;
 //        Method method = c.getDeclaredMethod("getInf");
         
         for (Method m: c.getMethods()) {
             System.out.println(m);
         }
+        
+        System.out.println(Class.forName("trm.core.Player").equals(c));
 //        
 //        
 //        System.out.println(method);

@@ -1,11 +1,15 @@
 package trm.net.client;
 
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Random;
+import trm.core.lps.StackUtil;
 import trm.net.model.InvalidMessageException;
 import trm.net.model.Receiver;
 import trm.net.model.Sender;
@@ -22,7 +26,9 @@ import static java.util.logging.Logger.*;
  * @version 0.99
  */
 public class ClientTask implements Runnable {
-
+    
+    private long nextId;
+    
     private String nickName;
     
     private Socket socket;
@@ -31,7 +37,9 @@ public class ClientTask implements Runnable {
     private Receiver<ResponseServer> receiver;
     
     private Map<RequestType, List<Listener>> listenersMap;
-
+    
+    private InteractionListener stackManager;
+    
     public ClientTask(String nickName, Socket socket) throws IOException {
 
         this.nickName = nickName;
@@ -42,6 +50,10 @@ public class ClientTask implements Runnable {
         this.receiver = createReceiverServer(socket);
 
         listenersMap = new EnumMap<RequestType, List<Listener>>(RequestType.class);
+
+        nextId = new Random().nextInt();
+        
+        stackManager = new InteractionListener(this);
     }
 
     public Sender<RequestClient> getSender() {
@@ -66,6 +78,8 @@ public class ClientTask implements Runnable {
     }
 
     public void sendRequest(RequestClient request) throws IOException {
+        request.id = nextId++;
+        stackManager.register(request.id);
         sender.send(request);
     }
 
@@ -105,4 +119,6 @@ public class ClientTask implements Runnable {
         socket.close();
 
     }
+    
+   
 }

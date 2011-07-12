@@ -11,7 +11,7 @@ import java.util.TreeSet;
 import trm.core.PlayerInf;
 import trm.core.Stone;
 import trm.core.Movement;
-import trm.core.lps.StackUtil;
+import trm.core.lps.Event;
 import trm.net.model.protocol.RequestType;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.model.protocol.ResponseType;
@@ -45,7 +45,6 @@ public class GameManager {
                 new PlayerInf(lastPlayerId++, nickName));
 
         players.add(player);
-        StackUtil.printStack() ;
         return player;
     }
 
@@ -57,8 +56,7 @@ public class GameManager {
         }
         
         rooms.add(roomGame);
-        StackUtil.printStack();
-        
+
         return roomGame.getRoomInf();
     }
 
@@ -69,7 +67,6 @@ public class GameManager {
             throw new RuntimeException("Usuario não está em uma sala.Logo não"
                     + " pode listar usuarios de sala.");
         }
-        StackUtil.printStack();
         return room.getPlayers();
     }
 
@@ -115,18 +112,15 @@ public class GameManager {
             roomInfs.add(room.getRoomInf());
         }
         
-        StackUtil.printStack();
         
         return roomInfs;
     }
     
     public Set<PlayerServer> findAllPlayers() {
-        StackUtil.printStack();
         return players;
     }
 
     public RoomGame findRoomByName(String roomName) {
-        StackUtil.printStack();
 
         for (RoomGame room : rooms) {
             if (room.getRoomGame().equals(roomName)) {
@@ -203,9 +197,7 @@ public class GameManager {
         
         if (room != null) {
             removePlayerRoom(player);
-        } else {
-            StackUtil.printStack();
-        }
+        } 
         
         players.remove(player.getPlayer());
     }
@@ -290,6 +282,8 @@ public class GameManager {
                 serverTask.getPlayer());
         
         room.broadcast(response, serverTask);
+        //TODO melhorar
+        serverTask.getPlayer().notifyObservers(Event.MESSAGE);
         
     }
 
