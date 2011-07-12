@@ -12,7 +12,7 @@ import trm.core.Movement;
 import trm.core.Player;
 import trm.core.PlayerInf;
 import trm.core.Stone;
-import trm.core.lps.StackUtil;
+import trm.core.lps.Event;
 import trm.net.model.protocol.ResponseServer;
 import trm.net.server.ServerTask;
 
@@ -127,12 +127,11 @@ public class RoomGame {
             resetPlayers();
             throw new RuntimeException(e.getMessage());
         }
+        owner.getPlayer().notifyObservers(Event.START);
     }
     
     //TODO nem todos os usarios podem dar o stopGame
     void stopGame() {
-        
-        StackUtil.printStack();
         
         if (!started) return;
         resetPlayers();
@@ -166,8 +165,6 @@ public class RoomGame {
             dominoesGame.removePlayer(task.getPlayer());
         }
         
-        StackUtil.printStack() ;
-        
         tasks.remove(task);
     }
     public static void main(String[] args) throws NoSuchMethodException {
@@ -191,8 +188,6 @@ public class RoomGame {
             throw new RuntimeException("jogo já esta em execução");
         }
 
-        StackUtil.printStack() ;
-        
         tasks.add(task);
     }
     //TODO refatorar
@@ -234,7 +229,6 @@ public class RoomGame {
             throw new RuntimeException(ex);
         }
         
-        StackUtil.printStack() ;
     }
 
     @Override

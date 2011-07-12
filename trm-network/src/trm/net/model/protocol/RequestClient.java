@@ -13,7 +13,11 @@ import trm.net.util.ParserMessage;
  * @version 0.99
  */
 public class RequestClient {
-
+    
+    /**
+     * identificador da mensagem do cliente
+     */
+    public long id;
     /**
      * tipo de requisição
      */

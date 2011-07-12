@@ -1,10 +1,14 @@
 package trm.core;
 
+import trm.core.lps.Event;
+import trm.core.lps.Observer;
+import trm.core.lps.ObserverManager;
+
 /**
  * @author TRM
  * @version 0.99
  */
-public class Player  {
+public class Player extends GameEntity {
 
     private PlayerInf inf;
 
@@ -13,7 +17,13 @@ public class Player  {
     }
     
     public Player(PlayerInf inf) {
+        
         this.inf = inf;
+        
+        Observer observer = ObserverManager.getObserverManager().get(this);
+        registerObserver(observer);
+        
+        notifyObservers(Event.CREATION);
     }
 
     public PlayerInf getInf() {

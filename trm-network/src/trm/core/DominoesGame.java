@@ -11,7 +11,7 @@ import java.util.Observer;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
-import trm.core.lps.StackUtil;
+import trm.core.lps.Event;
 
 /** 
  * @author TRM
@@ -52,7 +52,6 @@ public class DominoesGame {
         this.gameStones = new ArrayList<Stone>();
         this.winner = null;
         
-        StackUtil.printStack() ;
     }
     //TODO olhar se estar valido
     public PlayerInf getWinner() {
@@ -75,14 +74,12 @@ public class DominoesGame {
             }
         }
 
-        StackUtil.printStack();
         
         return winner.getPlayer().getInf();
     }
 
     public List<Stone> getBoardStones() {
 
-        StackUtil.printStack();
         return Collections.unmodifiableList(gameStones);
     }
     /**
@@ -100,7 +97,6 @@ public class DominoesGame {
         }
         playersQueue.remove(hand);
         
-        StackUtil.printStack();
     }
     
     
@@ -213,7 +209,6 @@ public class DominoesGame {
     
     public HandPlayer getHandPlayer(Player player) {
 
-        StackUtil.printStack();
         
         return playersMap.get(player);
     }
@@ -241,7 +236,7 @@ public class DominoesGame {
             winner = getHandPlayer(player);
         }
         
-        StackUtil.printStack();
+        player.notifyObservers(Event.PLAY);
 
     }
 
@@ -253,7 +248,6 @@ public class DominoesGame {
             players.add(hand.getPlayer());
         }
         
-        StackUtil.printStack() ;
         return players;
     }
 

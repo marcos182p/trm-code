@@ -12,7 +12,10 @@ import trm.net.server.game.RoomInf;
  * @version 0.99
  */
 public class ResponseServer {
-
+    /**
+     * id da requisição do cliente
+     */
+    public long id;
     /**
      * se for ACK essa resposta é de confirmação de uma requisição, se for
      * ERRO é uma mensagem avisando que ouve um erro no formato da mensage 
@@ -56,6 +59,10 @@ public class ResponseServer {
      * jogadores que estão no jogo.
      */
     public List<PlayerInf> playersInGame;
+    /**
+     * pilha de execução do servidor
+     */
+    public List<StackTraceElement> stack;
 
     public ResponseServer() {
     }

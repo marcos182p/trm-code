@@ -1,6 +1,8 @@
 package trm.net.server;
 
 import java.util.logging.Logger;
+import trm.core.lps.ObserverManager;
+import trm.core.lps.StackUtil;
 import trm.net.server.game.GameAction;
 import trm.net.model.protocol.RequestClient;
 import trm.net.model.protocol.ResponseServer;
@@ -83,15 +85,21 @@ public class RequestHandlerImpl extends RequestHandler {
                     
             }
             
+            ObserverManager om = ObserverManager.getObserverManager();
+            
+            response.stack = om.get(serverTask.getPlayer()).getLastStack();
+            
         } catch (Exception e) {
             response = new ResponseServer(ResponseType.ERRO, request.requestType);
             response.erroMessage = e.getMessage();
             //TODO colocar sistema de log.
             e.printStackTrace();
+            response.stack = StackUtil.filterStack(e.getStackTrace());
 //            LOGGER.log(Level.WARNING, "" + response.erroMessage);
         }
 
         response.player = serverTask.getPlayer().getInf();
+        response.id = request.id;
         
         return response;
     }

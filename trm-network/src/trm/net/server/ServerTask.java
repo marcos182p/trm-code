@@ -1,10 +1,12 @@
 package trm.net.server;
 
+import trm.core.lps.ObserverManager;
 import trm.net.server.game.PlayerServer;
 import trm.net.server.game.GameManager;
 import trm.net.model.InvalidMessageException;
 import java.io.IOException;
 import java.net.Socket;
+import trm.core.lps.StackUtil;
 import trm.net.model.Receiver;
 import trm.net.model.Sender;
 import trm.net.model.protocol.RequestClient;
@@ -137,10 +139,17 @@ public class ServerTask implements Runnable {
             response = new ResponseServer(ResponseType.ACK, RequestType.LOGIN);
             response.player = player.getInf();
 
+            ObserverManager om = ObserverManager.getObserverManager();
+
+            response.stack = om.get(getPlayer()).getLastStack();
+
         } else {
             response = ResponseServer.createResponseErro(
                     "Nome de usuario não valido", RequestType.LOGIN);
+            response.stack = StackUtil.filterStack(new Exception().getStackTrace());
         }
+        response.id = request.id;
+
         return response;
     }
 
