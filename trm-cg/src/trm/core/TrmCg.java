@@ -1,7 +1,10 @@
 package trm.core;
 
 import com.sun.opengl.util.Animator;
+import java.awt.Color;
 import java.awt.Frame;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.media.opengl.DebugGL2;
@@ -12,7 +15,6 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
-
 
 /**
  * @author Brian Paul
@@ -38,7 +40,20 @@ public class TrmCg implements GLEventListener {
 
         canvas.addGLEventListener(new TrmCg());
         frame.add(canvas);
+        frame.addKeyListener(new KeyListener() {
 
+            public void keyTyped(KeyEvent ke) {
+                System.out.println("keyTyped");
+            }
+
+            public void keyPressed(KeyEvent ke) {
+                System.out.println("keyPressed");
+            }
+
+            public void keyReleased(KeyEvent ke) {
+                System.out.println("keyReleased");
+            }
+        });
         // use JOGL's Animator utility for rendering
         final Animator animator = new Animator(canvas);
 
@@ -68,18 +83,48 @@ public class TrmCg implements GLEventListener {
     }
 
     // GLEventListener methods
-
     public void init(GLAutoDrawable drawable) {
+        
+        final float light_ambient[] = {0.1f, 0.1f, 0.1f, 1.0f};
+        
+        final float light_diffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        
+        final float light_specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        
+        final float light_position[] = {0.0f, 1.1f, -6.0f, 1.0f};
 
+        
+        final float mat_ambient[] = {0.7f, 0.7f, 0.7f, 1.0f};
+        
+        final float mat_diffuse[] = {0.8f, 0.8f, 0.8f, 1.0f};
+       
+        final float mat_specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        
+        final float high_shininess[] = {100.0f};
         // Use debug pipeline, all OpenGL error codes will be automatically
         // converted to GLExceptions as soon as they appear
         drawable.setGL(new DebugGL2(drawable.getGL().getGL2()));
 
         GL2 gl = drawable.getGL().getGL2();
         System.out.println("INIT GL2 IS: " + gl.getClass().getName());
+        gl.glEnable(gl.GL_DEPTH_TEST);
 
         // Enable VSync - this limits the rendering FPS to screen refresh rate
         gl.setSwapInterval(1);
+
+        gl.glEnable(gl.GL_LIGHT0);
+        gl.glEnable(gl.GL_NORMALIZE);
+        gl.glEnable(gl.GL_LIGHTING);
+
+        gl.glLightfv(gl.GL_LIGHT0, gl.GL_AMBIENT, light_ambient, 0);
+        gl.glLightfv(gl.GL_LIGHT0, gl.GL_DIFFUSE, light_diffuse, 0);
+        gl.glLightfv(gl.GL_LIGHT0, gl.GL_SPECULAR, light_specular, 0);
+        gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, light_position, 0);
+
+        gl.glMaterialfv(gl.GL_FRONT, gl.GL_AMBIENT, mat_ambient, 0);
+        gl.glMaterialfv(gl.GL_FRONT, gl.GL_DIFFUSE, mat_diffuse, 0);
+        gl.glMaterialfv(gl.GL_FRONT, gl.GL_SPECULAR, mat_specular, 0);
+        gl.glMaterialfv(gl.GL_FRONT, gl.GL_SHININESS, high_shininess, 0);
 
         // Setup the drawing area and shading mode
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -92,13 +137,15 @@ public class TrmCg implements GLEventListener {
         GLU glu = new GLU();
 
         // avoid a divide by zero error!
-        if (height <= 0)
+        if (height <= 0) {
             height = 1;
+        }
 
         final float h = (float) width / (float) height;
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
+        gl.glClearColor(1, 1, 1, 1);
 
         glu.gluPerspective(45.0f, h, 1.0, 20.0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
@@ -108,41 +155,33 @@ public class TrmCg implements GLEventListener {
     public void display(GLAutoDrawable drawable) {
 
         GL2 gl = drawable.getGL().getGL2();
+        GLU glu = new GLU();
 
         // Clear the drawing area
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         // Reset the current matrix to the "identity"
         gl.glLoadIdentity();
-
+        glu.gluLookAt(0, 3, 2, 0, 3, -6, 0, 1, 0);
         // Move the "drawing cursor" around
-        gl.glTranslatef(-1.5f, 0.0f, -6.0f);
+        gl.glPushMatrix();
+        Solid cube = Geom.makeCube(1);
 
-        // Drawing Using Triangles
-        gl.glBegin(GL2.GL_TRIANGLES);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);    // Set the current drawing color to red
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);   // Top
-            gl.glColor3f(0.0f, 1.0f, 0.0f);    // Set the current drawing color to green
-            gl.glVertex3f(-1.0f, -1.0f, 0.0f); // Bottom Left
-            gl.glColor3f(0.0f, 0.0f, 1.0f);    // Set the current drawing color to blue
-            gl.glVertex3f(1.0f, -1.0f, 0.0f);  // Bottom Right
-        // Finished Drawing The Triangle
-        gl.glEnd();
+        for (int i = -5; i < 5; i++) {
+            for (int j = 0; j > -10; j--) {
+                Drawer.drawSolidAt(cube, gl, new Vector(i, 0, j));
+            }
+        }
 
-        // Move the "drawing cursor" to another position
-        gl.glTranslatef(3.0f, 0.0f, 0.0f);
-        // Draw A Quad
-        gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.5f, 0.5f, 1.0f);    // Set the current drawing color to light blue
-            gl.glVertex3f(-1.0f, 1.0f, 0.0f);  // Top Left
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);   // Top Right
-            gl.glVertex3f(1.0f, -1.0f, 0.0f);  // Bottom Right
-            gl.glVertex3f(-1.0f, -1.0f, 0.0f); // Bottom Left
-        // Done Drawing The Quad
-        gl.glEnd();
+        for (int i = -5; i < 5; i++) {
+            for (int j = 0; j > -10; j--) {
+                Drawer.drawSolidAt(cube, gl, new Vector(i, 5, j));
+            }
+        }
+
+        gl.glPopMatrix();
 
     }
 
     public void dispose(GLAutoDrawable arg0) {
     }
-
 }
