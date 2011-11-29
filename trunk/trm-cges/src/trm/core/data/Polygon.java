@@ -3,11 +3,8 @@ package trm.core.data;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author mpjms
- */
 public class Polygon {
+
     List<Vector3D> points;
 
     public Polygon() {
@@ -15,17 +12,20 @@ public class Polygon {
     }
 
     public void setPoints(List<Vector3D> points) {
-        this.points =points;
+        this.points = points;
     }
+
     public void addPoint(Vector3D point) {
         this.points.add(point);
     }
+
     public void removePoint(Vector3D point) {
         this.points.remove(point);
     }
+
     public Vector3D getNormalVector() {
-        if(points.size() < 3) {
-            return new Vector3D(0,0,0);
+        if (points.size() < 3) {
+            return new Vector3D(0, 0, 0);
         }
         Vector3D p1 = points.get(0);
         Vector3D p2 = points.get(1);
@@ -40,6 +40,4 @@ public class Polygon {
     public List<Vector3D> getPoints() {
         return points;
     }
-
-
 }

@@ -1,9 +1,5 @@
 package trm.core.data;
 
-/**
- *
- * @author mpjms
- */
 public class Vector3D {
 
     private float x;
@@ -40,7 +36,7 @@ public class Vector3D {
         this.z = z;
     }
 
-        public float getModule() {
+    public float getModule() {
         return (float) Math.sqrt(innerProduct(this, this));
     }
 
@@ -50,11 +46,11 @@ public class Vector3D {
         return v;
     }
 
-    public Vector3D getSum( Vector3D v) {
+    public Vector3D getSum(Vector3D v) {
         return new Vector3D(x + v.x, y + v.y, z + v.z);
     }
 
-    public Vector3D getSub( Vector3D v) {
+    public Vector3D getSub(Vector3D v) {
         return new Vector3D(x - v.x, y - v.y, z - v.z);
     }
 
@@ -73,6 +69,4 @@ public class Vector3D {
                 v.x * u.y - v.y * u.x);
         return v2;
     }
-
-
 }

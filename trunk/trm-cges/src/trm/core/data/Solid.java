@@ -1,14 +1,10 @@
 package trm.core.data;
 
-import trm.core.data.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author mpjms
- */
 public class Solid {
+
     private List<Polygon> polygons;
 
     public Solid() {
@@ -18,6 +14,7 @@ public class Solid {
     public void setPolygons(List<Polygon> polygons) {
         this.polygons = polygons;
     }
+
     public void addPolygon(Polygon polygon) {
         this.polygons.add(polygon);
     }
@@ -29,5 +26,4 @@ public class Solid {
     public List<Polygon> getPolygons() {
         return polygons;
     }
-    
 }

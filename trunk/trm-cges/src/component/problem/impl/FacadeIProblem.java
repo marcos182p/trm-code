@@ -1,16 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package component.problem.impl;
 
 import trm.model.Problem;
 import component.problem.spec.prov.IProblem;
 
-/**
- *
- * @author ttmo
- */
 public class FacadeIProblem implements IProblem {
 
     private ProblemImpl problemImpl;

@@ -5,10 +5,6 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-/**
- *
- * @author mpjms
- */
 public class AngleChangeListener implements ChangeListener {
 
     private JTextField angleField;
@@ -18,10 +14,9 @@ public class AngleChangeListener implements ChangeListener {
         this.angleField = angleField;
         this.angleSlider = angleSlider;
     }
-    
+
     @Override
     public void stateChanged(ChangeEvent ce) {
         angleField.setText(Integer.toString(angleSlider.getValue()));
     }
-
 }

@@ -6,12 +6,8 @@ import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Windows bitmap file loader.
- * @author Abdul Bezrati
- * @author Pepijn Van Eeckhoudt
- */
 public class BitmapLoader {
+
     public static BufferedImage loadBitmap(String file) throws IOException {
         BufferedImage image;
         InputStream input = null;
@@ -50,8 +46,9 @@ public class BitmapLoader {
             }
         } finally {
             try {
-                if (input != null)
+                if (input != null) {
                     input.close();
+                }
             } catch (IOException e) {
             }
         }
@@ -72,10 +69,10 @@ public class BitmapLoader {
         int nindex8 = 0;
 
         for (int n = 0; n < nNumColors; n++) {
-            npalette[n] = (255 & 0xff) << 24 |
-                    (bpalette[nindex8 + 2] & 0xff) << 16 |
-                    (bpalette[nindex8 + 1] & 0xff) << 8 |
-                    (bpalette[nindex8 + 0] & 0xff);
+            npalette[n] = (255 & 0xff) << 24
+                    | (bpalette[nindex8 + 2] & 0xff) << 16
+                    | (bpalette[nindex8 + 1] & 0xff) << 8
+                    | (bpalette[nindex8 + 0] & 0xff);
 
             nindex8 += 4;
         }
@@ -102,8 +99,9 @@ public class BitmapLoader {
 
     private static BufferedImage read24BitBitmap(int nSizeImage, int nHeight, int nWidth, InputStream input) throws IOException {
         int npad = (nSizeImage / nHeight) - nWidth * 3;
-        if (npad == 4 || npad < 0)
+        if (npad == 4 || npad < 0) {
             npad = 0;
+        }
         int nindex = 0;
         BufferedImage bufferedImage = new BufferedImage(nWidth, nHeight, BufferedImage.TYPE_4BYTE_ABGR);
         DataBufferByte dataBufferByte = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer());
@@ -128,15 +126,15 @@ public class BitmapLoader {
     }
 
     private static int bytesToInt(byte[] bytes, int index) {
-        return (bytes[index + 3] & 0xff) << 24 |
-                (bytes[index + 2] & 0xff) << 16 |
-                (bytes[index + 1] & 0xff) << 8 |
-                bytes[index + 0] & 0xff;
+        return (bytes[index + 3] & 0xff) << 24
+                | (bytes[index + 2] & 0xff) << 16
+                | (bytes[index + 1] & 0xff) << 8
+                | bytes[index + 0] & 0xff;
     }
 
     private static short bytesToShort(byte[] bytes, int index) {
-        return (short) (((bytes[index + 1] & 0xff) << 8) |
-                (bytes[index + 0] & 0xff));
+        return (short) (((bytes[index + 1] & 0xff) << 8)
+                | (bytes[index + 0] & 0xff));
     }
 
     private static void readBuffer(InputStream in, byte[] buffer) throws IOException {

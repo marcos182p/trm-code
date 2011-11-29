@@ -1,18 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.core.commands;
 
 import trm.core.Camera;
-import trm.core.Command;
+import trm.core.ICommand;
 
-/**
- *
- * @author mpjms
- */
-public class MoveCameraHorizontallyCmd implements Command{
+public class MoveCameraHorizontallyCmd implements ICommand {
+
     private Camera camera;
     private float velocity;
 

@@ -1,5 +1,6 @@
 package component.environment.spec.prov;
 
+import component.environment.impl.Environment;
 import trm.model.Solid;
 
 public interface IEnvironment {
@@ -15,4 +16,6 @@ public interface IEnvironment {
     public void stop(String name);
 
     public boolean createInstance(String name);
+
+    public Environment getEnvironment(String name);
 }
