@@ -1,4 +1,4 @@
-package trm.problem.spec.prov;
+package component.environment.spec.prov;
 
 import java.util.List;
 

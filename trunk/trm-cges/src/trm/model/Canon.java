@@ -1,6 +1,6 @@
 package trm.model;
 
-import trm.environment.impl.Environment;
+import component.environment.impl.Environment;
 
 public class Canon extends Solid{
 	private double angle;

@@ -3,7 +3,7 @@ package trm.missile.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import trm.environment.impl.Environment;
+import component.environment.impl.Environment;
 
 import trm.missile.view.DrawPanel;
 import trm.missile.view.MissileView;

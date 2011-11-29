@@ -1,4 +1,4 @@
-package trm.environment.impl;
+package component.environment.impl;
 
 import trm.model.Solid;
 import trm.model.Vector2D;

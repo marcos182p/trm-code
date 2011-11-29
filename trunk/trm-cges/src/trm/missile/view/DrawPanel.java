@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import trm.environment.impl.Observer;
+import component.environment.impl.Observer;
 
 
 public class DrawPanel extends JPanel implements Observer{
