@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import trm.environment.impl.Environment;
+import component.environment.impl.Environment;
 
 import trm.missile.listener.LaunchListener;
 import trm.missile.view.DrawPanel;

@@ -1,4 +1,4 @@
-package trm.environment.impl;
+package component.environment.impl;
 
 import java.util.ArrayList;
 import java.util.List;

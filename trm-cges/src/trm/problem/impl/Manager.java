@@ -4,11 +4,12 @@
  */
 package trm.problem.impl;
 
-import trm.problem.spec.prov.IManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import trm.problem.spec.prov.IManager;
+import trm.problem.spec.prov.IProblem;
 
 /**
  *
@@ -16,59 +17,53 @@ import java.util.Map;
  */
 public class Manager implements IManager {
 
-    //Variáveis de controle do componente
+    //Vari�veis de controle do componente
     private Map<String, Object> requiredInterfaces;
     private Map<String, Object> providedInterfaces;
-
-    protected Manager() {
-        requiredInterfaces = new HashMap<String, Object>();
-        providedInterfaces = new HashMap<String, Object>();
-
-        this.providedInterfaces.put("IProblem", new FacadeIProblem());
-
-
-    }
-    //Controle singleton
     private static boolean controlSingleton = false;
     private static Manager instance;
 
-    //Singleton do Manager
-    protected static Manager getManager() {
+    private Manager() {
+        requiredInterfaces = new HashMap<String, Object>();
+        providedInterfaces = new HashMap<String, Object>();
 
+        providedInterfaces.put(IProblem.class.getName(), new FacadeIProblem());
+
+    }
+
+    public static synchronized Manager getInstance() {
         if (!controlSingleton) {
             instance = new Manager();
         }
 
         return instance;
-
     }
 
-    public Object getProvidedInterface(String inter) {
+    public <E> E getProvidedInterface(Class<E> inter) {
 
-        if (providedInterfaces.containsKey(inter)) {
-            return providedInterfaces.get(inter);
+        if (providedInterfaces.containsKey(inter.getName())) {
+            return (E) providedInterfaces.get(inter.getName());
         } else {//Não contém a chave solicitada
             return null;
         }
 
     }
 
-    public Object getRequiredInterface(String inter) {
-        if (requiredInterfaces.containsKey(inter)) {
-            return requiredInterfaces.get(inter);
+    public <E> E getRequiredInterface(Class<E> inter) {
+
+        if (requiredInterfaces.containsKey(inter.getName())) {
+            return (E) requiredInterfaces.get(inter.getName());
         } else {//Não contém a chave solicitada
             return null;
         }
 
     }
 
-    public void setRequiredInterface(String inter, Object object) {
+    public <E> void setRequiredInterface(Class<E> classType, Object object) {
 
-        if (!(inter == null || object == null)) {
-            this.requiredInterfaces.put(inter, object);
-
+        if (!(classType == null || object == null)) {
+            this.requiredInterfaces.put(classType.getName(), object);
         }
-
     }
 
     public List<String> getProvidedInterfaces() {
