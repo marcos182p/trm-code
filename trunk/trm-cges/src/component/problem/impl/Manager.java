@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package component.environment.impl;
+package component.problem.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import component.environment.spec.prov.IEnvironment;
-import component.environment.spec.prov.IManager;
+import component.problem.spec.prov.IManager;
+import component.problem.spec.prov.IProblem;
 
 /**
  *
@@ -27,7 +27,7 @@ public class Manager implements IManager {
         requiredInterfaces = new HashMap<String, Object>();
         providedInterfaces = new HashMap<String, Object>();
 
-        providedInterfaces.put(IEnvironment.class.getName(), new FacadeIEnvironment());
+        providedInterfaces.put(IProblem.class.getName(), new FacadeIProblem());
 
     }
 
