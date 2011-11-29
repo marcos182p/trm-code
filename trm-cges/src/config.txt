@@ -1,0 +1,2 @@
+linux = -Djava.library.path="/home/users/mpjms/Desktop/trm-cg/dist/lib/natives-linux-i586"
+windows = -Djava.library.path="lib"
