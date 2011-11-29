@@ -10,13 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-/**
- *
- * @author mpjms
- */
 public class InfoPanel extends JPanel {
 
     private JLabel initialPosition;

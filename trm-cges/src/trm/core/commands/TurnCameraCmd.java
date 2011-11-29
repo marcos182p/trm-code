@@ -1,20 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package trm.core.commands;
 
 import trm.core.Camera;
-import trm.core.Command;
+import trm.core.ICommand;
 
-/**
- *
- * @author jmb
- */
-public class TurnCameraCmd implements Command{
+public class TurnCameraCmd implements ICommand {
+
     private Camera camera;
     private float angle;
+
     public TurnCameraCmd(Camera camera, float angle) {
         this.camera = camera;
         this.angle = angle;

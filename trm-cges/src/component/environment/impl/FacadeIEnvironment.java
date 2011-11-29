@@ -2,7 +2,6 @@ package component.environment.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import trm.model.Solid;
 import component.environment.spec.prov.IEnvironment;
 
@@ -83,5 +82,16 @@ public class FacadeIEnvironment implements IEnvironment {
             return true;
         }
 
+    }
+
+    public Environment getEnvironment(String name) {
+        if (instances.containsKey(name)) {
+
+            Environment environment = instances.get(name);
+            return environment;
+
+        } else {
+            throw new RuntimeException("Ambiente não existe!");
+        }
     }
 }

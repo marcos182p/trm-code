@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package component.environment.impl;
 
 import java.util.ArrayList;
@@ -11,10 +7,6 @@ import java.util.Map;
 import component.environment.spec.prov.IEnvironment;
 import component.environment.spec.prov.IManager;
 
-/**
- *
- * @author ttmo
- */
 public class Manager implements IManager {
 
     //Variáveis de controle do componente

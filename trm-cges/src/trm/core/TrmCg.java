@@ -30,12 +30,9 @@ import trm.gui.InfoPanel;
 import trm.tools.TextureReader;
 import trm.tools.TextureReader.Texture;
 
-/**
- * /home/users/mpjms/Desktop/trm-cg/dist/lib/natives-linux-i586
- */
 public class TrmCg implements GLEventListener {
 
-    private  Camera camera;
+    private Camera camera;
     private Solid cube;
     private int ids[];
     private Texture[] textures;
@@ -49,14 +46,10 @@ public class TrmCg implements GLEventListener {
     public static void main(String[] args) {
 
         final Frame frame = new Frame("Travel");
-        
 
         // use GL2 profile since we only use the old OpenGL 2.x fixed function pipeline
         GLCapabilities capabilities = new GLCapabilities(GLProfile.get(GLProfile.GL2));
 
-        // try to enable 2x anti aliasing - should be supported on most hardware
-//        capabilities.setNumSamples(2);
-//        capabilities.setSampleBuffers(true);
 
         final Camera camera = new Camera(
                 new Vector3D(-16, 7, -18),
@@ -67,14 +60,14 @@ public class TrmCg implements GLEventListener {
 
         final Controller controller = new Controller();
 
-        Command turnRightCommand = new TurnCameraCmd(camera, -(float) Math.PI / 90);
-        Command turnLeftCommand = new TurnCameraCmd(camera, (float) Math.PI / 90);
-        Command moveForwardCommand = new MoveCameraCmd(camera, 0.2f);
-        Command moveBackCommand = new MoveCameraCmd(camera, -0.2f);
-        Command moveUpCommand = new MoveCameraVerticallyCmd(camera, 0.2f);
-        Command moveDownCommand = new MoveCameraVerticallyCmd(camera, -0.2f);
-        Command moveRightCommand = new MoveCameraHorizontallyCmd(camera, 0.2f);
-        Command moveLeftCommand = new MoveCameraHorizontallyCmd(camera, -0.2f);
+        ICommand turnRightCommand = new TurnCameraCmd(camera, -(float) Math.PI / 90);
+        ICommand turnLeftCommand = new TurnCameraCmd(camera, (float) Math.PI / 90);
+        ICommand moveForwardCommand = new MoveCameraCmd(camera, 0.2f);
+        ICommand moveBackCommand = new MoveCameraCmd(camera, -0.2f);
+        ICommand moveUpCommand = new MoveCameraVerticallyCmd(camera, 0.2f);
+        ICommand moveDownCommand = new MoveCameraVerticallyCmd(camera, -0.2f);
+        ICommand moveRightCommand = new MoveCameraHorizontallyCmd(camera, 0.2f);
+        ICommand moveLeftCommand = new MoveCameraHorizontallyCmd(camera, -0.2f);
 
 
         controller.addCommand(KeyEvent.VK_RIGHT, turnRightCommand);
@@ -95,7 +88,7 @@ public class TrmCg implements GLEventListener {
         InfoPanel panel = new InfoPanel();
         panel.setBorder(BorderFactory.createTitledBorder("Problema"));
         frame.add(panel, BorderLayout.EAST);
-        */
+         */
 
         frame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -241,17 +234,17 @@ public class TrmCg implements GLEventListener {
             ids = new int[titles.length];
             gl.glGenTextures(titles.length, ids, 0);
             textures = new Texture[ids.length];
-            for(int i = 0; i < ids.length; i++) {
-               gl.glBindTexture(GL2.GL_TEXTURE_2D, ids[i]);
-               textures[i] = TextureReader.readTexture(titles[i]);
-               makeRGBTexture(gl, glu, textures[i], GL2.GL_TEXTURE_2D, false);
-               gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
-               gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+            for (int i = 0; i < ids.length; i++) {
+                gl.glBindTexture(GL2.GL_TEXTURE_2D, ids[i]);
+                textures[i] = TextureReader.readTexture(titles[i]);
+                makeRGBTexture(gl, glu, textures[i], GL2.GL_TEXTURE_2D, false);
+                gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
+                gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
 
             }
 
             camera.setBoundingBox(-25, 0, -25, 50, 20, 30);
-            camera.setCameraSize(5,5,5);
+            camera.setCameraSize(5, 5, 5);
         } catch (IOException ioex) {
             ioex.printStackTrace();
         }
@@ -316,27 +309,27 @@ public class TrmCg implements GLEventListener {
 
         gl.glPushMatrix();
 
-        gl.glTranslatef(0,20,-15);
-        gl.glScalef(0.5f,20,0.5f);
-        gl.glRotatef(90,1,0,0);
+        gl.glTranslatef(0, 20, -15);
+        gl.glScalef(0.5f, 20, 0.5f);
+        gl.glRotatef(90, 1, 0, 0);
         Drawer.drawCilynderWithTexture(gl, glu, 1, 1, 1, ids[2]);
-        gl.glTranslatef(20,0,0);
+        gl.glTranslatef(20, 0, 0);
         Drawer.drawCilynderWithTexture(gl, glu, 1, 1, 1, ids[2]);
-        gl.glTranslatef(20,0,0);
+        gl.glTranslatef(20, 0, 0);
         Drawer.drawCilynderWithTexture(gl, glu, 1, 1, 1, ids[2]);
         gl.glPopMatrix();
 
         gl.glBindTexture(GL2.GL_TEXTURE_2D, ids[5]);
 
         gl.glPushMatrix();
-        gl.glTranslatef(20,0,-2);
-        gl.glScalef(5,2,5);
+        gl.glTranslatef(20, 0, -2);
+        gl.glScalef(5, 2, 5);
 
         Drawer.drawSphereWithTexture(gl, glu, ids[5]);
-        gl.glTranslatef(-1,0.1f,0);
+        gl.glTranslatef(-1, 0.1f, 0);
         Drawer.drawSphereWithTexture(gl, glu, ids[5]);
-        gl.glTranslatef(0.5f,-0.5f,0);
-        gl.glScalef(1.2f,2.2f,1.2f);
+        gl.glTranslatef(0.5f, -0.5f, 0);
+        gl.glScalef(1.2f, 2.2f, 1.2f);
         Drawer.drawSphereWithTexture(gl, glu, ids[5]);
         gl.glPopMatrix();
 
@@ -344,31 +337,31 @@ public class TrmCg implements GLEventListener {
 
         double size = 3;
         for (int i = 0; i < 5; i++) {
-                gl.glPushMatrix();
-                gl.glScaled(size,size,size);
-                gl.glTranslated(i, 0, 0);
-                Drawer.drawSolidWithTexture(cube, gl, true);
-                gl.glPopMatrix();
+            gl.glPushMatrix();
+            gl.glScaled(size, size, size);
+            gl.glTranslated(i, 0, 0);
+            Drawer.drawSolidWithTexture(cube, gl, true);
+            gl.glPopMatrix();
         }
 
         for (int i = 0; i < 3; i++) {
-                gl.glPushMatrix();
-                gl.glScaled(size,size,size);
-                gl.glTranslated(i+1, 1, 0);
-                Drawer.drawSolidWithTexture(cube, gl, true);
-                gl.glPopMatrix();
+            gl.glPushMatrix();
+            gl.glScaled(size, size, size);
+            gl.glTranslated(i + 1, 1, 0);
+            Drawer.drawSolidWithTexture(cube, gl, true);
+            gl.glPopMatrix();
         }
 
         for (int i = 0; i < 4; i++) {
-                gl.glPushMatrix();
-                gl.glScaled(size,size,size);
-                gl.glTranslated(i, 0, -1);
-                Drawer.drawSolidWithTexture(cube, gl, true);
-                gl.glPopMatrix();
+            gl.glPushMatrix();
+            gl.glScaled(size, size, size);
+            gl.glTranslated(i, 0, -1);
+            Drawer.drawSolidWithTexture(cube, gl, true);
+            gl.glPopMatrix();
         }
 
         gl.glPushMatrix();
-        gl.glScaled(size,size,size);
+        gl.glScaled(size, size, size);
         gl.glTranslated(1, 2, 0);
         Drawer.drawSolidWithTexture(cube, gl, true);
         gl.glPopMatrix();
@@ -384,12 +377,12 @@ public class TrmCg implements GLEventListener {
         gl.glBindTexture(GL2.GL_TEXTURE_2D, ids[6]);
         gl.glPushMatrix();
         gl.glTranslatef(10, 3, -15);
-        gl.glScalef(10,5,1);
+        gl.glScalef(10, 5, 1);
         Drawer.drawSolidWithTexture(cube, gl, false);
-        gl.glTranslatef(-1,0,0);
+        gl.glTranslatef(-1, 0, 0);
         Drawer.drawSolidWithTexture(cube, gl, false);
-        gl.glTranslatef(0,0,-10);
-        gl.glScalef(0.1f,1,9.5f);
+        gl.glTranslatef(0, 0, -10);
+        gl.glScalef(0.1f, 1, 9.5f);
         Drawer.drawSolidWithTexture(cube, gl, false);
 
         gl.glPopMatrix();
@@ -402,8 +395,8 @@ public class TrmCg implements GLEventListener {
 
         gl.glBindTexture(GL2.GL_TEXTURE_2D, ids[3]);
         gl.glPushMatrix();
-        gl.glTranslatef(-16,0,4.5f);
-        gl.glScalef(9,15,1);
+        gl.glTranslatef(-16, 0, 4.5f);
+        gl.glScalef(9, 15, 1);
         Drawer.drawSolidWithTexture(cube, gl, true);
         gl.glPopMatrix();
 
@@ -413,4 +406,3 @@ public class TrmCg implements GLEventListener {
     public void dispose(GLAutoDrawable arg0) {
     }
 }
-

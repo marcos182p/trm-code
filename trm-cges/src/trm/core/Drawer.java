@@ -1,7 +1,6 @@
 package trm.core;
 
 import com.sun.opengl.impl.glu.GLUquadricImpl;
-import com.sun.opengl.util.gl2.GLUT;
 import trm.core.data.Vector3D;
 import trm.core.data.Solid;
 import trm.core.data.Polygon;
@@ -10,12 +9,7 @@ import java.util.List;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
-import trm.tools.TextureReader.Texture;
 
-/**
- *
- * @author mpjms
- */
 public class Drawer {
 
     public static void drawPolygon(Polygon pol, GL2 gl, Color cubeColor, boolean drawLines) {
@@ -55,14 +49,14 @@ public class Drawer {
         gl.glBegin(GL2.GL_POLYGON);
         for (int i = 0; i < points.size(); i++) {
             Vector3D point = points.get(i);
-            
+
             gl.glTexCoord2f(coord.getX(), coord.getY());
             gl.glVertex3f(point.getX(), point.getY(), point.getZ());
             coord = coord.getSum(dir);
-  
+
             if (i % (points.size() / 4) == 0) {
-                dir = new Vector3D(-dir.getY(), dir.getX(),0);
-                
+                dir = new Vector3D(-dir.getY(), dir.getX(), 0);
+
             }
         }
         gl.glEnd();
@@ -84,7 +78,7 @@ public class Drawer {
     public static void drawSphereWithTexture(GL2 gl, GLU glu, int myShpereID) {
         GLUquadric sphere = new GLUquadricImpl(gl, true);
         glu.gluQuadricDrawStyle(sphere, GLU.GLU_FILL);
-        
+
         glu.gluQuadricTexture(sphere, true);
         glu.gluQuadricNormals(sphere, GLU.GLU_SMOOTH);
         gl.glNewList(myShpereID, GL2.GL_COMPILE);
@@ -95,14 +89,14 @@ public class Drawer {
         gl.glDeleteLists(myShpereID, 1);
     }
 
-    public static void drawCilynderWithTexture(GL2 gl, GLU glu, double base, double top, double height,int myCylinderID) {
+    public static void drawCilynderWithTexture(GL2 gl, GLU glu, double base, double top, double height, int myCylinderID) {
         GLUquadric sphere = new GLUquadricImpl(gl, true);
         glu.gluQuadricDrawStyle(sphere, GLU.GLU_FILL);
 
         glu.gluQuadricTexture(sphere, true);
         glu.gluQuadricNormals(sphere, GLU.GLU_SMOOTH);
         gl.glNewList(myCylinderID, GL2.GL_COMPILE);
-        glu.gluCylinder(sphere, base, top, height,20, 20);
+        glu.gluCylinder(sphere, base, top, height, 20, 20);
         gl.glEndList();
         glu.gluDeleteQuadric(sphere);
         gl.glCallList(myCylinderID);
@@ -122,7 +116,7 @@ public class Drawer {
             gl.glVertex3f(point.getX(), point.getY(), point.getZ());
             coord = coord.getSum(dir);
             if (i % (points.size() / 4) == 0) {
-                dir = new Vector3D(-dir.getY(), dir.getX(),0);
+                dir = new Vector3D(-dir.getY(), dir.getX(), 0);
 
             }
         }
@@ -173,9 +167,9 @@ public class Drawer {
         }
     }
 
-       public static void drawRevertedSolidWithTexture(Solid solid, GL2 gl) {
+    public static void drawRevertedSolidWithTexture(Solid solid, GL2 gl) {
         for (Polygon pol : solid.getPolygons()) {
-            drawRevertedPolygonWithTexture(pol, gl,true);
+            drawRevertedPolygonWithTexture(pol, gl, true);
         }
     }
 }

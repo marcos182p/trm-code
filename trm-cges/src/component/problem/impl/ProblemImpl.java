@@ -21,11 +21,11 @@ public class ProblemImpl {
 
     protected boolean checkAnswer(Problem p, float angle, float intensity) {
 
-        float Xf = p.getTarget().getX();
-        float Yf = p.getTarget().getY();
+        double Xf = p.getTarget().getX();
+        double Yf = p.getTarget().getY();
 
-        float X0 = p.getSource().getX();
-        float Y0 = p.getSource().getY();
+        double X0 = p.getSource().getX();
+        double Y0 = p.getSource().getY();
 
 
         double t = (Xf - X0) / (intensity * Math.cos(angle));

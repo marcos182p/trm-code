@@ -1,38 +1,30 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package trm.model;
 
-/**
- *
- * @author ttmo
- */
 public class Problem {
 
-    private Vector source;
-    private Vector target;
+    private Vector2D source;
+    private Vector2D target;
     private float gravity;
 
-    public Problem(Vector source, Vector target, float gravity) {
+    public Problem(Vector2D source, Vector2D target, float gravity) {
         this.source = source;
         this.target = target;
         this.gravity = gravity;
     }
 
-    public Vector getSource() {
+    public Vector2D getSource() {
         return source;
     }
 
-    public void setSource(Vector source) {
+    public void setSource(Vector2D source) {
         this.source = source;
     }
 
-    public Vector getTarget() {
+    public Vector2D getTarget() {
         return target;
     }
 
-    public void setTarget(Vector target) {
+    public void setTarget(Vector2D target) {
         this.target = target;
     }
 
